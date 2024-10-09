@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Serif+Pro:wght@400;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Source Serif Pro', serif;
+  background-color: #f8f3e6;
+  color: #333;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', serif;
+}
+
+.reader-digest-border {
+  border: 2px solid #8b0000;
+  box-shadow: 0 0 0 4px #f8f3e6, 0 0 0 6px #8b0000;
+}
