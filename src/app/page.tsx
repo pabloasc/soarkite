@@ -9,10 +9,10 @@ export default function Home() {
         <div className="container mx-auto flex justify-between items-center px-4">
           <div className="flex items-center">
             <Image
-              src="/soarkite-logo.svg"
+              src="/images/logo-full.png"
               alt="Soarkite Logo"
-              width={200}
-              height={40}
+              width={140}
+              height={50}
               className="mr-2"
             />
           </div>
@@ -30,20 +30,24 @@ export default function Home() {
         <section className="mb-12 flex flex-col md:flex-row items-center">
           <div className="md:w-1/2 mb-6 md:mb-0 md:pr-8">
             <Image
-              src="https://images.unsplash.com/photo-1534447677768-be436bb09401?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+              src="/images/soarkite-main.png"
               alt="Colorful kite representing AI journey assistance"
               width={500}
               height={500}
               className="rounded-lg"
             />
+            
           </div>
           <div className="md:w-1/2">
             <h2 className="text-4xl font-playfair font-bold mb-4">Navigate Your AI Journey with Human Insight</h2>
             <p className="text-lg mb-4 font-source-serif">At Soarkite, we provide human assistance for your AI journeys, ensuring you soar to new heights of innovation and understanding.</p>
-            <div className="reader-digest-border p-6 bg-white">
-              <h3 className="text-2xl font-playfair font-bold mb-2">This Month's Spotlight</h3>
-              <p className="font-source-serif">Discover how our expert guidance helped a startup revolutionize their customer service with AI-powered chatbots while maintaining a human touch.</p>
-            </div>
+          </div>
+        </section>
+
+        <section id="banner" className="mb-12">
+          <div className="reader-digest-border p-6 bg-white">
+            <h3 className="text-2xl font-playfair font-bold mb-2">This Month's Spotlight</h3>
+            <p className="font-source-serif">Discover how our expert guidance helped a startup revolutionize their customer service with AI-powered chatbots while maintaining a human touch.</p>
           </div>
         </section>
 
