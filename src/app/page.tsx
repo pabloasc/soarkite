@@ -52,9 +52,8 @@ export default function Home() {
         </section>
 
         <section id="services" className="mb-12">
-        <h3 className="text-2xl font-bold mb-4">Our Services</h3>
 
-        <h3 className="text-3xl font-bold mb-8">Our Services</h3>
+        <h3 className="text-3xl mb-8">Our Services</h3>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
             <div className="border-t-2 border-black pt-6">
