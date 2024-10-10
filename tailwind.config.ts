@@ -9,8 +9,10 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        'playfair': ['Playfair Display', 'serif'],
-        'source-serif': ['Source Serif Pro', 'serif'],
+        'sans': ['Nanum Myeongjo', 'serif'],
+        'serif': ['Nanum Myeongjo', 'serif'],
+        'payfair': ['Nanum Myeongjo', 'serif'],
+        'source-serif': ['Nanum Myeongjo', 'serif'],
       },
     },
   },
