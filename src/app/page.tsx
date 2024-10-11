@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { Brain, Users, Lightbulb } from 'lucide-react';
+import AnimatedLogos from './components/animated-logos'
 
 export default function Home() {
   return (
@@ -41,6 +42,7 @@ export default function Home() {
           <div className="md:w-1/2">
             <h2 className="text-5xl font-playfair mb-4">Human assistance for your AI journeys</h2>
             <p className="text-lg mb-4 font-serif">Get instant help by our experts to take the best of the most popular AI tools.</p>
+            <AnimatedLogos />
           </div>
         </section>
 
