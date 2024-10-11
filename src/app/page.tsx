@@ -39,8 +39,8 @@ export default function Home() {
             
           </div>
           <div className="md:w-1/2">
-            <h2 className="text-4xl font-playfair mb-4">Navigate Your AI Journey with Human Insight</h2>
-            <p className="text-lg mb-4 font-serif">At Soarkite, we provide human assistance for your AI journeys, ensuring you soar to new heights of innovation and understanding.</p>
+            <h2 className="text-5xl font-playfair mb-4">Human assistance for your AI journeys</h2>
+            <p className="text-lg mb-4 font-serif">Get instant help by our experts to take the best of the most popular AI tools.</p>
           </div>
         </section>
 
@@ -53,8 +53,7 @@ export default function Home() {
 
         <section id="services" className="mb-12">
 
-        <h3 className="text-3xl mb-8">Our Services</h3>
-
+          <h3 className="text-3xl mb-8">Our Services</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
             <div className="border-t-2 border-black pt-6">
               <Brain size={40} className="mb-4" />
