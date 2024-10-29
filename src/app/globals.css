@@ -1,24 +1,17 @@
-@import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 body {
-  font-family: 'Nanum Myeongjo', serif;
-  background-color: white;
-  color: black;
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Nanum Myeongjo', serif;
-}
-
-p, a, li {
-  font-family: 'Nanum Myeongjo', serif;
-}
-
-.reader-digest-border {
-  border: 2px solid black;
-  box-shadow: 0 0 0 4px white, 0 0 0 6px black;
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-normal tracking-tight;
+  }
 }

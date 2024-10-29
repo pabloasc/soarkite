@@ -5,8 +5,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Soarkite - Elevate Your Spirit",
-  description: "Experience the joy of kite flying with Soarkite",
+  title: "Soarkite - Human assistance for your AI journeys",
+  description: "Get instant help from our experts to take the best out of the most innovative AI tools.",
 };
 
 export default function RootLayout({
@@ -15,8 +15,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="en" className={inter.className}>
+      <body>{children}</body>
     </html>
   );
 }

@@ -9,10 +9,10 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        'sans': ['Nanum Myeongjo', 'serif'],
-        'serif': ['Nanum Myeongjo', 'serif'],
-        'payfair': ['Nanum Myeongjo', 'serif'],
-        'source-serif': ['Nanum Myeongjo', 'serif'],
+        sans: ['Inter', 'sans-serif'],
+      },
+      container: {
+        center: true,
       },
     },
   },
