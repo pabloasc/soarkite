@@ -18,33 +18,56 @@ export default function SignUp() {
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const handleEmailSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
-
-    const formData = new FormData();
-    formData.append('email', email);
-    formData.append('password', password);
-    formData.append('name', name);
-    formData.append('role', role === 'senior_dev' ? 'SENIOR_DEV' : 'USER');
+    setSuccessMessage(null);
 
     try {
-      const response = await fetch('/auth/sign-up', {
+      // Sign up with Supabase
+      const { data: { user }, error: signUpError } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
+          data: {
+            name,
+            role: role === 'senior_dev' ? 'SENIOR_DEV' : 'USER'
+          }
+        }
+      });
+
+      if (signUpError) throw signUpError;
+      if (!user) throw new Error('Failed to create user');
+
+      // Create user in database
+      const response = await fetch('/api/users', {
         method: 'POST',
-        body: formData,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: user.id,
+          email: user.email,
+          name,
+          role: role === 'senior_dev' ? 'SENIOR_DEV' : 'USER'
+        }),
       });
 
       if (!response.ok) {
         const data = await response.json();
-        throw new Error(data.error || 'Failed to sign up');
+        throw new Error(data.error || 'Failed to create user profile');
       }
 
-      router.push('/dashboard');
-      router.refresh();
-    } catch (error) {
-      setError(error instanceof Error ? error.message : 'Failed to sign up');
+      setSuccessMessage(
+        'Please check your email for a confirmation link to complete your registration.'
+      );
+    } catch (error: any) {
+      console.error('Sign up error:', error);
+      setError(error.message || 'Failed to sign up');
     } finally {
       setLoading(false);
     }
@@ -115,6 +138,12 @@ export default function SignUp() {
           {error && (
             <div className="mb-4 p-3 bg-red-50 text-red-700 text-sm rounded-md">
               {error}
+            </div>
+          )}
+
+          {successMessage && (
+            <div className="mb-4 p-3 bg-green-50 text-green-700 text-sm rounded-md">
+              {successMessage}
             </div>
           )}
 

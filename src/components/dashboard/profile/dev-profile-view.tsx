@@ -3,18 +3,26 @@
 import { useState } from 'react';
 import { Star, MapPin, Clock, DollarSign, Github, Linkedin, Globe, Edit } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { formatDistanceToNow } from 'date-fns';
 import DevProfileForm from './dev-profile-form';
 
 interface DevProfileViewProps {
   profile: any; // Type this based on your DevProfile model
   reviews: any[]; // Type this based on your DevReview model
+  isOwnProfile?: boolean;
+  user?: {
+    id: string;
+    name?: string | null;
+    email: string;
+    image_url?: string | null;
+  };
 }
 
-export default function DevProfileView({ profile, reviews }: DevProfileViewProps) {
+export default function DevProfileView({ profile, reviews, isOwnProfile = true, user }: DevProfileViewProps) {
   const [isEditing, setIsEditing] = useState(false);
 
-  if (isEditing) {
+  if (isEditing && isOwnProfile) {
     return (
       <DevProfileForm
         userId={profile.user_id}
@@ -29,19 +37,45 @@ export default function DevProfileView({ profile, reviews }: DevProfileViewProps
       {/* Main Profile Information */}
       <div className="lg:col-span-2 space-y-8">
         <div className="bg-white rounded-lg shadow-sm p-6">
-          <div className="flex justify-between items-start mb-6">
-            <div>
-              <h2 className="text-2xl font-medium">{profile.title}</h2>
-              <p className="text-gray-600 mt-1">
-                {profile.experience_level.charAt(0) + profile.experience_level.slice(1).toLowerCase()} Developer
-              </p>
+          <div className="flex items-start gap-6 mb-6">
+            <div className="relative w-24 h-24 flex-shrink-0">
+              <div className="relative w-24 h-24 rounded-full overflow-hidden bg-gray-100">
+                {user?.image_url ? (
+                  <Image
+                    src={user.image_url}
+                    alt={user?.name || 'Profile'}
+                    fill
+                    className="object-cover"
+                    unoptimized
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-3xl text-gray-400">
+                    {(user?.name || user?.email || 'A').charAt(0).toUpperCase()}
+                  </div>
+                )}
+              </div>
             </div>
-            <button
-              onClick={() => setIsEditing(true)}
-              className="text-gray-600 hover:text-black transition-colors"
-            >
-              <Edit className="h-5 w-5" />
-            </button>
+            <div className="flex-1">
+              <div className="flex justify-between items-start">
+                <div>
+                  <h2 className="text-2xl font-medium">{profile.title}</h2>
+                  <p className="text-gray-600 mt-1">
+                    {profile.experience_level.charAt(0) + profile.experience_level.slice(1).toLowerCase()} Developer
+                  </p>
+                  <p className="text-sm text-gray-500 mt-1">
+                    {user?.email}
+                  </p>
+                </div>
+                {isOwnProfile && (
+                  <button
+                    onClick={() => setIsEditing(true)}
+                    className="text-gray-600 hover:text-black transition-colors"
+                  >
+                    <Edit className="h-5 w-5" />
+                  </button>
+                )}
+              </div>
+            </div>
           </div>
 
           <div className="flex flex-wrap gap-4 text-sm text-gray-600">

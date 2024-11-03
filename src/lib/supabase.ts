@@ -10,13 +10,13 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
 });
 
 // Create bucket if it doesn't exist
-export const initializeStorage = async () => {
+export const initializeStorage = async (bucketName: string) => {
   const { data: buckets } = await supabase.storage.listBuckets();
   
   if (!buckets?.find(bucket => bucket.name === 'screenshots')) {
-    const { data, error } = await supabase.storage.createBucket('screenshots', {
+    const { data, error } = await supabase.storage.createBucket(bucketName, {
       public: true,
-      fileSizeLimit: 10485760, // 10MB
+      fileSizeLimit: 5242880, // 5MB
       allowedMimeTypes: ['image/png', 'image/jpeg', 'image/gif']
     });
     

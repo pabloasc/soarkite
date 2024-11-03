@@ -25,7 +25,7 @@ export default function FileUpload({ onFilesUploaded, uploadedFiles, onFileRemov
   const supabase = createClientComponentClient();
 
   useEffect(() => {
-    initializeStorage();
+    initializeStorage('screenshots');
   }, []);
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {

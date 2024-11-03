@@ -1,14 +1,19 @@
 import { cookies } from 'next/headers';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
-import { redirect } from 'next/navigation';
-import DashboardHeader from '@/components/dashboard/header';
-import DevProfileForm from '@/components/dashboard/profile/dev-profile-form';
-import DevProfileView from '@/components/dashboard/profile/dev-profile-view';
+import { redirect, notFound } from 'next/navigation';
 import { PrismaClient } from '@prisma/client';
+import DashboardHeader from '@/components/dashboard/header';
+import DevProfileView from '@/components/dashboard/profile/dev-profile-view';
 
 const prisma = new PrismaClient();
 
-export default async function Profile() {
+interface Props {
+  params: {
+    id: string;
+  };
+}
+
+export default async function DeveloperProfile({ params }: Props) {
   const supabase = createServerComponentClient({ cookies });
   const { data: { session } } = await supabase.auth.getSession();
 
@@ -16,9 +21,12 @@ export default async function Profile() {
     redirect('/auth/sign-in');
   }
 
-  // Get user with profile
-  const user = await prisma.user.findUnique({
-    where: { id: session.user.id },
+  // Get developer with profile and reviews
+  const developer = await prisma.user.findUnique({
+    where: {
+      id: params.id,
+      role: 'SENIOR_DEV'
+    },
     include: {
       dev_profile: true,
       reviews_received: {
@@ -34,6 +42,10 @@ export default async function Profile() {
     }
   });
 
+  if (!developer || !developer.dev_profile) {
+    notFound();
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       <DashboardHeader user={session.user} />
@@ -43,19 +55,12 @@ export default async function Profile() {
           <h1 className="text-3xl font-normal">Developer Profile</h1>
         </div>
 
-        {user?.role === 'SENIOR_DEV' ? (
-          user.dev_profile ? (
-            <DevProfileView profile={user.dev_profile} user={user} reviews={user.reviews_received} />
-          ) : (
-            <DevProfileForm userId={user.id} />
-          )
-        ) : (
-          <div className="bg-white rounded-lg shadow-sm p-6">
-            <p className="text-gray-500 text-center">
-              Only senior developers can create a profile.
-            </p>
-          </div>
-        )}
+        <DevProfileView 
+          profile={developer.dev_profile}
+          user={developer}
+          reviews={developer.reviews_received}
+          isOwnProfile={false}
+        />
       </main>
     </div>
   );

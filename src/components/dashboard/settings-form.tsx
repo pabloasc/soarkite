@@ -1,9 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { User } from '@supabase/auth-helpers-nextjs';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Upload, X } from 'lucide-react';
+import Image from 'next/image';
+import { initializeStorage } from '@/lib/supabase';
 
 interface SettingsFormProps {
   user: User;
@@ -14,6 +16,8 @@ export default function SettingsForm({ user, profile }: SettingsFormProps) {
   const supabase = createClientComponentClient();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [imageUrl, setImageUrl] = useState(profile?.image_url || null);
+  const [uploadingImage, setUploadingImage] = useState(false);
   const [formData, setFormData] = useState({
     name: profile?.name || '',
     role: profile?.role || 'USER',
@@ -22,13 +26,114 @@ export default function SettingsForm({ user, profile }: SettingsFormProps) {
     language: profile?.language || 'en',
   });
 
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      setMessage({ type: 'error', text: 'Please upload an image file' });
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      setMessage({ type: 'error', text: 'Image size should be less than 5MB' });
+      return;
+    }
+
+    setUploadingImage(true);
+    setMessage(null);
+
+    try {
+      // Initialize storage with policies
+      await initializeStorage('soarkite');
+
+      // Delete existing image if any
+      if (imageUrl) {
+        const oldFileName = imageUrl.split('/').pop();
+        if (oldFileName) {
+          await supabase.storage
+            .from('soarkite')
+            .remove([oldFileName]);
+        }
+      }
+
+      // Upload new image
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${user.id}-${Date.now()}.${fileExt}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('soarkite')
+        .upload(fileName, file, {
+          cacheControl: '3600',
+          upsert: true,
+          contentType: file.type
+        });
+
+      if (uploadError) throw uploadError;
+
+      // Get public URL
+      const { data: { publicUrl } } = supabase.storage
+        .from('soarkite')
+        .getPublicUrl(fileName);
+
+      // Update user profile
+      const { error: updateError } = await supabase
+        .from('users')
+        .update({ image_url: publicUrl })
+        .eq('id', user.id);
+
+      if (updateError) throw updateError;
+
+      setImageUrl(publicUrl);
+      setMessage({ type: 'success', text: 'Profile picture updated successfully' });
+    } catch (error: any) {
+      console.error('Image upload error:', error);
+      setMessage({ type: 'error', text: 'Failed to upload image. Please try again.' });
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
+  const handleRemoveImage = async () => {
+    if (!imageUrl) return;
+
+    setUploadingImage(true);
+    setMessage(null);
+
+    try {
+      const fileName = imageUrl.split('/').pop();
+      if (!fileName) throw new Error('Invalid image URL');
+
+      const { error: deleteError } = await supabase.storage
+        .from('soarkite')
+        .remove([fileName]);
+
+      if (deleteError) throw deleteError;
+
+      const { error: updateError } = await supabase
+        .from('users')
+        .update({ image_url: null })
+        .eq('id', user.id);
+
+      if (updateError) throw updateError;
+
+      setImageUrl(null);
+      setMessage({ type: 'success', text: 'Profile picture removed successfully' });
+    } catch (error: any) {
+      console.error('Image removal error:', error);
+      setMessage({ type: 'error', text: 'Failed to remove image. Please try again.' });
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setMessage(null);
 
     try {
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from('users')
         .update({
           name: formData.name,
@@ -39,10 +144,7 @@ export default function SettingsForm({ user, profile }: SettingsFormProps) {
         })
         .eq('id', user.id);
 
-      if (error) {
-        console.error('Update error:', error);
-        throw error;
-      }
+      if (error) throw error;
       
       setMessage({ type: 'success', text: 'Settings updated successfully' });
     } catch (error) {
@@ -54,7 +156,7 @@ export default function SettingsForm({ user, profile }: SettingsFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 p-6">
+    <form onSubmit={handleSubmit} className="p-6 space-y-6">
       {message && (
         <div
           className={`p-4 rounded-md ${
@@ -64,6 +166,53 @@ export default function SettingsForm({ user, profile }: SettingsFormProps) {
           {message.text}
         </div>
       )}
+
+      <div className="flex flex-col items-center">
+        <div className="relative w-32 h-32 mb-4">
+          <div className="relative w-24 h-24 rounded-full overflow-hidden bg-gray-100">
+            {imageUrl ? (
+              <Image
+                src={imageUrl}
+                alt="Profile"
+                fill
+                className="object-cover"
+                unoptimized
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center text-3xl text-gray-400">
+                {formData.name.charAt(0).toUpperCase()}
+              </div>
+            )}
+          </div>
+          {uploadingImage && (
+            <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full">
+              <Loader2 className="w-8 h-8 text-white animate-spin" />
+            </div>
+          )}
+          {imageUrl && !uploadingImage && (
+            <button
+              type="button"
+              onClick={handleRemoveImage}
+              className="absolute -top-2 -right-2 p-1 bg-red-500 text-white rounded-full shadow-md hover:bg-red-600 transition-colors"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          )}
+        </div>
+        <label className="relative cursor-pointer">
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageUpload}
+            className="hidden"
+            disabled={uploadingImage}
+          />
+          <span className="inline-flex items-center gap-2 px-4 py-2 text-sm text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
+            <Upload className="w-4 h-4" />
+            {imageUrl ? 'Change Picture' : 'Upload Picture'}
+          </span>
+        </label>
+      </div>
 
       <div>
         <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">

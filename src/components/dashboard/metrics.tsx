@@ -1,38 +1,49 @@
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
-import { Clock, MessageSquare, Star } from 'lucide-react';
+import { MessageSquare, HelpCircle, Star, Bell } from 'lucide-react';
 
 interface DashboardMetricsProps {
-  userId: string;
+  helpRequests: number;
+  assignedRequests: number;
+  averageRating: number | null;
+  totalReviews: number;
+  unreadMessages: number;
 }
 
-export default async function DashboardMetrics({ userId }: DashboardMetricsProps) {
-  const supabase = createServerComponentClient({ cookies });
-  
-  // You can add real metrics queries here based on your database schema
+export default function DashboardMetrics({ 
+  helpRequests,
+  assignedRequests,
+  averageRating,
+  totalReviews,
+  unreadMessages
+}: DashboardMetricsProps) {
   const metrics = [
     {
-      label: 'Total Sessions',
-      value: '0',
-      icon: Clock,
+      label: 'Help Requests',
+      value: helpRequests.toString(),
+      icon: HelpCircle,
       color: 'text-blue-500',
     },
     {
-      label: 'Messages',
-      value: '0',
+      label: 'Assigned Requests',
+      value: assignedRequests.toString(),
       icon: MessageSquare,
       color: 'text-green-500',
     },
     {
       label: 'Rating',
-      value: '0.0',
+      value: averageRating ? `${averageRating.toFixed(1)} (${totalReviews})` : 'No reviews',
       icon: Star,
       color: 'text-yellow-500',
+    },
+    {
+      label: 'Unread Messages',
+      value: unreadMessages.toString(),
+      icon: Bell,
+      color: 'text-purple-500',
     },
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
       {metrics.map((metric) => (
         <div
           key={metric.label}

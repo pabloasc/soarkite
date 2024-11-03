@@ -3,9 +3,18 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Loader2 } from 'lucide-react';
+import { countries } from 'countries-list';
 
 const EXPERIENCE_LEVELS = ['INTERMEDIATE', 'SENIOR', 'LEAD', 'ARCHITECT', 'DISTINGUISHED'];
 const AI_TOOLS = ['GitHub Copilot', 'Cursor IDE', 'V0', 'bolt.new', 'ChatGPT', 'Claude'];
+const AI_EXPERTISE_LEVELS = ['Basic', 'Medium', 'Advanced'];
+
+// Convert countries object to array and sort by name
+const COUNTRIES = Object.entries(countries).map(([code, country]) => ({
+  code,
+  name: country.name,
+  timezone: country.timezone
+})).sort((a, b) => a.name.localeCompare(b.name));
 
 interface DevProfileFormProps {
   userId: string;
@@ -23,14 +32,14 @@ export default function DevProfileForm({ userId, existingProfile, onCancel }: De
     experienceLevel: 'SENIOR',
     yearsOfExperience: '',
     bio: '',
-    location: '',
+    country: '',
     timezone: '',
     hourlyRate: '',
     githubUrl: '',
     linkedinUrl: '',
     portfolioUrl: '',
     skills: [] as string[],
-    aiToolsExperience: [] as { tool: string; years: number; expertise_level: string }[],
+    aiToolsExperience: [] as { tool: string; expertise_level: string }[],
     specializations: [] as string[],
     languages: [] as string[],
     availability: {
@@ -48,7 +57,7 @@ export default function DevProfileForm({ userId, existingProfile, onCancel }: De
         experienceLevel: existingProfile.experience_level || 'SENIOR',
         yearsOfExperience: existingProfile.years_of_experience?.toString() || '',
         bio: existingProfile.bio || '',
-        location: existingProfile.location || '',
+        country: existingProfile.location || '',
         timezone: existingProfile.timezone || '',
         hourlyRate: existingProfile.hourly_rate?.toString() || '',
         githubUrl: existingProfile.github_url || '',
@@ -83,7 +92,8 @@ export default function DevProfileForm({ userId, existingProfile, onCancel }: De
           userId,
           ...formData,
           yearsOfExperience: parseInt(formData.yearsOfExperience),
-          hourlyRate: formData.hourlyRate ? parseFloat(formData.hourlyRate) : null
+          hourlyRate: formData.hourlyRate ? parseFloat(formData.hourlyRate) : null,
+          location: formData.country
         }),
       });
 
@@ -102,12 +112,23 @@ export default function DevProfileForm({ userId, existingProfile, onCancel }: De
     }
   };
 
+  const handleCountryChange = (countryCode: string) => {
+    const selectedCountry = COUNTRIES.find(c => c.code === countryCode);
+    if (selectedCountry) {
+      setFormData(prev => ({
+        ...prev,
+        country: selectedCountry.name,
+        timezone: selectedCountry.timezone
+      }));
+    }
+  };
+
   const handleAiToolAdd = () => {
     setFormData(prev => ({
       ...prev,
       aiToolsExperience: [
         ...prev.aiToolsExperience,
-        { tool: '', years: 0, expertise_level: 'INTERMEDIATE' }
+        { tool: '', expertise_level: 'Basic' }
       ]
     }));
   };
@@ -130,21 +151,21 @@ export default function DevProfileForm({ userId, existingProfile, onCancel }: De
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Professional Title
-          </label>
-          <input
-            type="text"
-            required
-            value={formData.title}
-            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-            className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
-            placeholder="e.g., Senior Full Stack Developer"
-          />
-        </div>
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Professional Title
+        </label>
+        <input
+          type="text"
+          required
+          value={formData.title}
+          onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+          className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+          placeholder="e.g., Senior Full Stack Developer"
+        />
+      </div>
 
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Experience Level
@@ -156,11 +177,23 @@ export default function DevProfileForm({ userId, existingProfile, onCancel }: De
             className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
           >
             {EXPERIENCE_LEVELS.map(level => (
-              <option key={level} value={level}>
-                {level.charAt(0) + level.slice(1).toLowerCase()}
-              </option>
+              <option key={level} value={level}>{level}</option>
             ))}
           </select>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Years of Experience
+          </label>
+          <input
+            type="number"
+            required
+            min="0"
+            value={formData.yearsOfExperience}
+            onChange={(e) => setFormData({ ...formData, yearsOfExperience: e.target.value })}
+            className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+          />
         </div>
       </div>
 
@@ -178,44 +211,61 @@ export default function DevProfileForm({ userId, existingProfile, onCancel }: De
         />
       </div>
 
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Country
+        </label>
+        <select
+          value={COUNTRIES.find(c => c.name === formData.country)?.code || ''}
+          onChange={(e) => handleCountryChange(e.target.value)}
+          className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+        >
+          <option value="">Select Country</option>
+          {COUNTRIES.map(country => (
+            <option key={country.code} value={country.code}>
+              {country.name}
+            </option>
+          ))}
+        </select>
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Years of Experience
+            LinkedIn URL
           </label>
           <input
-            type="number"
-            required
-            min="0"
-            value={formData.yearsOfExperience}
-            onChange={(e) => setFormData({ ...formData, yearsOfExperience: e.target.value })}
+            type="url"
+            value={formData.linkedinUrl}
+            onChange={(e) => setFormData({ ...formData, linkedinUrl: e.target.value })}
             className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+            placeholder="https://linkedin.com/in/username"
           />
         </div>
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Location
+            GitHub URL
           </label>
           <input
-            type="text"
-            value={formData.location}
-            onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+            type="url"
+            value={formData.githubUrl}
+            onChange={(e) => setFormData({ ...formData, githubUrl: e.target.value })}
             className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
-            placeholder="City, Country"
+            placeholder="https://github.com/username"
           />
         </div>
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Timezone
+            Portfolio URL
           </label>
           <input
-            type="text"
-            value={formData.timezone}
-            onChange={(e) => setFormData({ ...formData, timezone: e.target.value })}
+            type="url"
+            value={formData.portfolioUrl}
+            onChange={(e) => setFormData({ ...formData, portfolioUrl: e.target.value })}
             className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
-            placeholder="e.g., UTC+1"
+            placeholder="https://your-portfolio.com"
           />
         </div>
       </div>
@@ -241,19 +291,19 @@ export default function DevProfileForm({ userId, existingProfile, onCancel }: De
                   <option key={tool} value={tool}>{tool}</option>
                 ))}
               </select>
-              <input
-                type="number"
-                min="0"
-                step="0.5"
-                placeholder="Years"
-                value={tool.years}
+              <select
+                value={tool.expertise_level}
                 onChange={(e) => {
                   const newTools = [...formData.aiToolsExperience];
-                  newTools[index].years = parseFloat(e.target.value);
+                  newTools[index].expertise_level = e.target.value;
                   setFormData({ ...formData, aiToolsExperience: newTools });
                 }}
-                className="w-24 px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
-              />
+                className="w-32 px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+              >
+                {AI_EXPERTISE_LEVELS.map(level => (
+                  <option key={level} value={level}>{level}</option>
+                ))}
+              </select>
               <button
                 type="button"
                 onClick={() => {
