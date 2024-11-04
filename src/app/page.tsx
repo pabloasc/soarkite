@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Code, MessageSquare, Sparkles, Bot } from 'lucide-react';
+import { Code, MessageSquare, Sparkles, Bot, FileCode, Users, PairProgramming } from 'lucide-react';
 import { cookies } from 'next/headers';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import AnimatedLogos from '@/components/animated-logos';
@@ -17,7 +17,7 @@ export default async function Home() {
         <div className="container mx-auto flex justify-between items-center px-6 py-4">
           <div className="h-8 w-32 relative">
             <Image
-              src="/soarkite_logo.png"
+              src="/images/soarkite_logo.png"
               alt="Soarkite Logo"
               fill
               className="object-contain"
@@ -46,6 +46,7 @@ export default async function Home() {
           </nav>
         </div>
       </header>
+
       <main>
         <section className="pt-32 pb-20 px-6">
           <div className="container mx-auto max-w-6xl">
@@ -84,71 +85,83 @@ export default async function Home() {
               <div className="relative">
                 <div className="relative w-full aspect-square">
                   <Image
-                    src="/soarkite-main.png"
+                    src="/images/mascot.jpg"
                     alt="AI coding assistance visualization"
                     fill
                     className="object-cover rounded-lg"
                     priority
                   />
                 </div>
-                <AnimatedLogos />
+                
               </div>
             </div>
           </div>
         </section>
+
         <section className="py-20 bg-gray-50" id="services">
           <div className="container mx-auto max-w-6xl px-6">
             <h2 className="text-4xl mb-12">How It Works</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-              <div className="p-6 bg-white rounded-lg">
-                <Bot size={32} className="mb-4" />
-                <h3 className="text-xl font-medium mb-3">AI Tool Integration</h3>
-                <p className="text-gray-600">Get help with GitHub Copilot, Cursor IDE, V0, and other AI coding assistants</p>
+              <div className="p-8 bg-white rounded-lg">
+                <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mb-6">
+                  <FileCode size={24} className="text-blue-500" />
+                </div>
+                <h3 className="text-xl font-medium mb-3">Create Request</h3>
+                <p className="text-gray-600">Specify your AI tool and project details. Whether it's Copilot, Cursor, or V0, describe what you're working on and where you need help.</p>
               </div>
-              <div className="p-6 bg-white rounded-lg">
-                <MessageSquare size={32} className="mb-4" />
-                <h3 className="text-xl font-medium mb-3">Expert Guidance</h3>
-                <p className="text-gray-600">Connect with senior developers who understand both traditional and AI-assisted coding</p>
+              <div className="p-8 bg-white rounded-lg">
+                <div className="w-12 h-12 bg-purple-50 rounded-lg flex items-center justify-center mb-6">
+                  <Users size={24} className="text-purple-500" />
+                </div>
+                <h3 className="text-xl font-medium mb-3">Get Connected</h3>
+                <p className="text-gray-600">Experienced developers review your request and reach out to help. Choose the expert that best matches your needs and schedule.</p>
               </div>
-              <div className="p-6 bg-white rounded-lg">
-                <Code size={32} className="mb-4" />
-                <h3 className="text-xl font-medium mb-3">Real-time Support</h3>
-                <p className="text-gray-600">Get immediate assistance when you're stuck with AI-generated code</p>
+              <div className="p-8 bg-white rounded-lg">
+                <div className="w-12 h-12 bg-green-50 rounded-lg flex items-center justify-center mb-6">
+                  <Code size={24} className="text-green-500" />
+                </div>
+                <h3 className="text-xl font-medium mb-3">Pair & Solve</h3>
+                <p className="text-gray-600">Work together in a live session to solve your challenges, learn best practices, and get your project moving forward.</p>
               </div>
             </div>
           </div>
         </section>
-          <section className="py-20" id="about">
-            <div className="container mx-auto max-w-6xl px-6">
-              <div className="flex items-center gap-3 mb-6">
-                <Sparkles size={24} className="text-blue-500" />
-                <h2 className="text-4xl">Two Ways to Participate</h2>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-8">
-                <div className="bg-white p-8 rounded-lg shadow-sm border border-gray-100">
-                  <h3 className="text-2xl font-medium mb-4">For Developers Seeking Help</h3>
-                  <p className="text-gray-600">
-                    Whether you're new to AI coding tools or need help understanding AI-generated code, 
-                    our platform connects you with experienced developers who can guide you through the process.
-                  </p>
-                </div>
-                <div className="bg-white p-8 rounded-lg shadow-sm border border-gray-100">
-                  <h3 className="text-2xl font-medium mb-4">For Senior Developers</h3>
-                  <p className="text-gray-600">
-                    Share your expertise with developers learning to work with AI tools. Help bridge the gap 
-                    between traditional coding practices and AI-assisted development.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </section>
 
-          <section id="contact" className="py-20 bg-gray-50">
-            <div className="container mx-auto max-w-6xl px-6">
-              <h2 className="text-4xl mb-12">Want to know more?</h2>
-              <ContactForm />
-            </div>
-          </section>
+        {!session && (
+          <>
+            <section className="py-20" id="about">
+              <div className="container mx-auto max-w-6xl px-6">
+                <div className="flex items-center gap-3 mb-6">
+                  <Sparkles size={24} className="text-blue-500" />
+                  <h2 className="text-4xl">Two Ways to Participate</h2>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-8">
+                  <div className="bg-white p-8 rounded-lg shadow-sm border border-gray-100">
+                    <h3 className="text-2xl font-medium mb-4">For Creators Seeking Help</h3>
+                    <p className="text-gray-600">
+                      Whether you're new to AI coding tools or need help understanding AI-generated code, 
+                      our platform connects you with experienced developers who can guide you through the process.
+                    </p>
+                  </div>
+                  <div className="bg-white p-8 rounded-lg shadow-sm border border-gray-100">
+                    <h3 className="text-2xl font-medium mb-4">For Developers</h3>
+                    <p className="text-gray-600">
+                      Share your expertise with creators and help them transform their ideas into reality using AI-generated code. 
+                      By collaborating and guiding them through the process, you can enable innovative projects and inspire new possibilities.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section id="contact" className="py-20 bg-gray-50">
+              <div className="container mx-auto max-w-6xl px-6">
+                <h2 className="text-4xl mb-12">Want to know more?</h2>
+                <ContactForm />
+              </div>
+            </section>
+          </>
+        )}
       </main>
 
       <footer className="py-8 border-t border-gray-100">

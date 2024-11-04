@@ -98,7 +98,7 @@ export default function DashboardHeader({ user }: DashboardHeaderProps) {
           <Link href="/" className="flex items-center">
             <div className="h-8 w-32 relative">
               <Image
-                src="/soarkite_logo.png"
+                src="/images/soarkite_logo.png"
                 alt="Soarkite Logo"
                 fill
                 className="object-contain"

@@ -69,7 +69,7 @@ export default function SignIn() {
           <Link href="/" className="inline-block">
             <div className="h-12 w-48 relative">
               <Image
-                src="/soarkite_logo.png"
+                src="/images/soarkite_logo.png"
                 alt="Soarkite Logo"
                 fill
                 className="object-contain"

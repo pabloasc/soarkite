@@ -3,19 +3,20 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Linkedin } from 'lucide-react';
+import { Linkedin, DollarSign, Code } from 'lucide-react';
 import Image from 'next/image';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 export default function SignUp() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const role = searchParams.get('role') || 'user';
+  const initialRole = searchParams.get('role') || 'user';
   const supabase = createClientComponentClient();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
+  const [role, setRole] = useState(initialRole);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -116,7 +117,7 @@ export default function SignUp() {
           <Link href="/" className="inline-block">
             <div className="h-12 w-48 relative">
               <Image
-                src="/soarkite_logo.png"
+                src="/images/soarkite_logo.png"
                 alt="Soarkite Logo"
                 fill
                 className="object-contain"
@@ -127,11 +128,44 @@ export default function SignUp() {
           <h2 className="mt-6 text-3xl font-normal text-gray-900">
             Create your account
           </h2>
-          <p className="mt-2 text-sm text-gray-600">
-            {role === 'senior_dev'
-              ? 'Join as a Senior Developer to help others'
-              : 'Get help with AI coding tools'}
-          </p>
+        </div>
+
+        {/* Role Toggle Section */}
+        <div className="mb-8">
+          <div className="flex gap-4">
+            <button
+              onClick={() => setRole('user')}
+              className={`flex-1 p-6 rounded-lg border-2 transition-all ${
+                role === 'user'
+                  ? 'border-black bg-black text-white'
+                  : 'border-gray-200 hover:border-gray-300'
+              }`}
+            >
+              <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mb-4 mx-auto">
+                <Code size={24} className="text-blue-500" />
+              </div>
+              <h3 className="text-lg font-medium mb-2">User</h3>
+              <p className="text-sm opacity-80">
+                Get expert help with AI tools and coding projects
+              </p>
+            </button>
+            <button
+              onClick={() => setRole('senior_dev')}
+              className={`flex-1 p-6 rounded-lg border-2 transition-all ${
+                role === 'senior_dev'
+                  ? 'border-black bg-black text-white'
+                  : 'border-gray-200 hover:border-gray-300'
+              }`}
+            >
+              <div className="w-12 h-12 bg-green-50 rounded-lg flex items-center justify-center mb-4 mx-auto">
+                <DollarSign size={24} className="text-green-500" />
+              </div>
+              <h3 className="text-lg font-medium mb-2">Senior Developer</h3>
+              <p className="text-sm opacity-80">
+                Earn money helping others in their AI coding projects
+              </p>
+            </button>
+          </div>
         </div>
 
         <div className="bg-white py-8 px-4 shadow-sm rounded-lg sm:px-10">
