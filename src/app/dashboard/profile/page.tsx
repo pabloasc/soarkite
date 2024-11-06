@@ -52,7 +52,7 @@ export default async function Profile() {
         ) : (
           <div className="bg-white rounded-lg shadow-sm p-6">
             <p className="text-gray-500 text-center">
-              Only senior developers can create a profile.
+              Only software developers can create a profile.
             </p>
           </div>
         )}

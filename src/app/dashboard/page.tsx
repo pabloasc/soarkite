@@ -23,9 +23,6 @@ export default async function Dashboard() {
 
   // Get requests based on user role
   const requests = await prisma.helpRequest.findMany({
-    where: user?.role === 'USER' 
-      ? { user_id: session.user.id }
-      : undefined,
     include: {
       user: true,
       senior_dev: true,
@@ -50,7 +47,7 @@ export default async function Dashboard() {
       
       <main className="container mx-auto px-6 py-8 max-w-6xl">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-normal">Recent Requests</h1>
+          <h1 className="text-3xl font-normal">Help Requests</h1>
         </div>
 
         <RequestList 

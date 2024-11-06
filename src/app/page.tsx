@@ -54,7 +54,7 @@ export default async function Home() {
               <div>
                 <h1 className="text-5xl font-normal mb-6 leading-tight">Expert guidance for your AI coding journey</h1>
                 <p className="text-xl text-gray-600 mb-8">
-                  Get real-time support from senior developers while using AI coding tools like GitHub Copilot, Cursor IDE, V0, and bolt.new
+                  Get real-time support from experienced software developers while using AI coding tools like GitHub Copilot, Cursor IDE, V0, and bolt.new
                 </p>
                 <div className="flex gap-4">
                   {session ? (
@@ -70,13 +70,13 @@ export default async function Home() {
                         href="/auth/sign-up?role=user" 
                         className="inline-flex px-6 py-3 bg-black text-white rounded-full hover:bg-gray-800 transition-colors"
                       >
-                        Get Help
+                        I am a creator
                       </Link>
                       <Link 
                         href="/auth/sign-up?role=senior_dev" 
                         className="inline-flex px-6 py-3 border border-black rounded-full hover:bg-gray-50 transition-colors"
                       >
-                        Become a Mentor
+                        I am a developer
                       </Link>
                     </>
                   )}
@@ -85,7 +85,7 @@ export default async function Home() {
               <div className="relative">
                 <div className="relative w-full aspect-square">
                   <Image
-                    src="/images/mascot.jpg"
+                    src="/images/mascot.png"
                     alt="AI coding assistance visualization"
                     fill
                     className="object-cover rounded-lg"
@@ -151,13 +151,6 @@ export default async function Home() {
                     </p>
                   </div>
                 </div>
-              </div>
-            </section>
-
-            <section id="contact" className="py-20 bg-gray-50">
-              <div className="container mx-auto max-w-6xl px-6">
-                <h2 className="text-4xl mb-12">Want to know more?</h2>
-                <ContactForm />
               </div>
             </section>
           </>

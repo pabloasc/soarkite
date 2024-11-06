@@ -237,8 +237,8 @@ export default function SettingsForm({ user, profile }: SettingsFormProps) {
           onChange={(e) => setFormData({ ...formData, role: e.target.value })}
           className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
         >
-          <option value="USER">User</option>
-          <option value="SENIOR_DEV">Senior Developer</option>
+          <option value="USER">Creator</option>
+          <option value="SENIOR_DEV">Software Developer</option>
         </select>
       </div>
 

@@ -35,7 +35,7 @@ export default function UserProfile({ user, profile }: UserProfileProps) {
         <div className="w-full pt-4 border-t border-gray-100">
           <h3 className="text-sm font-medium text-gray-900 mb-2">Role</h3>
           <p className="text-sm text-gray-500">
-            {profile?.role === 'SENIOR_DEV' ? 'Senior Developer' : 'User'}
+            {profile?.role === 'SENIOR_DEV' ? 'Software Developer' : 'User'}
           </p>
         </div>
       </div>

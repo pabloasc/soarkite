@@ -12,7 +12,7 @@ export default function DevelopersList({ developers }: DevelopersListProps) {
   if (!developers?.length) {
     return (
       <div className="bg-white rounded-lg shadow-sm p-6 text-center">
-        <p className="text-gray-500">No senior developers found.</p>
+        <p className="text-gray-500">No sofware developers found.</p>
       </div>
     );
   }
@@ -43,7 +43,7 @@ export default function DevelopersList({ developers }: DevelopersListProps) {
                   {developer.name || 'Anonymous Developer'}
                 </h3>
                 <p className="text-sm text-gray-600">
-                  {developer.dev_profile?.title || 'Senior Developer'}
+                  {developer.dev_profile?.title || 'Software Developer'}
                 </p>
               </div>
             </div>

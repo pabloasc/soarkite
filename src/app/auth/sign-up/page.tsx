@@ -160,9 +160,9 @@ export default function SignUp() {
               <div className="w-12 h-12 bg-green-50 rounded-lg flex items-center justify-center mb-4 mx-auto">
                 <DollarSign size={24} className="text-green-500" />
               </div>
-              <h3 className="text-lg font-medium mb-2">Senior Developer</h3>
+              <h3 className="text-lg font-medium mb-2">Software Developer</h3>
               <p className="text-sm opacity-80">
-                Earn money helping others in their AI coding projects
+                Earn money helping creators in their AI coding projects
               </p>
             </button>
           </div>

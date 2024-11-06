@@ -15,7 +15,7 @@ export default async function Developers() {
     redirect('/auth/sign-in');
   }
 
-  // Get all senior developers with their profiles and reviews
+  // Get all developers with their profiles and reviews
   const developers = await prisma.user.findMany({
     where: {
       role: 'SENIOR_DEV',
@@ -48,7 +48,7 @@ export default async function Developers() {
       
       <main className="container mx-auto px-6 py-8 max-w-6xl">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-normal">Senior Developers</h1>
+          <h1 className="text-3xl font-normal">Software Developers</h1>
         </div>
 
         <DevelopersList developers={developers} />

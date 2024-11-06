@@ -95,7 +95,7 @@ export default function DashboardHeader({ user }: DashboardHeaderProps) {
     <header className="bg-white border-b border-gray-200">
       <div className="container mx-auto px-6 max-w-6xl">
         <div className="flex items-center justify-between h-16">
-          <Link href="/" className="flex items-center">
+          <Link href="/dashboard" className="flex items-center">
             <div className="h-8 w-32 relative">
               <Image
                 src="/images/soarkite_logo.png"
@@ -124,14 +124,16 @@ export default function DashboardHeader({ user }: DashboardHeaderProps) {
                   Overview
                 </Link>
               </li>
-              <li>
-                <Link 
-                  href="/dashboard/requests" 
-                  className="text-gray-600 hover:text-black transition-colors block lg:inline-block"
-                >
-                  Requests
-                </Link>
-              </li>
+              {userRole === 'USER' && (
+                <li>
+                  <Link 
+                    href="/dashboard/requests" 
+                    className="text-gray-600 hover:text-black transition-colors block lg:inline-block"
+                  >
+                    Your Requests
+                  </Link>
+                </li>
+              )}
               <li>
                 <Link 
                   href="/dashboard/developers" 
