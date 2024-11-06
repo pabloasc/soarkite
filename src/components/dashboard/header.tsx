@@ -25,14 +25,14 @@ export default function DashboardHeader({ user }: DashboardHeaderProps) {
     const fetchUserRole = async () => {
       if (!user) return;
       
-      const { data, error } = await supabase
+      const { data: role, error: userError } = await supabase
         .from('users')
         .select('role')
         .eq('id', user.id)
         .single();
 
-      if (!error && data) {
-        setUserRole(data.role);
+      if (!userError && role) {
+        setUserRole(role);
       }
     };
 
@@ -165,7 +165,7 @@ export default function DashboardHeader({ user }: DashboardHeaderProps) {
                   )}
                 </Link>
               </li>
-              <li className="relative" ref={userMenuRef}>
+              <li className="relative">
                 <button
                   onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
                   className="flex items-center gap-1 text-gray-600 hover:text-black transition-colors"

@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Loader2 } from 'lucide-react';
 import { countries } from 'countries-list';
 
-const EXPERIENCE_LEVELS = ['INTERMEDIATE', 'SENIOR', 'LEAD', 'ARCHITECT', 'DISTINGUISHED'];
+const EXPERIENCE_LEVELS = ['INTERMEDIATE', 'SENIOR', 'LEAD', 'ARCHITECT'];
 const AI_TOOLS = ['GitHub Copilot', 'Cursor IDE', 'V0', 'bolt.new', 'ChatGPT', 'Claude'];
 const AI_EXPERTISE_LEVELS = ['Basic', 'Medium', 'Advanced'];
 
@@ -13,7 +13,7 @@ const AI_EXPERTISE_LEVELS = ['Basic', 'Medium', 'Advanced'];
 const COUNTRIES = Object.entries(countries).map(([code, country]) => ({
   code,
   name: country.name,
-  timezone: country.timezone
+  timezone: '',
 })).sort((a, b) => a.name.localeCompare(b.name));
 
 interface DevProfileFormProps {

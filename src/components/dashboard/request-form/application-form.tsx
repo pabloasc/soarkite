@@ -30,7 +30,7 @@ export default function ApplicationForm({ requestId, onClose, onSubmit }: Applic
       if (!user) throw new Error('Not authenticated');
 
       // Get the request details first to get the user_id
-      const { data: request, error: requestError } = await supabase
+      const { data: user_id, error: requestError } = await supabase
         .from('help_requests')
         .select('user_id')
         .eq('id', requestId)
@@ -65,7 +65,7 @@ export default function ApplicationForm({ requestId, onClose, onSubmit }: Applic
           id: messageId,
           request_id: requestId,
           sender_id: user.id,
-          receiver_id: request.user_id,
+          receiver_id: user_id,
           content: formData.message,
           created_at: now
         });
