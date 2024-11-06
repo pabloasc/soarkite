@@ -1,12 +1,66 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Footer from "@/components/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Soarkite - Human assistance for your AI journeys",
-  description: "Get instant help from our experts to take the best out of the most innovative AI tools.",
+  title: {
+    default: "Soarkite - Expert Help with AI Coding Tools",
+    template: "%s | Soarkite"
+  },
+  description: "Get real-time expert guidance from experienced developers while using AI coding tools like GitHub Copilot, Cursor IDE, V0, and bolt.new. Connect with senior developers for personalized AI coding assistance.",
+  keywords: [
+    "AI coding help",
+    "GitHub Copilot assistance",
+    "Cursor IDE support",
+    "V0 coding help",
+    "bolt.new guidance",
+    "AI programming support",
+    "code generation help",
+    "AI development assistance",
+    "expert developer guidance",
+    "real-time coding help",
+    "AI tool assistance",
+    "software development support",
+    "AI pair programming",
+    "coding mentorship",
+    "developer consultation"
+  ],
+  authors: [{ name: "Soarkite" }],
+  creator: "Soarkite",
+  publisher: "Soarkite",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://soarkite.com",
+    siteName: "Soarkite",
+    title: "Soarkite - Expert Help with AI Coding Tools",
+    description: "Get real-time expert guidance from experienced developers while using AI coding tools like GitHub Copilot, Cursor IDE, V0, and bolt.new",
+    images: [
+      {
+        url: "/images/soarkite-main.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Soarkite - AI Coding Assistance Platform"
+      }
+    ]
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Soarkite - Expert Help with AI Coding Tools",
+    description: "Get real-time expert guidance from experienced developers while using AI coding tools",
+    images: ["/images/soarkite-main.jpg"]
+  }
 };
 
 export default function RootLayout({
@@ -16,7 +70,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={inter.className}>
-      <body>{children}</body>
+      <head>
+        <link rel="canonical" href="https://soarkite.com" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#000000" />
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/manifest.json" />
+      </head>
+      <body className="flex flex-col min-h-screen">
+        <div className="flex-grow">
+          {children}
+        </div>
+        <Footer />
+      </body>
     </html>
   );
 }

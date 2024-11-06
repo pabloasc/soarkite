@@ -1,11 +1,19 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Code, MessageSquare, Sparkles, Bot, FileCode, Users, PairProgramming } from 'lucide-react';
+import { Code, MessageSquare, Sparkles, Bot, FileCode, Users } from 'lucide-react';
 import { cookies } from 'next/headers';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import AnimatedLogos from '@/components/animated-logos';
 import ContactForm from '@/components/contact-form';
+
+export const metadata = {
+  title: 'Soarkite - Get Expert Help with AI Coding Tools',
+  description: 'Connect with experienced developers for real-time assistance with GitHub Copilot, Cursor IDE, V0, and bolt.new. Get professional guidance for your AI-powered development projects.',
+  alternates: {
+    canonical: 'https://soarkite.com'
+  }
+};
 
 export default async function Home() {
   const supabase = createServerComponentClient({ cookies });
@@ -18,7 +26,7 @@ export default async function Home() {
           <div className="h-8 w-32 relative">
             <Image
               src="/images/soarkite_logo.png"
-              alt="Soarkite Logo"
+              alt="Soarkite - AI Coding Assistance Platform"
               fill
               className="object-contain"
               priority
@@ -52,7 +60,9 @@ export default async function Home() {
           <div className="container mx-auto max-w-6xl">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div>
-                <h1 className="text-5xl font-normal mb-6 leading-tight">Expert guidance for your AI coding journey</h1>
+                <h1 className="text-5xl font-normal mb-6 leading-tight">
+                  Expert guidance for your AI coding journey
+                </h1>
                 <p className="text-xl text-gray-600 mb-8">
                   Get real-time support from experienced software developers while using AI coding tools like GitHub Copilot, Cursor IDE, V0, and bolt.new
                 </p>
@@ -70,13 +80,13 @@ export default async function Home() {
                         href="/auth/sign-up?role=user" 
                         className="inline-flex px-6 py-3 bg-black text-white rounded-full hover:bg-gray-800 transition-colors"
                       >
-                        I am a creator
+                        I need help with AI tools
                       </Link>
                       <Link 
                         href="/auth/sign-up?role=senior_dev" 
                         className="inline-flex px-6 py-3 border border-black rounded-full hover:bg-gray-50 transition-colors"
                       >
-                        I am a developer
+                        I want to help others with coding
                       </Link>
                     </>
                   )}
@@ -92,7 +102,6 @@ export default async function Home() {
                     priority
                   />
                 </div>
-                
               </div>
             </div>
           </div>
@@ -137,14 +146,14 @@ export default async function Home() {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-8">
                   <div className="bg-white p-8 rounded-lg shadow-sm border border-gray-100">
-                    <h3 className="text-2xl font-medium mb-4">For Creators Seeking Help</h3>
+                    <h3 className="text-2xl font-medium mb-4">For Creators Using AI Tools</h3>
                     <p className="text-gray-600">
                       Whether you're new to AI coding tools or need help understanding AI-generated code, 
                       our platform connects you with experienced developers who can guide you through the process.
                     </p>
                   </div>
                   <div className="bg-white p-8 rounded-lg shadow-sm border border-gray-100">
-                    <h3 className="text-2xl font-medium mb-4">For Developers</h3>
+                    <h3 className="text-2xl font-medium mb-4">For Software Developers</h3>
                     <p className="text-gray-600">
                       Share your expertise with creators and help them transform their ideas into reality using AI-generated code. 
                       By collaborating and guiding them through the process, you can enable innovative projects and inspire new possibilities.
@@ -156,12 +165,6 @@ export default async function Home() {
           </>
         )}
       </main>
-
-      <footer className="py-8 border-t border-gray-100">
-        <div className="container mx-auto max-w-6xl px-6 text-center text-gray-600">
-          <p>&copy; 2024 Soarkite. All rights reserved.</p>
-        </div>
-      </footer>
     </div>
   );
 }
