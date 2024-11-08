@@ -7,7 +7,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import RequestScreenshots from './request-screenshots';
 import ApplicationForm from './request-form/application-form';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { createClient } from '@/lib/auth/client/client'
 
 interface RequestDetailProps {
   request: any;
@@ -21,7 +21,7 @@ export default function RequestDetail({ request, currentUser }: RequestDetailPro
   const [showApplicationForm, setShowApplicationForm] = useState(false);
   const [message, setMessage] = useState('');
   const [sending, setSending] = useState(false);
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
 
   const getStatusColor = (status: string) => {
     switch (status) {

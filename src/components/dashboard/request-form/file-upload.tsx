@@ -3,9 +3,9 @@
 import { useState, useCallback, useEffect } from 'react';
 import { Upload, X, Loader2, ZoomIn } from 'lucide-react';
 import { useDropzone } from 'react-dropzone';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import ImagePreview from './image-preview';
 import { initializeStorage } from '@/lib/supabase';
+import { createClient } from '@/lib/auth/client/client'
 
 type UploadedFile = {
   name: string;
@@ -22,7 +22,7 @@ export default function FileUpload({ onFilesUploaded, uploadedFiles, onFileRemov
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
 
   useEffect(() => {
     initializeStorage('screenshots');

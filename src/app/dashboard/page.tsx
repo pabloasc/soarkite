@@ -1,28 +1,29 @@
-import { cookies } from 'next/headers';
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { PrismaClient } from '@prisma/client';
 import { redirect } from 'next/navigation';
 import DashboardHeader from '@/components/dashboard/header';
 import RequestList from '@/components/dashboard/request-list';
-import { PrismaClient } from '@prisma/client';
+import { getSession } from '@/lib/auth/server/supabase';
 
 const prisma = new PrismaClient();
 
 export default async function Dashboard() {
-  const supabase = createServerComponentClient({ cookies });
-  const { data: { session } } = await supabase.auth.getSession();
+  const user = await getSession();
 
-  if (!session) {
+  if (!user) {
     redirect('/auth/sign-in');
   }
 
   // Get user with role
-  const user = await prisma.user.findUnique({
-    where: { id: session.user.id },
+  const dbUser = await prisma.user.findUnique({
+    where: { id: user.id },
     select: { role: true }
   });
 
   // Get requests based on user role
   const requests = await prisma.helpRequest.findMany({
+    where: dbUser?.role === 'USER' 
+      ? { user_id: user.id }
+      : undefined,
     include: {
       user: true,
       senior_dev: true,
@@ -43,7 +44,7 @@ export default async function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <DashboardHeader user={session.user} />
+      <DashboardHeader user={user} />
       
       <main className="container mx-auto px-6 py-8 max-w-6xl">
         <div className="flex justify-between items-center mb-8">
@@ -51,8 +52,8 @@ export default async function Dashboard() {
         </div>
 
         <RequestList 
-          userId={session.user.id}
-          userRole={user?.role || 'USER'}
+          userId={user.id}
+          userRole={dbUser?.role || 'USER'}
           initialRequests={requests}
         />
       </main>

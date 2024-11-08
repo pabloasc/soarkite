@@ -2,11 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Loader2 } from 'lucide-react';
 import DashboardHeader from '@/components/dashboard/header';
 import FileUpload from '@/components/dashboard/request-form/file-upload';
-import type { User } from '@supabase/auth-helpers-nextjs';
+import { createClient } from '@/lib/auth/client/client'
 
 type UploadedFile = {
   name: string;
@@ -15,11 +14,11 @@ type UploadedFile = {
 
 export default function NewRequest() {
   const router = useRouter();
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<any | null>(null);
 
   const [formData, setFormData] = useState({
     title: '',

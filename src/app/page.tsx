@@ -2,10 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Code, MessageSquare, Sparkles, Bot, FileCode, Users } from 'lucide-react';
-import { cookies } from 'next/headers';
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
-import AnimatedLogos from '@/components/animated-logos';
-import ContactForm from '@/components/contact-form';
+import { getSession } from '@/lib/auth/server/supabase';
 
 export const metadata = {
   title: 'Soarkite - Get Expert Help with AI Coding Tools',
@@ -16,8 +13,7 @@ export const metadata = {
 };
 
 export default async function Home() {
-  const supabase = createServerComponentClient({ cookies });
-  const { data: { session } } = await supabase.auth.getSession();
+  const user = await getSession();
 
   return (
     <div className="min-h-screen bg-white">
@@ -36,7 +32,7 @@ export default async function Home() {
             <ul className="flex space-x-8">
               <li><a href="#about" className="text-gray-600 hover:text-black transition-colors">About</a></li>
               <li><a href="#services" className="text-gray-600 hover:text-black transition-colors">Services</a></li>
-              {session ? (
+              {user ? (
                 <>
                   <li><Link href="/dashboard" className="text-gray-600 hover:text-black transition-colors">Dashboard</Link></li>
                   <li>
@@ -67,7 +63,7 @@ export default async function Home() {
                   Get real-time support from experienced software developers while using AI coding tools like GitHub Copilot, Cursor IDE, V0, and bolt.new
                 </p>
                 <div className="flex gap-4">
-                  {session ? (
+                  {user ? (
                     <Link 
                       href="/dashboard" 
                       className="inline-flex px-6 py-3 bg-black text-white rounded-full hover:bg-gray-800 transition-colors"
@@ -136,7 +132,7 @@ export default async function Home() {
           </div>
         </section>
 
-        {!session && (
+        {!user && (
           <>
             <section className="py-20" id="about">
               <div className="container mx-auto max-w-6xl px-6">

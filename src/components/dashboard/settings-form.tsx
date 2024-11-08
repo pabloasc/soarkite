@@ -1,11 +1,11 @@
 'use client';
 
-import { useState, useCallback } from 'react';
-import { User } from '@supabase/auth-helpers-nextjs';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { useState } from 'react';
+import { User } from '@supabase/supabase-js';
 import { Loader2, Upload, X } from 'lucide-react';
 import Image from 'next/image';
 import { initializeStorage } from '@/lib/supabase';
+import { createClient } from '@/lib/auth/client/client'
 
 interface SettingsFormProps {
   user: User;
@@ -13,7 +13,7 @@ interface SettingsFormProps {
 }
 
 export default function SettingsForm({ user, profile }: SettingsFormProps) {
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [imageUrl, setImageUrl] = useState(profile?.image_url || null);

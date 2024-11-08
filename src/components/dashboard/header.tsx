@@ -5,8 +5,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Menu, Bell, Settings, LogOut, ChevronDown } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useRouter } from 'next/navigation';
+import { createClient } from '@/lib/auth/client/client'
 
 interface DashboardHeaderProps {
   user: User | null;
@@ -18,8 +18,10 @@ export default function DashboardHeader({ user }: DashboardHeaderProps) {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
   const [userRole, setUserRole] = useState<string | null>(null);
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
   const userMenuRef = useRef<HTMLDivElement>(null);
+
+
 
   useEffect(() => {
     const fetchUserRole = async () => {
@@ -33,11 +35,14 @@ export default function DashboardHeader({ user }: DashboardHeaderProps) {
 
       if (!userError && role) {
         setUserRole(role);
+        console.log(user)
       }
     };
 
     fetchUserRole();
   }, [user, supabase]);
+
+  console.log(userRole)
 
   useEffect(() => {
     const fetchUnreadCount = async () => {

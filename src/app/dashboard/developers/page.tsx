@@ -1,17 +1,15 @@
-import { cookies } from 'next/headers';
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { redirect } from 'next/navigation';
 import DashboardHeader from '@/components/dashboard/header';
 import DevelopersList from '@/components/dashboard/developers/developers-list';
 import { PrismaClient } from '@prisma/client';
+import { getSession } from '@/lib/auth/server/supabase';
 
 const prisma = new PrismaClient();
 
 export default async function Developers() {
-  const supabase = createServerComponentClient({ cookies });
-  const { data: { session } } = await supabase.auth.getSession();
+  const user = await getSession();
 
-  if (!session) {
+  if (!user) {
     redirect('/auth/sign-in');
   }
 
@@ -44,7 +42,7 @@ export default async function Developers() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <DashboardHeader user={session.user} />
+      <DashboardHeader user={user} />
       
       <main className="container mx-auto px-6 py-8 max-w-6xl">
         <div className="flex justify-between items-center mb-8">

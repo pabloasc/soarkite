@@ -1,17 +1,17 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { cookies } from 'next/headers';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { formatDistanceToNow } from 'date-fns';
 import DashboardHeader from '@/components/dashboard/header';
 import { MessageSquare, User, Clock } from 'lucide-react';
 import Link from 'next/link';
+import { createClient } from '@/lib/auth/client/client'
+
 
 export default function Inbox() {
   const [messages, setMessages] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
 
   useEffect(() => {
     const fetchMessages = async () => {

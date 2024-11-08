@@ -1,25 +1,23 @@
-import { cookies } from 'next/headers';
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { redirect } from 'next/navigation';
 import { PrismaClient } from '@prisma/client';
 import DashboardHeader from '@/components/dashboard/header';
 import SettingsForm from '@/components/dashboard/settings-form';
 import DashboardMetrics from '@/components/dashboard/metrics';
 import RecentActivity from '@/components/dashboard/recent-activity';
+import { getSession } from '@/lib/auth/server/supabase';
 
 const prisma = new PrismaClient();
 
 export default async function Settings() {
-  const supabase = createServerComponentClient({ cookies });
-  const { data: { session } } = await supabase.auth.getSession();
+  const user = await getSession();
 
-  if (!session) {
+  if (!user) {
     redirect('/auth/sign-in');
   }
 
   // Get user with all related data
-  const user = await prisma.user.findUnique({
-    where: { id: session.user.id },
+  const userDB = await prisma.user.findUnique({
+    where: { id: user.id },
     include: {
       help_requests: {
         orderBy: { created_at: 'desc' },
@@ -50,19 +48,19 @@ export default async function Settings() {
   // Get metrics
   const metrics = await prisma.$transaction([
     prisma.helpRequest.count({
-      where: { user_id: session.user.id }
+      where: { user_id: user.id }
     }),
     prisma.helpRequest.count({
-      where: { senior_dev_id: session.user.id }
+      where: { senior_dev_id: user.id }
     }),
     prisma.devReview.aggregate({
-      where: { developer_id: session.user.id },
+      where: { developer_id: user.id },
       _avg: { rating: true },
       _count: { rating: true }
     }),
     prisma.message.count({
       where: {
-        receiver_id: session.user.id,
+        receiver_id: user.id,
         read: false
       }
     })
@@ -70,14 +68,14 @@ export default async function Settings() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <DashboardHeader user={session.user} />
+      <DashboardHeader user={user} />
       
       <main className="container mx-auto px-6 py-8 max-w-6xl">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-1">
             <div className="bg-white rounded-lg shadow-sm">
               <h2 className="text-xl font-medium p-6 border-b">Account Settings</h2>
-              <SettingsForm user={session.user} profile={user} />
+              <SettingsForm user={user} profile={userDB} />
             </div>
           </div>
           
@@ -93,11 +91,11 @@ export default async function Settings() {
             <div className="bg-white rounded-lg shadow-sm">
               <h2 className="text-xl font-medium p-6 border-b">Recent Activity</h2>
               <RecentActivity 
-                helpRequests={user?.help_requests || []}
-                assignedRequests={user?.assigned_requests || []}
-                applications={user?.sent_applications || []}
-                reviews={user?.reviews_received || []}
-                userRole={user?.role || 'USER'}
+                helpRequests={userDB?.help_requests || []}
+                assignedRequests={userDB?.assigned_requests || []}
+                applications={userDB?.sent_applications || []}
+                reviews={userDB?.reviews_received || []}
+                userRole={userDB?.role || 'USER'}
               />
             </div>
           </div>

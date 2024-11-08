@@ -9,6 +9,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   },
 });
 
+
 // Create bucket if it doesn't exist
 export const initializeStorage = async (bucketName: string) => {
   const { data: buckets } = await supabase.storage.listBuckets();

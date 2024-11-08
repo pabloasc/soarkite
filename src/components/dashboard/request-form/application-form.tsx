@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { X, Loader2 } from 'lucide-react';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { createClient } from '@/lib/auth/client/client'
 
 interface ApplicationFormProps {
   requestId: string;
@@ -13,7 +13,7 @@ interface ApplicationFormProps {
 export default function ApplicationForm({ requestId, onClose, onSubmit }: ApplicationFormProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
 
   const [formData, setFormData] = useState({
     message: '',

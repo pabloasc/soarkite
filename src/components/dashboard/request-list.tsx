@@ -1,6 +1,5 @@
 'use client';
 
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import Link from 'next/link';
 import { formatDistanceToNow } from 'date-fns';
 import RequestScreenshots from './request-screenshots';
@@ -8,6 +7,7 @@ import { useState } from 'react';
 import ApplicationForm from './request-form/application-form';
 import { UserRole, HelpRequest, User, RequestApplication } from '@prisma/client';
 import { BadgeHelp, Clock, AlertCircle, MessageSquare, ChevronRight } from 'lucide-react';
+import { createClient } from '@/lib/auth/client/client'
 
 interface RequestListProps {
   userId: string;
@@ -22,7 +22,7 @@ interface RequestListProps {
 export default function RequestList({ userId, userRole, initialRequests }: RequestListProps) {
   const [requests, setRequests] = useState(initialRequests);
   const [selectedRequestId, setSelectedRequestId] = useState<string | null>(null);
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
 
   const getStatusColor = (status: string) => {
     switch (status) {

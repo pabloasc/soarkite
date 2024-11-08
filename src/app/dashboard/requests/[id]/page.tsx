@@ -1,9 +1,8 @@
-import { cookies } from 'next/headers';
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { redirect, notFound } from 'next/navigation';
 import { PrismaClient } from '@prisma/client';
 import DashboardHeader from '@/components/dashboard/header';
 import RequestDetail from '@/components/dashboard/request-detail';
+import { getSession } from '@/lib/auth/server/supabase';
 
 const prisma = new PrismaClient();
 
@@ -14,16 +13,15 @@ interface Props {
 }
 
 export default async function RequestPage({ params }: Props) {
-  const supabase = createServerComponentClient({ cookies });
-  const { data: { session } } = await supabase.auth.getSession();
+  const user = await getSession();
 
-  if (!session) {
+  if (!user) {
     redirect('/auth/sign-in');
   }
 
   // Get user role
-  const user = await prisma.user.findUnique({
-    where: { id: session.user.id },
+  const userDB = await prisma.user.findUnique({
+    where: { id: user.id },
     select: { role: true }
   });
 
@@ -88,14 +86,14 @@ export default async function RequestPage({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <DashboardHeader user={session.user} />
+      <DashboardHeader user={user} />
       
       <main className="container mx-auto px-6 py-8 max-w-6xl">
         <RequestDetail 
           request={request}
           currentUser={{
-            id: session.user.id,
-            role: user?.role || 'USER'
+            id: user.id,
+            role: userDB?.role || 'USER'
           }}
         />
       </main>
