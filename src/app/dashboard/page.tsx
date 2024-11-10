@@ -2,27 +2,21 @@ import { PrismaClient } from '@prisma/client';
 import { redirect } from 'next/navigation';
 import DashboardHeader from '@/components/dashboard/header';
 import RequestList from '@/components/dashboard/request-list';
-import { getSession } from '@/lib/auth/server/supabase';
+import { getUserInfo } from '@/lib/auth/server/supabase';
 
 const prisma = new PrismaClient();
 
 export default async function Dashboard() {
-  const user = await getSession();
+  const userInfo = await getUserInfo();
 
-  if (!user) {
+  if (!userInfo) {
     redirect('/auth/sign-in');
   }
 
-  // Get user with role
-  const dbUser = await prisma.user.findUnique({
-    where: { id: user.id },
-    select: { role: true }
-  });
-
   // Get requests based on user role
   const requests = await prisma.helpRequest.findMany({
-    where: dbUser?.role === 'USER' 
-      ? { user_id: user.id }
+    where: userInfo.role === 'USER' 
+      ? { user_id: userInfo.id }
       : undefined,
     include: {
       user: true,
@@ -44,7 +38,7 @@ export default async function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <DashboardHeader user={user} />
+      <DashboardHeader user={userInfo} />
       
       <main className="container mx-auto px-6 py-8 max-w-6xl">
         <div className="flex justify-between items-center mb-8">
@@ -52,8 +46,8 @@ export default async function Dashboard() {
         </div>
 
         <RequestList 
-          userId={user.id}
-          userRole={dbUser?.role || 'USER'}
+          userId={userInfo.id}
+          userRole={userInfo.role || 'USER'}
           initialRequests={requests}
         />
       </main>

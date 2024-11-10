@@ -3,12 +3,12 @@ import { redirect } from 'next/navigation';
 import DashboardHeader from '@/components/dashboard/header';
 import RequestList from '@/components/dashboard/request-list';
 import { PrismaClient } from '@prisma/client';
-import { getSession } from '@/lib/auth/server/supabase';
+import { getUserInfo } from '@/lib/auth/server/supabase';
 
 const prisma = new PrismaClient();
 
 export default async function Requests() {
-  const user = await getSession();
+  const user = await getUserInfo();
 
   if (!user) {
     redirect('/auth/sign-in');

@@ -1,6 +1,6 @@
 const ContactForm = () => {
   return (
-    <form action="mailto:contact@soarkite.com" method="post" encType="text/plain" className="max-w-xl mx-auto">
+    <form action="mailto:team@soarkite.com" method="post" encType="text/plain" className="max-w-xl mx-auto">
       <div className="space-y-6">
         <div>
           <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Name</label>

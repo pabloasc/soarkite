@@ -1,15 +1,21 @@
 'use client';
 
-import { User } from '@supabase/supabase-js';
 import Link from 'next/link';
 import Image from 'next/image';
+import { UserRole } from '@prisma/client';
 import { Menu, Bell, Settings, LogOut, ChevronDown } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/auth/client/client'
 
 interface DashboardHeaderProps {
-  user: User | null;
+  user : {
+    id: string,
+    name: string,
+    email: string,
+    role: UserRole,
+    image_url?: string
+  }
 }
 
 export default function DashboardHeader({ user }: DashboardHeaderProps) {
@@ -20,29 +26,6 @@ export default function DashboardHeader({ user }: DashboardHeaderProps) {
   const [userRole, setUserRole] = useState<string | null>(null);
   const supabase = createClient();
   const userMenuRef = useRef<HTMLDivElement>(null);
-
-
-
-  useEffect(() => {
-    const fetchUserRole = async () => {
-      if (!user) return;
-      
-      const { data: role, error: userError } = await supabase
-        .from('users')
-        .select('role')
-        .eq('id', user.id)
-        .single();
-
-      if (!userError && role) {
-        setUserRole(role);
-        console.log(user)
-      }
-    };
-
-    fetchUserRole();
-  }, [user, supabase]);
-
-  console.log(userRole)
 
   useEffect(() => {
     const fetchUnreadCount = async () => {
@@ -129,7 +112,7 @@ export default function DashboardHeader({ user }: DashboardHeaderProps) {
                   Overview
                 </Link>
               </li>
-              {userRole === 'USER' && (
+              {user.role === 'USER' && (
                 <li>
                   <Link 
                     href="/dashboard/requests" 
@@ -147,7 +130,7 @@ export default function DashboardHeader({ user }: DashboardHeaderProps) {
                   Developers
                 </Link>
               </li>
-              {userRole === 'SENIOR_DEV' && (
+              {user.role === 'SENIOR_DEV' && (
                 <li>
                   <Link 
                     href="/dashboard/profile" 

@@ -1,21 +1,20 @@
-import 'server-only';
 import { cache } from 'react';
 import { UserRole } from '@prisma/client';
-import { createServerSupabaseClient } from './server';
+import { createClient } from './client';
 
 interface userInfo {
-  id: string,
-  name: string,
-  email: string,
-  role: UserRole,
-  image_url?: string
-}
+    id: string,
+    name: string,
+    email: string,
+    role: UserRole,
+    image_url?: string
+  }
 
 // React Cache: https://react.dev/reference/react/cache
 // Caches the session retrieval operation. This helps in minimizing redundant calls
 // across server components for the same session data.
 async function getSessionUser() {
-  const supabase = await createServerSupabaseClient();
+  const supabase = createClient();
   try {
     const {
       data: { user }
@@ -32,7 +31,7 @@ export const getSession = cache(getSessionUser);
 // Caches the user information retrieval operation. Similar to getSession,
 // this minimizes redundant data fetching across components for the same user data.
 export const getUserInfo = cache(async () => {
-  const supabase = await createServerSupabaseClient();
+  const supabase = createClient();
   try {
     const {
       data: { user }

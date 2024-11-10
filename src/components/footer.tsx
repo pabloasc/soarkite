@@ -32,7 +32,7 @@ export default function Footer() {
               <a href="https://linkedin.com/company/soarkite" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-black">
                 <Linkedin className="h-5 w-5" />
               </a>
-              <a href="mailto:contact@soarkite.com" className="text-gray-600 hover:text-black">
+              <a href="mailto:mailto@soarkite.com" className="text-gray-600 hover:text-black">
                 <Mail className="h-5 w-5" />
               </a>
             </div>

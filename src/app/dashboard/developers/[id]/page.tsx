@@ -2,7 +2,7 @@ import { redirect, notFound } from 'next/navigation';
 import { PrismaClient } from '@prisma/client';
 import DashboardHeader from '@/components/dashboard/header';
 import DevProfileView from '@/components/dashboard/profile/dev-profile-view';
-import { getSession } from '@/lib/auth/server/supabase';
+import { getUserInfo } from '@/lib/auth/server/supabase';
 
 
 const prisma = new PrismaClient();
@@ -14,7 +14,7 @@ interface Props {
 }
 
 export default async function DeveloperProfile({ params }: Props) {
-  const user = await getSession();
+  const user = await getUserInfo();
 
   if (!user) {
     redirect('/auth/sign-in');

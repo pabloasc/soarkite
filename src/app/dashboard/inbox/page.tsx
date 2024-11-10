@@ -6,18 +6,19 @@ import DashboardHeader from '@/components/dashboard/header';
 import { MessageSquare, User, Clock } from 'lucide-react';
 import Link from 'next/link';
 import { createClient } from '@/lib/auth/client/client'
+import { getUserInfo } from '@/lib/auth/client/supabase'
 
 
-export default function Inbox() {
+export default async function Inbox() {
   const [messages, setMessages] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const supabase = createClient();
 
+  const userInfo = await getUserInfo()
+  if (!userInfo) return;
+
   useEffect(() => {
     const fetchMessages = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
-
       const { data: messages, error } = await supabase
         .from('messages')
         .select(`
@@ -25,7 +26,7 @@ export default function Inbox() {
           sender:sender_id(id, name, email),
           request:request_id(id, title)
         `)
-        .eq('receiver_id', user.id)
+        .eq('receiver_id', userInfo.id)
         .order('created_at', { ascending: false });
 
       if (error) {
@@ -58,7 +59,7 @@ export default function Inbox() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <DashboardHeader user={null} />
+      <DashboardHeader user={userInfo} />
       
       <main className="container mx-auto px-6 py-8 max-w-4xl">
         <div className="flex justify-between items-center mb-8">
