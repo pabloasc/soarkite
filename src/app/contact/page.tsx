@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import ContactForm from '@/components/contact-form';
+export const dynamic = "force-dynamic"
 
 export const metadata: Metadata = {
   title: 'Contact Us',

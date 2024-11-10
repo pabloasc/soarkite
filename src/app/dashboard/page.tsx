@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 import DashboardHeader from '@/components/dashboard/header';
 import RequestList from '@/components/dashboard/request-list';
 import { getUserInfo } from '@/lib/auth/server/supabase';
+export const dynamic = "force-dynamic"
 
 const prisma = new PrismaClient();
 

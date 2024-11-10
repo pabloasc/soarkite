@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { Linkedin } from 'lucide-react';
 import Image from 'next/image';
 import { createClient } from '@/lib/auth/client/client'
+export const dynamic = "force-dynamic"
 
 export default function SignIn() {
   const router = useRouter();

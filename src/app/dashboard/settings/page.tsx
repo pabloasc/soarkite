@@ -4,14 +4,16 @@ import DashboardHeader from '@/components/dashboard/header';
 import SettingsForm from '@/components/dashboard/settings-form';
 import DashboardMetrics from '@/components/dashboard/metrics';
 import RecentActivity from '@/components/dashboard/recent-activity';
-import { getSession } from '@/lib/auth/server/supabase';
+import { getSession, getUserInfo } from '@/lib/auth/server/supabase';
+export const dynamic = "force-dynamic"
 
 const prisma = new PrismaClient();
 
 export default async function Settings() {
   const user = await getSession();
+  const userInfo = await getUserInfo();
 
-  if (!user) {
+  if (!user || !userInfo) {
     redirect('/auth/sign-in');
   }
 
@@ -68,7 +70,7 @@ export default async function Settings() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <DashboardHeader user={user} />
+      <DashboardHeader user={userInfo} />
       
       <main className="container mx-auto px-6 py-8 max-w-6xl">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

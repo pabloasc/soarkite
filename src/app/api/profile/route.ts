@@ -1,14 +1,15 @@
 import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
-import { getSession } from '@/lib/auth/server/supabase'
+import { getUserInfo } from '@/lib/auth/server/supabase'
+export const dynamic = "force-dynamic"
 
 const prisma = new PrismaClient();
 
 export async function POST(request: Request) {
   try {
-    const session = await getSession();
+    const userInfo = await getUserInfo();
 
-    if (!session) {
+    if (!userInfo) {
       return new NextResponse('Unauthorized', { status: 401 });
     }
 
@@ -46,9 +47,9 @@ export async function POST(request: Request) {
 
 export async function PUT(request: Request) {
   try {
-    const session = getSession();
+    const userInfo = getUserInfo();
 
-    if (!session) {
+    if (!userInfo) {
       return new NextResponse('Unauthorized', { status: 401 });
     }
 

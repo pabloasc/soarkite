@@ -6,6 +6,7 @@ import { Loader2 } from 'lucide-react';
 import DashboardHeader from '@/components/dashboard/header';
 import FileUpload from '@/components/dashboard/request-form/file-upload';
 import { createClient } from '@/lib/auth/client/client'
+export const dynamic = "force-dynamic"
 
 type UploadedFile = {
   name: string;

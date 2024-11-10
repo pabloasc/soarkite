@@ -15,8 +15,8 @@ interface userInfo {
 // Caches the session retrieval operation. This helps in minimizing redundant calls
 // across server components for the same session data.
 async function getSessionUser() {
-  const supabase = await createServerSupabaseClient();
   try {
+    const supabase = await createServerSupabaseClient();
     const {
       data: { user }
     } = await supabase.auth.getUser();
@@ -32,8 +32,8 @@ export const getSession = cache(getSessionUser);
 // Caches the user information retrieval operation. Similar to getSession,
 // this minimizes redundant data fetching across components for the same user data.
 export const getUserInfo = cache(async () => {
-  const supabase = await createServerSupabaseClient();
   try {
+    const supabase = await createServerSupabaseClient();
     const {
       data: { user }
     } = await supabase.auth.getUser();

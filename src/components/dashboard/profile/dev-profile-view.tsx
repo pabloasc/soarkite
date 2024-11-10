@@ -111,9 +111,6 @@ export default function DevProfileView({ profile, reviews, isOwnProfile = true, 
                 {profile.ai_tools_experience.map((tool: any, index: number) => (
                   <div key={index} className="bg-gray-50 p-4 rounded-lg">
                     <h4 className="font-medium">{tool.tool}</h4>
-                    <p className="text-sm text-gray-600 mt-1">
-                      {tool.years} {tool.years === 1 ? 'year' : 'years'} experience
-                    </p>
                     <p className="text-sm text-gray-600">
                       {tool.expertise_level} expertise
                     </p>

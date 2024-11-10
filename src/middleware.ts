@@ -40,7 +40,7 @@ export async function middleware(request: NextRequest) {
   // Dashboard
   if (currentRoute.startsWith('/dashboard') && !session) {
     const redirectUrl = new URL(request.url);
-    redirectUrl.pathname = '/auth/signin';
+    redirectUrl.pathname = '/auth/sign-in';
     return NextResponse.redirect(redirectUrl);
   }
 

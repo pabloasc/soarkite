@@ -3,6 +3,7 @@ import DashboardHeader from '@/components/dashboard/header';
 import DevelopersList from '@/components/dashboard/developers/developers-list';
 import { PrismaClient } from '@prisma/client';
 import { getUserInfo } from '@/lib/auth/server/supabase';
+export const dynamic = "force-dynamic"
 
 const prisma = new PrismaClient();
 

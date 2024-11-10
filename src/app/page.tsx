@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Code, MessageSquare, Sparkles, Bot, FileCode, Users } from 'lucide-react';
-import { getSession } from '@/lib/auth/server/supabase';
+import { getUserInfo } from '@/lib/auth/server/supabase';
 
 export const metadata = {
   title: 'Soarkite - Get Expert Help with AI Coding Tools',
@@ -13,7 +13,7 @@ export const metadata = {
 };
 
 export default async function Home() {
-  const user = await getSession();
+  const user = await getUserInfo();
 
   return (
     <div className="min-h-screen bg-white">

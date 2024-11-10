@@ -4,6 +4,7 @@ import DevProfileForm from '@/components/dashboard/profile/dev-profile-form';
 import DevProfileView from '@/components/dashboard/profile/dev-profile-view';
 import { PrismaClient } from '@prisma/client';
 import { getUserInfo } from '@/lib/auth/server/supabase';
+export const dynamic = "force-dynamic"
 
 const prisma = new PrismaClient();
 
