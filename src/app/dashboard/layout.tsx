@@ -1,6 +1,8 @@
+import { Suspense } from 'react';
 import { redirect } from 'next/navigation';
 import { getUserInfo } from '@/lib/auth/server/supabase';
 import Header from '@/components/shared/header';
+import DashboardLoading from './loading';
 
 export default async function DashboardLayout({
   children,
@@ -16,7 +18,9 @@ export default async function DashboardLayout({
   return (
     <div className="min-h-screen bg-gray-50">
       <Header user={user} />
-      {children}
+      <Suspense fallback={<DashboardLoading />}>
+        {children}
+      </Suspense>
     </div>
   );
 }

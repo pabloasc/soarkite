@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { UserRole } from '@prisma/client';
 import { Menu, Bell, Settings, LogOut } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { createClient } from '@/lib/auth/client/client';
 
 interface User {
@@ -22,6 +22,7 @@ interface HeaderProps {
 
 export default function Header({ user }: HeaderProps) {
   const router = useRouter();
+  const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
   const supabase = createClient();
@@ -66,12 +67,14 @@ export default function Header({ user }: HeaderProps) {
     router.refresh();
   };
 
+  const isActive = (path: string) => pathname === path;
+
   return (
     <header className="bg-white border-b border-gray-200">
       <div className="container mx-auto px-4 lg:px-6 max-w-7xl">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex-shrink-0">
+          <Link href={user ? '/dashboard' : '/'} className="flex-shrink-0">
             <div className="h-8 w-40 relative">
               <Image
                 src="/images/soarkite_logo.png"
@@ -97,35 +100,35 @@ export default function Header({ user }: HeaderProps) {
               <>
                 <Link 
                   href="/dashboard" 
-                  className="text-sm text-gray-600 hover:text-black transition-colors"
+                  className={`text-sm transition-colors ${isActive('/dashboard') ? 'text-black' : 'text-gray-600 hover:text-black'}`}
                 >
                   Overview
                 </Link>
                 {user.role === 'USER' && (
                   <Link 
                     href="/dashboard/requests" 
-                    className="text-sm text-gray-600 hover:text-black transition-colors"
+                    className={`text-sm transition-colors ${isActive('/dashboard/requests') ? 'text-black' : 'text-gray-600 hover:text-black'}`}
                   >
                     Requests
                   </Link>
                 )}
                 <Link 
                   href="/dashboard/developers" 
-                  className="text-sm text-gray-600 hover:text-black transition-colors"
+                  className={`text-sm transition-colors ${isActive('/dashboard/developers') ? 'text-black' : 'text-gray-600 hover:text-black'}`}
                 >
                   Developers
                 </Link>
                 {user.role === 'SENIOR_DEV' && (
                   <Link 
                     href="/dashboard/profile" 
-                    className="text-sm text-gray-600 hover:text-black transition-colors"
+                    className={`text-sm transition-colors ${isActive('/dashboard/profile') ? 'text-black' : 'text-gray-600 hover:text-black'}`}
                   >
                     Profile
                   </Link>
                 )}
                 <Link 
                   href="/dashboard/inbox" 
-                  className="text-sm text-gray-600 hover:text-black transition-colors relative"
+                  className={`text-sm transition-colors relative ${isActive('/dashboard/inbox') ? 'text-black' : 'text-gray-600 hover:text-black'}`}
                 >
                   <Bell className="h-4 w-4" />
                   {unreadCount > 0 && (
@@ -136,7 +139,7 @@ export default function Header({ user }: HeaderProps) {
                 </Link>
                 <Link 
                   href="/dashboard/settings" 
-                  className="text-sm text-gray-600 hover:text-black transition-colors"
+                  className={`text-sm transition-colors ${isActive('/dashboard/settings') ? 'text-black' : 'text-gray-600 hover:text-black'}`}
                 >
                   <Settings className="h-4 w-4" />
                 </Link>
@@ -183,7 +186,7 @@ export default function Header({ user }: HeaderProps) {
                 <>
                   <Link 
                     href="/dashboard" 
-                    className="block text-sm text-gray-600 hover:text-black transition-colors py-2"
+                    className={`block text-sm transition-colors py-2 ${isActive('/dashboard') ? 'text-black' : 'text-gray-600'}`}
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Overview
@@ -191,7 +194,7 @@ export default function Header({ user }: HeaderProps) {
                   {user.role === 'USER' && (
                     <Link 
                       href="/dashboard/requests" 
-                      className="block text-sm text-gray-600 hover:text-black transition-colors py-2"
+                      className={`block text-sm transition-colors py-2 ${isActive('/dashboard/requests') ? 'text-black' : 'text-gray-600'}`}
                       onClick={() => setIsMenuOpen(false)}
                     >
                       Requests
@@ -199,7 +202,7 @@ export default function Header({ user }: HeaderProps) {
                   )}
                   <Link 
                     href="/dashboard/developers" 
-                    className="block text-sm text-gray-600 hover:text-black transition-colors py-2"
+                    className={`block text-sm transition-colors py-2 ${isActive('/dashboard/developers') ? 'text-black' : 'text-gray-600'}`}
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Developers
@@ -207,7 +210,7 @@ export default function Header({ user }: HeaderProps) {
                   {user.role === 'SENIOR_DEV' && (
                     <Link 
                       href="/dashboard/profile" 
-                      className="block text-sm text-gray-600 hover:text-black transition-colors py-2"
+                      className={`block text-sm transition-colors py-2 ${isActive('/dashboard/profile') ? 'text-black' : 'text-gray-600'}`}
                       onClick={() => setIsMenuOpen(false)}
                     >
                       Profile
@@ -215,7 +218,7 @@ export default function Header({ user }: HeaderProps) {
                   )}
                   <Link 
                     href="/dashboard/inbox" 
-                    className="block text-sm text-gray-600 hover:text-black transition-colors py-2 relative"
+                    className={`block text-sm transition-colors py-2 relative ${isActive('/dashboard/inbox') ? 'text-black' : 'text-gray-600'}`}
                     onClick={() => setIsMenuOpen(false)}
                   >
                     <span className="flex items-center">
@@ -230,7 +233,7 @@ export default function Header({ user }: HeaderProps) {
                   </Link>
                   <Link 
                     href="/dashboard/settings" 
-                    className="block text-sm text-gray-600 hover:text-black transition-colors py-2"
+                    className={`block text-sm transition-colors py-2 ${isActive('/dashboard/settings') ? 'text-black' : 'text-gray-600'}`}
                     onClick={() => setIsMenuOpen(false)}
                   >
                     <span className="flex items-center">

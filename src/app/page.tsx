@@ -1,13 +1,13 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Code, MessageSquare, Sparkles, Bot, FileCode, Users } from 'lucide-react';
+import { Code, Sparkles, FileCode, Users } from 'lucide-react';
 import { getUserInfo } from '@/lib/auth/server/supabase';
 import Header from '@/components/shared/header';
 
 export const metadata = {
-  title: 'Soarkite - Get Expert Help with AI Coding Tools',
-  description: 'Connect with experienced developers for real-time assistance with GitHub Copilot, Cursor IDE, V0, and bolt.new. Get professional guidance for your AI-powered development projects.',
+  title: 'Soarkite - Get Expert Help with AI Tools',
+  description: 'Connect with experienced prefessionals for real-time assistance with GitHub Copilot, Cursor IDE, V0, and bolt.new. Get professional guidance for your AI-powered development projects.',
   alternates: {
     canonical: 'https://soarkite.com'
   }
@@ -25,10 +25,10 @@ export default async function Home() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div>
                 <h1 className="text-5xl font-normal mb-6 leading-tight">
-                  Expert guidance for your AI coding journey
+                  Expert guidance for your AI journey
                 </h1>
                 <p className="text-xl text-gray-600 mb-8">
-                  Get real-time support from experienced software developers while using AI coding tools like GitHub Copilot, Cursor IDE, V0, and bolt.new
+                  Receive instant support from expert professionals to elevate your AI coding, design, and photography projects to new heights.
                 </p>
                 <div className="flex gap-4">
                   {user ? (
@@ -50,7 +50,7 @@ export default async function Home() {
                         href="/auth/sign-up?role=senior_dev" 
                         className="inline-flex px-6 py-3 border border-black rounded-full hover:bg-gray-50 transition-colors"
                       >
-                        I want to help others with coding
+                        I can provide help with AI tools
                       </Link>
                     </>
                   )}
@@ -60,7 +60,7 @@ export default async function Home() {
                 <div className="relative w-full aspect-square">
                   <Image
                     src="/images/mascot.png"
-                    alt="AI coding assistance visualization"
+                    alt="AI assistance visualization"
                     fill
                     className="object-cover rounded-lg"
                     priority
@@ -80,21 +80,21 @@ export default async function Home() {
                   <FileCode size={24} className="text-blue-500" />
                 </div>
                 <h3 className="text-xl font-medium mb-3">Create Request</h3>
-                <p className="text-gray-600">Specify your AI tool and project details. Whether it's Copilot, Cursor, or V0, describe what you're working on and where you need help.</p>
+                <p className="text-gray-600">Specify your AI tool and project details. Whether it's during coding or image creation, describe what you're working on and where you need help.</p>
               </div>
               <div className="p-8 bg-white rounded-lg">
                 <div className="w-12 h-12 bg-purple-50 rounded-lg flex items-center justify-center mb-6">
                   <Users size={24} className="text-purple-500" />
                 </div>
                 <h3 className="text-xl font-medium mb-3">Get Connected</h3>
-                <p className="text-gray-600">Experienced developers review your request and reach out to help. Choose the expert that best matches your needs and schedule.</p>
+                <p className="text-gray-600">Experienced professionals review your request and reach out to help. Choose the expert that best matches your needs and schedule.</p>
               </div>
               <div className="p-8 bg-white rounded-lg">
                 <div className="w-12 h-12 bg-green-50 rounded-lg flex items-center justify-center mb-6">
                   <Code size={24} className="text-green-500" />
                 </div>
                 <h3 className="text-xl font-medium mb-3">Pair & Solve</h3>
-                <p className="text-gray-600">Work together in a live session to solve your challenges, learn best practices, and get your project moving forward.</p>
+                <p className="text-gray-600">Work together in a live session to solve your challenges, learn from them, and get your project moving forward.</p>
               </div>
             </div>
           </div>
@@ -117,9 +117,9 @@ export default async function Home() {
                     </p>
                   </div>
                   <div className="bg-white p-8 rounded-lg shadow-sm border border-gray-100">
-                    <h3 className="text-2xl font-medium mb-4">For Software Developers</h3>
+                    <h3 className="text-2xl font-medium mb-4">For Developers or Designers</h3>
                     <p className="text-gray-600">
-                      Share your expertise with creators and help them transform their ideas into reality using AI-generated code. 
+                      Share your expertise with creators and help them transform their ideas into reality using AI. 
                       By collaborating and guiding them through the process, you can enable innovative projects and inspire new possibilities.
                     </p>
                   </div>

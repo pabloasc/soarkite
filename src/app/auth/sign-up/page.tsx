@@ -110,21 +110,10 @@ export default function SignUp() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-[calc(100vh-64px)] flex flex-col items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <Link href="/" className="inline-block">
-            <div className="h-12 w-48 relative">
-              <Image
-                src="/images/soarkite_logo.png"
-                alt="Soarkite Logo"
-                fill
-                className="object-contain"
-                priority
-              />
-            </div>
-          </Link>
-          <h2 className="mt-6 text-3xl font-normal text-gray-900">
+          <h2 className="text-3xl font-normal text-gray-900">
             Create your account
           </h2>
         </div>
@@ -143,9 +132,9 @@ export default function SignUp() {
               <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mb-4 mx-auto">
                 <Code size={24} className="text-blue-500" />
               </div>
-              <h3 className="text-lg font-medium mb-2">User</h3>
+              <h3 className="text-lg font-medium mb-2">Creator</h3>
               <p className="text-sm opacity-80">
-                Get expert help with AI tools and coding projects
+                Receive expert assistance with your AI creations.
               </p>
             </button>
             <button
@@ -159,9 +148,9 @@ export default function SignUp() {
               <div className="w-12 h-12 bg-green-50 rounded-lg flex items-center justify-center mb-4 mx-auto">
                 <DollarSign size={24} className="text-green-500" />
               </div>
-              <h3 className="text-lg font-medium mb-2">Software Developer</h3>
+              <h3 className="text-lg font-medium mb-2">AI expert</h3>
               <p className="text-sm opacity-80">
-                Earn money helping creators in their AI coding projects
+                Turn your expertise into income by helping creators with AI.
               </p>
             </button>
           </div>

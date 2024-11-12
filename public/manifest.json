@@ -1,7 +1,7 @@
 {
     "name": "Soarkite",
     "short_name": "Soarkite",
-    "description": "Get expert guidance for your AI-powered development journey",
+    "description": "Get expert guidance for your AI journey",
     "start_url": "/",
     "display": "standalone",
     "background_color": "#ffffff",

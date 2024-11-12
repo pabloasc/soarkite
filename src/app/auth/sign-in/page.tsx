@@ -64,21 +64,10 @@ export default function SignIn() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-[calc(100vh-64px)] flex flex-col items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <Link href="/" className="inline-block">
-            <div className="h-12 w-48 relative">
-              <Image
-                src="/images/soarkite_logo.png"
-                alt="Soarkite Logo"
-                fill
-                className="object-contain"
-                priority
-              />
-            </div>
-          </Link>
-          <h2 className="mt-6 text-3xl font-normal text-gray-900">Sign in to your account</h2>
+          <h2 className="text-3xl font-normal text-gray-900">Sign in to your account</h2>
         </div>
 
         <div className="bg-white py-8 px-4 shadow-sm rounded-lg sm:px-10">

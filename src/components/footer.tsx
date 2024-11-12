@@ -6,7 +6,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-gray-50 border-t border-gray-100">
+    <footer className="bg-white border-t border-gray-100">
       <div className="container mx-auto max-w-6xl px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Logo and Description */}
@@ -32,7 +32,7 @@ export default function Footer() {
               <a href="https://linkedin.com/company/soarkite" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-black">
                 <Linkedin className="h-5 w-5" />
               </a>
-              <a href="mailto:mailto@soarkite.com" className="text-gray-600 hover:text-black">
+              <a href="mailto:team@soarkite.com" className="text-gray-600 hover:text-black">
                 <Mail className="h-5 w-5" />
               </a>
             </div>
