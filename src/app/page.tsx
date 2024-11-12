@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Code, MessageSquare, Sparkles, Bot, FileCode, Users } from 'lucide-react';
 import { getUserInfo } from '@/lib/auth/server/supabase';
+import Header from '@/components/shared/header';
 
 export const metadata = {
   title: 'Soarkite - Get Expert Help with AI Coding Tools',
@@ -17,38 +18,7 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen bg-white">
-      <header className="fixed w-full bg-white/90 backdrop-blur-sm border-b border-gray-100 z-50">
-        <div className="container mx-auto flex justify-between items-center px-6 py-4">
-          <div className="h-8 w-32 relative">
-            <Image
-              src="/images/soarkite_logo.png"
-              alt="Soarkite - AI Coding Assistance Platform"
-              fill
-              className="object-contain"
-              priority
-            />
-          </div>
-          <nav>
-            <ul className="flex space-x-8">
-              {user ? (
-                <>
-                  <li><Link href="/dashboard" className="text-gray-600 hover:text-black transition-colors">Dashboard</Link></li>
-                  <li>
-                    <form action="/auth/sign-out" method="post">
-                      <button type="submit" className="text-gray-600 hover:text-black transition-colors">
-                        Sign Out
-                      </button>
-                    </form>
-                  </li>
-                </>
-              ) : (
-                <li><Link href="/auth/sign-in" className="text-gray-600 hover:text-black transition-colors">Sign In</Link></li>
-              )}
-            </ul>
-          </nav>
-        </div>
-      </header>
-
+      <Header user={user} />
       <main>
         <section className="pt-32 pb-20 px-6">
           <div className="container mx-auto max-w-6xl">

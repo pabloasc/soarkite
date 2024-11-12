@@ -3,7 +3,6 @@ import { createServerSupabaseClient as createClient } from '@/lib/auth/server/se
 import { PrismaClient } from '@prisma/client';
 export const dynamic = "force-dynamic"
 
-
 const prisma = new PrismaClient();
 
 export async function GET(request: NextRequest) {
@@ -19,17 +18,20 @@ export async function GET(request: NextRequest) {
       try {
         // Check if user already exists
         const existingUser = await prisma.user.findUnique({
-          where: { email: user.email! },
+          where: { id: user.id },
         });
 
         if (!existingUser) {
+          // Get role from user metadata
+          const role = user.user_metadata?.role || 'USER';
+
           // Create new user in database
           await prisma.user.create({
             data: {
               id: user.id,
               email: user.email!,
               name: user.user_metadata.name || null,
-              role: (user.user_metadata.role as 'USER' | 'SENIOR_DEV') || 'USER'
+              role: role
             },
           });
         }
@@ -41,6 +43,5 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  // Ensure to remove query parameters that are no longer needed
   return NextResponse.redirect(new URL('/dashboard', request.url));
 }

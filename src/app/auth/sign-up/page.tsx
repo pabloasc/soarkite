@@ -6,8 +6,6 @@ import { useSearchParams } from 'next/navigation';
 import { Linkedin, DollarSign, Code } from 'lucide-react';
 import Image from 'next/image';
 import { createClient } from '@/lib/auth/client/client'
-export const dynamic = "force-dynamic"
-
 
 export default function SignUp() {
   const searchParams = useSearchParams();

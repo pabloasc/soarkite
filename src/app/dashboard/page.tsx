@@ -1,6 +1,5 @@
 import { PrismaClient } from '@prisma/client';
 import { redirect } from 'next/navigation';
-import DashboardHeader from '@/components/dashboard/header';
 import RequestList from '@/components/dashboard/request-list';
 import { getUserInfo } from '@/lib/auth/server/supabase';
 export const dynamic = "force-dynamic"
@@ -39,13 +38,10 @@ export default async function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <DashboardHeader user={userInfo} />
-      
       <main className="container mx-auto px-6 py-8 max-w-6xl">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-normal">Help Requests</h1>
         </div>
-
         <RequestList 
           userId={userInfo.id}
           userRole={userInfo.role || 'USER'}
