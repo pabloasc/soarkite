@@ -85,12 +85,6 @@ export default function DevProfileView({ profile, reviews, isOwnProfile = true, 
                 <span>{profile.location}</span>
               </div>
             )}
-            {profile.timezone && (
-              <div className="flex items-center gap-1">
-                <Clock className="h-4 w-4" />
-                <span>{profile.timezone}</span>
-              </div>
-            )}
             {profile.hourly_rate && (
               <div className="flex items-center gap-1">
                 <DollarSign className="h-4 w-4" />

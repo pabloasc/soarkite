@@ -136,7 +136,7 @@ export default function DashboardHeader({ user }: DashboardHeaderProps) {
                     href="/dashboard/profile" 
                     className="text-gray-600 hover:text-black transition-colors block lg:inline-block"
                   >
-                    Profile
+                    My Profile
                   </Link>
                 </li>
               )}

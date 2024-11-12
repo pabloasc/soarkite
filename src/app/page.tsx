@@ -30,8 +30,6 @@ export default async function Home() {
           </div>
           <nav>
             <ul className="flex space-x-8">
-              <li><a href="#about" className="text-gray-600 hover:text-black transition-colors">About</a></li>
-              <li><a href="#services" className="text-gray-600 hover:text-black transition-colors">Services</a></li>
               {user ? (
                 <>
                   <li><Link href="/dashboard" className="text-gray-600 hover:text-black transition-colors">Dashboard</Link></li>
@@ -103,7 +101,7 @@ export default async function Home() {
           </div>
         </section>
 
-        <section className="py-20 bg-gray-50" id="services">
+        <section className="py-20 bg-gray-50">
           <div className="container mx-auto max-w-6xl px-6">
             <h2 className="text-4xl mb-12">How It Works</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -134,7 +132,7 @@ export default async function Home() {
 
         {!user && (
           <>
-            <section className="py-20" id="about">
+            <section className="py-20">
               <div className="container mx-auto max-w-6xl px-6">
                 <div className="flex items-center gap-3 mb-6">
                   <Sparkles size={24} className="text-blue-500" />
