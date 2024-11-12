@@ -1,5 +1,4 @@
 import { redirect } from 'next/navigation';
-import DashboardHeader from '@/components/dashboard/header';
 import DevProfileForm from '@/components/dashboard/profile/dev-profile-form';
 import DevProfileView from '@/components/dashboard/profile/dev-profile-view';
 import { PrismaClient } from '@prisma/client';
@@ -35,8 +34,6 @@ export default async function Profile() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <DashboardHeader user={user} />
-      
       <main className="container mx-auto px-6 py-8 max-w-6xl">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-normal">Developer Profile</h1>

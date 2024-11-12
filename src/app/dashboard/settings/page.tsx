@@ -1,6 +1,5 @@
 import { redirect } from 'next/navigation';
 import { PrismaClient } from '@prisma/client';
-import DashboardHeader from '@/components/dashboard/header';
 import SettingsForm from '@/components/dashboard/settings-form';
 import DashboardMetrics from '@/components/dashboard/metrics';
 import RecentActivity from '@/components/dashboard/recent-activity';
@@ -70,8 +69,6 @@ export default async function Settings() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <DashboardHeader user={userInfo} />
-      
       <main className="container mx-auto px-6 py-8 max-w-6xl">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-1">

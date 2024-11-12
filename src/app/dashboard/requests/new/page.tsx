@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Loader2 } from 'lucide-react';
-import DashboardHeader from '@/components/dashboard/header';
 import FileUpload from '@/components/dashboard/request-form/file-upload';
 import { createClient } from '@/lib/auth/client/client'
 export const dynamic = "force-dynamic"
@@ -115,8 +114,6 @@ export default function NewRequest() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <DashboardHeader user={user} />
-      
       <main className="container mx-auto px-6 py-8 max-w-3xl">
         <div className="bg-white rounded-lg shadow-sm">
           <div className="p-6">

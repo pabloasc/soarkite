@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import DashboardHeader from '@/components/dashboard/header';
 import RequestList from '@/components/dashboard/request-list';
 import { PrismaClient } from '@prisma/client';
 import { getUserInfo } from '@/lib/auth/server/supabase';
@@ -45,8 +44,6 @@ export default async function Requests() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <DashboardHeader user={user} />
-      
       <main className="container mx-auto px-6 py-8 max-w-6xl">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-normal">Help Requests</h1>

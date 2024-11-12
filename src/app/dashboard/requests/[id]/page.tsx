@@ -1,6 +1,5 @@
 import { redirect, notFound } from 'next/navigation';
 import { PrismaClient } from '@prisma/client';
-import DashboardHeader from '@/components/dashboard/header';
 import RequestDetail from '@/components/dashboard/request-detail';
 import { getUserInfo } from '@/lib/auth/server/supabase';
 export const dynamic = "force-dynamic"
@@ -87,8 +86,6 @@ export default async function RequestPage({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <DashboardHeader user={user} />
-      
       <main className="container mx-auto px-6 py-8 max-w-6xl">
         <RequestDetail 
           request={request}
