@@ -83,7 +83,7 @@ model DevProfile {
   ai_tools_experience Json[]         // Array of { tool: string, years: number, expertise_level: string }
   specializations     String[]       // e.g., ["Web Development", "Mobile Apps", "DevOps"]
   languages           String[]       // Speaking languages
-  availability        Json           // e.g., { hours_per_week: number, preferred_times: string[] }
+  availability        Json           // { hours_per_week: number, available_days: string[], start_time: string, end_time: string }
   certifications      Json[]         // Array of { name: string, issuer: string, year: number }
   company             String?
   average_rating      Float          @default(0)

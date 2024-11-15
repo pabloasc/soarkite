@@ -8,6 +8,19 @@ import { countries } from 'countries-list';
 const EXPERIENCE_LEVELS = ['INTERMEDIATE', 'SENIOR', 'LEAD', 'ARCHITECT'];
 const AI_TOOLS = ['GitHub Copilot', 'Cursor IDE', 'V0', 'bolt.new', 'ChatGPT', 'Claude'];
 const AI_EXPERTISE_LEVELS = ['Basic', 'Medium', 'Advanced'];
+const DAYS_OF_WEEK = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+const TIME_SLOTS = Array.from({ length: 24 }, (_, i) => {
+  const hour = i.toString().padStart(2, '0');
+  return `${hour}:00`;
+});
+
+// Default values for new profiles
+const DEFAULT_AVAILABILITY = {
+  hours_per_week: 20,
+  available_days: [] as string[],
+  start_time: '09:00',
+  end_time: '17:00'
+};
 
 // Convert countries object to array and sort by name
 const COUNTRIES = Object.entries(countries).map(([code, country]) => ({
@@ -18,7 +31,7 @@ const COUNTRIES = Object.entries(countries).map(([code, country]) => ({
 
 interface DevProfileFormProps {
   userId: string;
-  existingProfile?: any; // Type this based on your DevProfile model
+  existingProfile?: any;
   onCancel?: () => void;
 }
 
@@ -42,16 +55,22 @@ export default function DevProfileForm({ userId, existingProfile, onCancel }: De
     aiToolsExperience: [] as { tool: string; expertise_level: string }[],
     specializations: [] as string[],
     languages: [] as string[],
-    availability: {
-      hours_per_week: 0,
-      preferred_times: [] as string[]
-    },
+    availability: DEFAULT_AVAILABILITY,
     certifications: [] as { name: string; issuer: string; year: number }[],
     company: ''
   });
 
   useEffect(() => {
     if (existingProfile) {
+      // Safely get availability data with fallbacks
+      const availability = existingProfile.availability || {};
+      const safeAvailability = {
+        hours_per_week: availability.hours_per_week || DEFAULT_AVAILABILITY.hours_per_week,
+        available_days: Array.isArray(availability.available_days) ? availability.available_days : DEFAULT_AVAILABILITY.available_days,
+        start_time: availability.start_time || DEFAULT_AVAILABILITY.start_time,
+        end_time: availability.end_time || DEFAULT_AVAILABILITY.end_time
+      };
+
       setFormData({
         title: existingProfile.title || '',
         experienceLevel: existingProfile.experience_level || 'SENIOR',
@@ -63,15 +82,12 @@ export default function DevProfileForm({ userId, existingProfile, onCancel }: De
         githubUrl: existingProfile.github_url || '',
         linkedinUrl: existingProfile.linkedin_url || '',
         portfolioUrl: existingProfile.portfolio_url || '',
-        skills: existingProfile.skills || [],
-        aiToolsExperience: existingProfile.ai_tools_experience || [],
-        specializations: existingProfile.specializations || [],
-        languages: existingProfile.languages || [],
-        availability: existingProfile.availability || {
-          hours_per_week: 0,
-          preferred_times: []
-        },
-        certifications: existingProfile.certifications || [],
+        skills: Array.isArray(existingProfile.skills) ? existingProfile.skills : [],
+        aiToolsExperience: Array.isArray(existingProfile.ai_tools_experience) ? existingProfile.ai_tools_experience : [],
+        specializations: Array.isArray(existingProfile.specializations) ? existingProfile.specializations : [],
+        languages: Array.isArray(existingProfile.languages) ? existingProfile.languages : [],
+        availability: safeAvailability,
+        certifications: Array.isArray(existingProfile.certifications) ? existingProfile.certifications : [],
         company: existingProfile.company || ''
       });
     }
@@ -83,6 +99,14 @@ export default function DevProfileForm({ userId, existingProfile, onCancel }: De
     setError(null);
 
     try {
+      // Validate availability data
+      const safeAvailability = {
+        hours_per_week: Math.max(1, Math.min(168, Number(formData.availability.hours_per_week) || DEFAULT_AVAILABILITY.hours_per_week)),
+        available_days: Array.isArray(formData.availability.available_days) ? formData.availability.available_days : DEFAULT_AVAILABILITY.available_days,
+        start_time: formData.availability.start_time || DEFAULT_AVAILABILITY.start_time,
+        end_time: formData.availability.end_time || DEFAULT_AVAILABILITY.end_time
+      };
+
       const response = await fetch('/api/profile', {
         method: existingProfile ? 'PUT' : 'POST',
         headers: {
@@ -91,9 +115,10 @@ export default function DevProfileForm({ userId, existingProfile, onCancel }: De
         body: JSON.stringify({
           userId,
           ...formData,
-          yearsOfExperience: parseInt(formData.yearsOfExperience),
+          yearsOfExperience: parseInt(formData.yearsOfExperience) || 0,
           hourlyRate: formData.hourlyRate ? parseFloat(formData.hourlyRate) : null,
-          location: formData.country
+          location: formData.country,
+          availability: safeAvailability
         }),
       });
 
@@ -123,6 +148,26 @@ export default function DevProfileForm({ userId, existingProfile, onCancel }: De
     }
   };
 
+  const toggleDay = (day: string) => {
+    setFormData(prev => {
+      const currentDays = Array.isArray(prev.availability.available_days) 
+        ? prev.availability.available_days 
+        : [];
+      
+      const days = currentDays.includes(day)
+        ? currentDays.filter(d => d !== day)
+        : [...currentDays, day];
+
+      return {
+        ...prev,
+        availability: {
+          ...prev.availability,
+          available_days: days
+        }
+      };
+    });
+  };
+
   const handleAiToolAdd = () => {
     setFormData(prev => ({
       ...prev,
@@ -140,6 +185,16 @@ export default function DevProfileForm({ userId, existingProfile, onCancel }: De
         ...prev.certifications,
         { name: '', issuer: '', year: new Date().getFullYear() }
       ]
+    }));
+  };
+
+  const handleAvailabilityChange = (field: keyof typeof DEFAULT_AVAILABILITY, value: any) => {
+    setFormData(prev => ({
+      ...prev,
+      availability: {
+        ...prev.availability,
+        [field]: value
+      }
     }));
   };
 
@@ -325,6 +380,82 @@ export default function DevProfileForm({ userId, existingProfile, onCancel }: De
           >
             + Add AI Tool
           </button>
+        </div>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-3">
+          Availability
+        </label>
+        
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm text-gray-600 mb-2">
+              Hours per week
+            </label>
+            <input
+              type="number"
+              min="1"
+              max="168"
+              value={formData.availability?.hours_per_week || DEFAULT_AVAILABILITY.hours_per_week}
+              onChange={(e) => handleAvailabilityChange('hours_per_week', Math.max(1, Math.min(168, parseInt(e.target.value) || DEFAULT_AVAILABILITY.hours_per_week)))}
+              className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm text-gray-600 mb-2">
+              Available Days
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {DAYS_OF_WEEK.map(day => (
+                <button
+                  key={day}
+                  type="button"
+                  onClick={() => toggleDay(day)}
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                    formData.availability?.available_days?.includes(day)
+                      ? 'bg-black text-white'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  }`}
+                >
+                  {day}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm text-gray-600 mb-2">
+                Start Time
+              </label>
+              <select
+                value={formData.availability?.start_time || DEFAULT_AVAILABILITY.start_time}
+                onChange={(e) => handleAvailabilityChange('start_time', e.target.value)}
+                className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+              >
+                {TIME_SLOTS.map(time => (
+                  <option key={time} value={time}>{time}</option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-sm text-gray-600 mb-2">
+                End Time
+              </label>
+              <select
+                value={formData.availability?.end_time || DEFAULT_AVAILABILITY.end_time}
+                onChange={(e) => handleAvailabilityChange('end_time', e.target.value)}
+                className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+              >
+                {TIME_SLOTS.map(time => (
+                  <option key={time} value={time}>{time}</option>
+                ))}
+              </select>
+            </div>
+          </div>
         </div>
       </div>
 
