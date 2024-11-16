@@ -50,6 +50,8 @@ model User {
   image_url           String?        @map("image_url")
   theme               String?        @default("light")
   language            String?        @default("en")
+  country             String?
+  timezone            String?
   email_notifications Boolean        @default(true)
   created_at          DateTime       @default(now()) @map("created_at")
   updated_at          DateTime       @updatedAt @map("updated_at")
@@ -73,7 +75,6 @@ model DevProfile {
   experience_level     ExperienceLevel
   years_of_experience  Int
   bio                  String         @db.Text
-  location            String?
   timezone            String?
   hourly_rate         Decimal?       @db.Decimal(10, 2)
   github_url          String?

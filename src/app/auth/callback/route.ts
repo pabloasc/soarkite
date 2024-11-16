@@ -8,6 +8,7 @@ const prisma = new PrismaClient();
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const code = searchParams.get('code');
+  const timezone = searchParams.get('timezone') || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   if (code) {
     const supabase = await createClient();
@@ -25,13 +26,14 @@ export async function GET(request: NextRequest) {
           // Get role from user metadata
           const role = user.user_metadata?.role || 'USER';
 
-          // Create new user in database
+          // Create new user in database with timezone
           await prisma.user.create({
             data: {
               id: user.id,
               email: user.email!,
               name: user.user_metadata.name || null,
-              role: role
+              role: role,
+              timezone: timezone
             },
           });
         }

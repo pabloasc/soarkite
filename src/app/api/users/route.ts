@@ -14,7 +14,8 @@ export async function POST(request: Request) {
         id: body.id,
         email: body.email,
         name: body.name,
-        role: body.role
+        role: body.role,
+        timezone: body.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone
       }
     });
 

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Star, MapPin, Clock, Activity } from 'lucide-react';
 import { createClient } from '@/lib/auth/client/client';
+import { formatInTimeZone } from 'date-fns-tz';
 
 interface DevelopersListProps {
   developers: any[]; // Type this based on your User model with includes
@@ -12,7 +13,12 @@ interface DevelopersListProps {
 
 export default function DevelopersList({ developers }: DevelopersListProps) {
   const [onlineDevelopers, setOnlineDevelopers] = useState<Set<string>>(new Set());
+  const [userTimezone, setUserTimezone] = useState('');
   const supabase = createClient();
+
+  useEffect(() => {
+    setUserTimezone(Intl.DateTimeFormat().resolvedOptions().timeZone);
+  }, []);
 
   useEffect(() => {
     // Subscribe to presence changes
@@ -50,19 +56,20 @@ export default function DevelopersList({ developers }: DevelopersListProps) {
       if (!developer?.dev_profile?.availability) return false;
 
       const { available_days, start_time, end_time } = developer.dev_profile.availability;
+      const devTimezone = developer.timezone || 'UTC';
 
       // Safety checks for availability data
       if (!Array.isArray(available_days) || !start_time || !end_time) return false;
 
+      // Convert current time to developer's timezone
       const now = new Date();
-      const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-      const currentDay = days[now.getDay()];
-      const currentHour = now.getHours().toString().padStart(2, '0') + ':00';
+      const devTime = formatInTimeZone(now, devTimezone, 'HH:mm');
+      const devDay = formatInTimeZone(now, devTimezone, 'EEEE');
 
       return (
-        available_days.includes(currentDay) &&
-        currentHour >= start_time &&
-        currentHour <= end_time &&
+        available_days.includes(devDay) &&
+        devTime >= start_time &&
+        devTime <= end_time &&
         onlineDevelopers.has(developer.id)
       );
     } catch (error) {
@@ -74,10 +81,32 @@ export default function DevelopersList({ developers }: DevelopersListProps) {
   const getAvailabilityTime = (developer: any) => {
     try {
       const availability = developer?.dev_profile?.availability;
-      if (!availability?.start_time || !availability?.end_time) {
+      const devTimezone = developer.timezone;
+      
+      if (!availability?.start_time || !availability?.end_time || !devTimezone) {
         return 'Schedule not set';
       }
-      return `${availability.start_time} - ${availability.end_time}`;
+
+      // If developer timezone is different from user timezone, show both
+      if (devTimezone !== userTimezone) {
+        const now = new Date();
+        const [startHour] = availability.start_time.split(':');
+        const [endHour] = availability.end_time.split(':');
+
+        // Set the hours to create full date objects
+        const startDate = new Date(now);
+        startDate.setHours(parseInt(startHour), 0, 0, 0);
+        const endDate = new Date(now);
+        endDate.setHours(parseInt(endHour), 0, 0, 0);
+
+        // Format times in user's timezone
+        const userStartTime = formatInTimeZone(startDate, userTimezone, 'HH:mm');
+        const userEndTime = formatInTimeZone(endDate, userTimezone, 'HH:mm');
+
+        return `${availability.start_time}-${availability.end_time} (${devTimezone})\n${userStartTime}-${userEndTime} (${userTimezone})`;
+      }
+
+      return `${availability.start_time}-${availability.end_time} (${devTimezone})`;
     } catch (error) {
       return 'Schedule not set';
     }
@@ -142,15 +171,15 @@ export default function DevelopersList({ developers }: DevelopersListProps) {
           {developer.dev_profile && (
             <>
               <div className="space-y-2 text-sm text-gray-600 mb-4">
-                {developer.dev_profile.location && (
+                {developer.country && (
                   <div className="flex items-center gap-2">
                     <MapPin className="h-4 w-4" />
-                    <span>{developer.dev_profile.location}</span>
+                    <span>{developer.country}</span>
                   </div>
                 )}
                 <div className="flex items-center gap-2">
                   <Clock className="h-4 w-4" />
-                  <span>{getAvailabilityTime(developer)}</span>
+                  <span className="whitespace-pre-line">{getAvailabilityTime(developer)}</span>
                 </div>
               </div>
 

@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Loader2 } from 'lucide-react';
-import { countries } from 'countries-list';
 
 const EXPERIENCE_LEVELS = ['INTERMEDIATE', 'SENIOR', 'LEAD', 'ARCHITECT'];
 const AI_TOOLS = ['GitHub Copilot', 'Cursor IDE', 'V0', 'bolt.new', 'ChatGPT', 'Claude'];
@@ -22,13 +21,6 @@ const DEFAULT_AVAILABILITY = {
   end_time: '17:00'
 };
 
-// Convert countries object to array and sort by name
-const COUNTRIES = Object.entries(countries).map(([code, country]) => ({
-  code,
-  name: country.name,
-  timezone: '',
-})).sort((a, b) => a.name.localeCompare(b.name));
-
 interface DevProfileFormProps {
   userId: string;
   existingProfile?: any;
@@ -45,8 +37,6 @@ export default function DevProfileForm({ userId, existingProfile, onCancel }: De
     experienceLevel: 'SENIOR',
     yearsOfExperience: '',
     bio: '',
-    country: '',
-    timezone: '',
     hourlyRate: '',
     githubUrl: '',
     linkedinUrl: '',
@@ -76,8 +66,6 @@ export default function DevProfileForm({ userId, existingProfile, onCancel }: De
         experienceLevel: existingProfile.experience_level || 'SENIOR',
         yearsOfExperience: existingProfile.years_of_experience?.toString() || '',
         bio: existingProfile.bio || '',
-        country: existingProfile.location || '',
-        timezone: existingProfile.timezone || '',
         hourlyRate: existingProfile.hourly_rate?.toString() || '',
         githubUrl: existingProfile.github_url || '',
         linkedinUrl: existingProfile.linkedin_url || '',
@@ -117,7 +105,6 @@ export default function DevProfileForm({ userId, existingProfile, onCancel }: De
           ...formData,
           yearsOfExperience: parseInt(formData.yearsOfExperience) || 0,
           hourlyRate: formData.hourlyRate ? parseFloat(formData.hourlyRate) : null,
-          location: formData.country,
           availability: safeAvailability
         }),
       });
@@ -134,17 +121,6 @@ export default function DevProfileForm({ userId, existingProfile, onCancel }: De
       setError(error.message);
     } finally {
       setLoading(false);
-    }
-  };
-
-  const handleCountryChange = (countryCode: string) => {
-    const selectedCountry = COUNTRIES.find(c => c.code === countryCode);
-    if (selectedCountry) {
-      setFormData(prev => ({
-        ...prev,
-        country: selectedCountry.name,
-        timezone: selectedCountry.timezone
-      }));
     }
   };
 
@@ -264,24 +240,6 @@ export default function DevProfileForm({ userId, existingProfile, onCancel }: De
           className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
           placeholder="Tell us about your experience and expertise..."
         />
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Country
-        </label>
-        <select
-          value={COUNTRIES.find(c => c.name === formData.country)?.code || ''}
-          onChange={(e) => handleCountryChange(e.target.value)}
-          className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
-        >
-          <option value="">Select Country</option>
-          {COUNTRIES.map(country => (
-            <option key={country.code} value={country.code}>
-              {country.name}
-            </option>
-          ))}
-        </select>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

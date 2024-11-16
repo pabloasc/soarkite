@@ -1,11 +1,18 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { User } from '@supabase/supabase-js';
 import { Loader2, Upload, X } from 'lucide-react';
 import Image from 'next/image';
 import { initializeStorage } from '@/lib/supabase';
-import { createClient } from '@/lib/auth/client/client'
+import { createClient } from '@/lib/auth/client/client';
+import { countries } from 'countries-list';
+
+// Convert countries object to array and sort by name
+const COUNTRIES = Object.entries(countries).map(([code, country]) => ({
+  code,
+  name: country.name,
+})).sort((a, b) => a.name.localeCompare(b.name));
 
 interface SettingsFormProps {
   user: User;
@@ -21,10 +28,18 @@ export default function SettingsForm({ user, profile }: SettingsFormProps) {
   const [formData, setFormData] = useState({
     name: profile?.name || '',
     role: profile?.role || 'USER',
+    country: profile?.country || '',
+    timezone: '',
     email_notifications: profile?.email_notifications ?? true,
     theme: profile?.theme || 'light',
     language: profile?.language || 'en',
   });
+
+  // Set initial timezone from profile or browser
+  useEffect(() => {
+    const initialTimezone = profile?.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone;
+    setFormData(prev => ({ ...prev, timezone: initialTimezone }));
+  }, [profile?.timezone]);
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -44,10 +59,8 @@ export default function SettingsForm({ user, profile }: SettingsFormProps) {
     setMessage(null);
 
     try {
-      // Initialize storage with policies
       await initializeStorage('soarkite');
 
-      // Delete existing image if any
       if (imageUrl) {
         const oldFileName = imageUrl.split('/').pop();
         if (oldFileName) {
@@ -57,7 +70,6 @@ export default function SettingsForm({ user, profile }: SettingsFormProps) {
         }
       }
 
-      // Upload new image
       const fileExt = file.name.split('.').pop();
       const fileName = `${user.id}-${Date.now()}.${fileExt}`;
 
@@ -71,12 +83,10 @@ export default function SettingsForm({ user, profile }: SettingsFormProps) {
 
       if (uploadError) throw uploadError;
 
-      // Get public URL
       const { data: { publicUrl } } = supabase.storage
         .from('soarkite')
         .getPublicUrl(fileName);
 
-      // Update user profile
       const { error: updateError } = await supabase
         .from('users')
         .update({ image_url: publicUrl })
@@ -138,6 +148,8 @@ export default function SettingsForm({ user, profile }: SettingsFormProps) {
         .update({
           name: formData.name,
           role: formData.role,
+          country: formData.country,
+          timezone: formData.timezone,
           email_notifications: formData.email_notifications,
           theme: formData.theme,
           language: formData.language,
@@ -225,6 +237,48 @@ export default function SettingsForm({ user, profile }: SettingsFormProps) {
           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
           className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
         />
+      </div>
+
+      <div>
+        <label htmlFor="country" className="block text-sm font-medium text-gray-700 mb-1">
+          Country
+        </label>
+        <select
+          id="country"
+          value={COUNTRIES.find(c => c.name === formData.country)?.code || ''}
+          onChange={(e) => {
+            const country = COUNTRIES.find(c => c.code === e.target.value);
+            if (country) {
+              setFormData({ ...formData, country: country.name });
+            }
+          }}
+          className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+        >
+          <option value="">Select Country</option>
+          {COUNTRIES.map(country => (
+            <option key={country.code} value={country.code}>
+              {country.name}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div>
+        <label htmlFor="timezone" className="block text-sm font-medium text-gray-700 mb-1">
+          Timezone
+        </label>
+        <select
+          id="timezone"
+          value={formData.timezone}
+          onChange={(e) => setFormData({ ...formData, timezone: e.target.value })}
+          className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+        >
+          {Intl.supportedValuesOf('timeZone').map(timezone => (
+            <option key={timezone} value={timezone}>
+              {timezone}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Linkedin, DollarSign, Code } from 'lucide-react';
@@ -19,6 +19,12 @@ export default function SignUp() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [timezone, setTimezone] = useState('');
+
+  useEffect(() => {
+    // Get user's timezone from browser
+    setTimezone(Intl.DateTimeFormat().resolvedOptions().timeZone);
+  }, []);
 
   const handleEmailSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,7 +49,7 @@ export default function SignUp() {
       if (signUpError) throw signUpError;
       if (!user) throw new Error('Failed to create user');
 
-      // Create user in database
+      // Create user in database with timezone
       const response = await fetch('/api/users', {
         method: 'POST',
         headers: {
@@ -53,7 +59,8 @@ export default function SignUp() {
           id: user.id,
           email: user.email,
           name,
-          role: role === 'senior_dev' ? 'SENIOR_DEV' : 'USER'
+          role: role === 'senior_dev' ? 'SENIOR_DEV' : 'USER',
+          timezone
         }),
       });
 
@@ -83,6 +90,7 @@ export default function SignUp() {
           access_type: 'offline',
           prompt: 'consent',
           role: role === 'senior_dev' ? 'SENIOR_DEV' : 'USER',
+          timezone // Pass timezone as query parameter
         },
       },
     });
@@ -100,6 +108,7 @@ export default function SignUp() {
         redirectTo: `${window.location.origin}/auth/callback`,
         queryParams: {
           role: role === 'senior_dev' ? 'SENIOR_DEV' : 'USER',
+          timezone // Pass timezone as query parameter
         },
       },
     });
