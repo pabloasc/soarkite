@@ -5,7 +5,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Star, MapPin, Clock, Activity } from 'lucide-react';
 import { createClient } from '@/lib/auth/client/client';
-import { formatInTimeZone } from 'date-fns-tz';
+import { formatInTimeZone, zonedTimeToUtc } from 'date-fns-tz';
+import { addDays } from 'date-fns';
 
 interface DevelopersListProps {
   developers: any[]; // Type this based on your User model with includes
@@ -61,15 +62,15 @@ export default function DevelopersList({ developers }: DevelopersListProps) {
       // Safety checks for availability data
       if (!Array.isArray(available_days) || !start_time || !end_time) return false;
 
-      // Convert current time to developer's timezone
+      // Get current time in developer's timezone
       const now = new Date();
-      const devTime = formatInTimeZone(now, devTimezone, 'HH:mm');
+      const devNow = formatInTimeZone(now, devTimezone, 'HH:mm');
       const devDay = formatInTimeZone(now, devTimezone, 'EEEE');
 
       return (
         available_days.includes(devDay) &&
-        devTime >= start_time &&
-        devTime <= end_time &&
+        devNow >= start_time &&
+        devNow <= end_time &&
         onlineDevelopers.has(developer.id)
       );
     } catch (error) {
@@ -90,24 +91,34 @@ export default function DevelopersList({ developers }: DevelopersListProps) {
       // If developer timezone is different from user timezone, show both
       if (devTimezone !== userTimezone) {
         const now = new Date();
-        const [startHour] = availability.start_time.split(':');
-        const [endHour] = availability.end_time.split(':');
+        const [startHour, startMinute] = availability.start_time.split(':').map(Number);
+        const [endHour, endMinute] = availability.end_time.split(':').map(Number);
 
-        // Set the hours to create full date objects
-        const startDate = new Date(now);
-        startDate.setHours(parseInt(startHour), 0, 0, 0);
-        const endDate = new Date(now);
-        endDate.setHours(parseInt(endHour), 0, 0, 0);
+        // Create dates in developer's timezone
+        const devStartDate = zonedTimeToUtc(
+          new Date(now.getFullYear(), now.getMonth(), now.getDate(), startHour, startMinute),
+          devTimezone
+        );
+        const devEndDate = zonedTimeToUtc(
+          new Date(now.getFullYear(), now.getMonth(), now.getDate(), endHour, endMinute),
+          devTimezone
+        );
 
-        // Format times in user's timezone
-        const userStartTime = formatInTimeZone(startDate, userTimezone, 'HH:mm');
-        const userEndTime = formatInTimeZone(endDate, userTimezone, 'HH:mm');
+        // If end time is before start time, add a day to end time
+        if (devEndDate < devStartDate) {
+          devEndDate.setDate(devEndDate.getDate() + 1);
+        }
 
-        return `${availability.start_time}-${availability.end_time} (${devTimezone})\n${userStartTime}-${userEndTime} (${userTimezone})`;
+        // Format times in both timezones
+        const userStartTime = formatInTimeZone(devStartDate, userTimezone, 'HH:mm');
+        const userEndTime = formatInTimeZone(devEndDate, userTimezone, 'HH:mm');
+
+        return `${availability.start_time}-${availability.end_time} (${devTimezone})\n${userStartTime}-${userEndTime} (your time)`;
       }
 
       return `${availability.start_time}-${availability.end_time} (${devTimezone})`;
     } catch (error) {
+      console.error('Error formatting availability time:', error);
       return 'Schedule not set';
     }
   };
