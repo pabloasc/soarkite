@@ -28,7 +28,7 @@ export default async function Home() {
                   Expert guidance for your AI journey
                 </h1>
                 <p className="text-xl text-gray-600 mb-8">
-                  Receive instant support from expert professionals to elevate your AI coding, design, and photography projects to new heights.
+                  Receive instant support from professionals to elevate your projects to new heights.
                 </p>
                 <div className="flex gap-4">
                   {user ? (
@@ -80,7 +80,7 @@ export default async function Home() {
                   <FileCode size={24} className="text-blue-500" />
                 </div>
                 <h3 className="text-xl font-medium mb-3">Create Request</h3>
-                <p className="text-gray-600">Specify your AI tool and project details. Whether it's during coding or image creation, describe what you're working on and where you need help.</p>
+                <p className="text-gray-600">Specify your AI tool and project details. Whether it's during coding or designing, describe what you're working on and where you need help.</p>
               </div>
               <div className="p-8 bg-white rounded-lg">
                 <div className="w-12 h-12 bg-purple-50 rounded-lg flex items-center justify-center mb-6">

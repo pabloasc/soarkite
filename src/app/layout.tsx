@@ -42,20 +42,15 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: [
-      { url: "/icons/favicon.ico" },
-      { url: "/icons/favicon-16x16.png", sizes: "16x16", type: "image/png" },
-      { url: "/icons/favicon-32x32.png", sizes: "32x32", type: "image/png" }
-    ],
+    icon: ["/icons/favicon.ico"],
+    shortcut: ["/icons/favicon.ico"],
     apple: [
-      { url: "/icons/apple-touch-icon.png" }
+      { url: "/icons/apple-touch-icon.png", sizes: "180x180", type: "image/png" }
     ],
     other: [
-      {
-        rel: "mask-icon",
-        url: "/icons/safari-pinned-tab.svg",
-        color: "#000000"
-      }
+      { rel: "icon", type: "image/png", sizes: "32x32", url: "/icons/favicon-32x32.png" },
+      { rel: "icon", type: "image/png", sizes: "16x16", url: "/icons/favicon-16x16.png" },
+      { rel: "mask-icon", url: "/icons/safari-pinned-tab.svg", color: "#000000" }
     ]
   },
   manifest: "/manifest.json",
@@ -95,7 +90,8 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#000000" />
         <link rel="icon" href="/icons/favicon.ico" sizes="any" />
-        <link rel="icon" href="/icons/favicon.svg" type="image/svg+xml" />
+        <link rel="icon" href="/icons/favicon-32x32.png" sizes="32x32" type="image/png" />
+        <link rel="icon" href="/icons/favicon-16x16.png" sizes="16x16" type="image/png" />
         <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
         <link rel="manifest" href="/manifest.json" />
       </head>

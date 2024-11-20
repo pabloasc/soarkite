@@ -143,7 +143,7 @@ export default function SignUp() {
               </div>
               <h3 className="text-lg font-medium mb-2">Creator</h3>
               <p className="text-sm opacity-80">
-                Receive expert assistance with your AI creations.
+                Receive expert's assistance.
               </p>
             </button>
             <button

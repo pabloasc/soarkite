@@ -1,4 +1,13 @@
 User-agent: *
 Allow: /
 
+# Disallow admin and private routes
+Disallow: /admin/
+Disallow: /private/
+Disallow: /api/
+
+# Crawl delay
+Crawl-delay: 10
+
+# Sitemaps
 Sitemap: https://soarkite.com/sitemap.xml
