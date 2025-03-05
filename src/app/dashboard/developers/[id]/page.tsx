@@ -7,13 +7,16 @@ export const dynamic = "force-dynamic"
 
 const prisma = new PrismaClient();
 
-interface Props {
-  params: {
+type Props = {
+  params: Promise<{
     id: string;
-  };
+  }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
-export default async function DeveloperProfile({ params }: Props) {
+export default async function DeveloperProfile({ params, searchParams }: Props) {
+  const { id } = await params;
+  const searchParamsData = await searchParams;
   const user = await getUserInfo();
 
   if (!user) {
@@ -23,7 +26,7 @@ export default async function DeveloperProfile({ params }: Props) {
   // Get developer with profile and reviews
   const developer = await prisma.user.findUnique({
     where: {
-      id: params.id,
+      id,
       role: 'SENIOR_DEV'
     },
     include: {

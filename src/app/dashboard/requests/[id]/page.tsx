@@ -2,17 +2,21 @@ import { redirect, notFound } from 'next/navigation';
 import { PrismaClient } from '@prisma/client';
 import RequestDetail from '@/components/dashboard/request-detail';
 import { getUserInfo } from '@/lib/auth/server/supabase';
+import type { NextPage, GetServerSideProps } from 'next';
 export const dynamic = "force-dynamic"
 
 const prisma = new PrismaClient();
 
-interface Props {
-  params: {
+type Props = {
+  params: Promise<{
     id: string;
-  };
+  }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
-export default async function RequestPage({ params }: Props) {
+export default async function RequestPage({ params, searchParams }: Props) {
+  const { id } = await params;
+  const searchParamsData = await searchParams;
   const user = await getUserInfo();
 
   if (!user) {
@@ -27,7 +31,7 @@ export default async function RequestPage({ params }: Props) {
 
   // Get request with all related data
   const request = await prisma.helpRequest.findUnique({
-    where: { id: params.id },
+    where: { id },
     include: {
       user: {
         select: {

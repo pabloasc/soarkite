@@ -6,7 +6,7 @@ import { cookies } from 'next/headers';
 // The function takes a cookie store created with next/headers cookies as an argument
 // More information can be found on: https://supabase.com/docs/guides/auth/server-side/nextjs?queryGroups=router&router=app
 export const createServerSupabaseClient = async () => {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
 
   return createServerClient(
     // Pass Supabase URL and anonymous key from the environment to the client
@@ -16,10 +16,10 @@ export const createServerSupabaseClient = async () => {
     // Define a cookies object with methods for interacting with the cookie store and pass it to the client
     {
       cookies: {
-        getAll() {
+        async getAll() {
           return cookieStore.getAll();
         },
-        setAll(cookiesToSet) {
+        async setAll(cookiesToSet) {
           cookiesToSet.forEach(({ name, value, options }) =>
             cookieStore.set(name, value, options)
           );
