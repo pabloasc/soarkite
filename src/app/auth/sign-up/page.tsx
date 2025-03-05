@@ -119,27 +119,27 @@ export default function SignUp() {
   };
 
   return (
-    <div className="min-h-[calc(100vh-64px)] flex flex-col items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-normal text-gray-900">
+    <div className="min-h-[calc(100vh-64px)] flex flex-col items-center justify-center bg-gray-50 py-16 px-6 sm:px-8 lg:px-10">
+      <div className="w-full max-w-lg">
+        <div className="text-center mb-10">
+          <h2 className="text-3xl font-semibold text-gray-900">
             Create your account
           </h2>
         </div>
 
         {/* Role Toggle Section */}
-        <div className="mb-8">
-          <div className="flex gap-4">
+        <div className="mb-10">
+          <div className="flex gap-6">
             <button
               onClick={() => setRole('user')}
-              className={`flex-1 p-6 rounded-lg border-2 transition-all ${
+              className={`flex-1 p-8 rounded-lg border-2 transition-all ${
                 role === 'user'
                   ? 'border-black bg-black text-white'
                   : 'border-gray-200 hover:border-gray-300'
               }`}
             >
-              <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mb-4 mx-auto">
-                <Code size={24} className="text-blue-500" />
+              <div className="w-14 h-14 bg-blue-50 rounded-lg flex items-center justify-center mb-6 mx-auto">
+                <Code size={28} className="text-blue-500" />
               </div>
               <h3 className="text-lg font-medium mb-2">Creator</h3>
               <p className="text-sm opacity-80">
@@ -148,14 +148,14 @@ export default function SignUp() {
             </button>
             <button
               onClick={() => setRole('senior_dev')}
-              className={`flex-1 p-6 rounded-lg border-2 transition-all ${
+              className={`flex-1 p-8 rounded-lg border-2 transition-all ${
                 role === 'senior_dev'
                   ? 'border-black bg-black text-white'
                   : 'border-gray-200 hover:border-gray-300'
               }`}
             >
-              <div className="w-12 h-12 bg-green-50 rounded-lg flex items-center justify-center mb-4 mx-auto">
-                <DollarSign size={24} className="text-green-500" />
+              <div className="w-14 h-14 bg-green-50 rounded-lg flex items-center justify-center mb-6 mx-auto">
+                <DollarSign size={28} className="text-green-500" />
               </div>
               <h3 className="text-lg font-medium mb-2">AI expert</h3>
               <p className="text-sm opacity-80">
@@ -165,20 +165,20 @@ export default function SignUp() {
           </div>
         </div>
 
-        <div className="bg-white py-8 px-4 shadow-sm rounded-lg sm:px-10">
+        <div className="bg-white py-10 px-6 shadow-lg rounded-lg sm:px-12">
           {error && (
-            <div className="mb-4 p-3 bg-red-50 text-red-700 text-sm rounded-md">
+            <div className="mb-6 p-4 bg-red-50 text-red-700 text-sm rounded-md">
               {error}
             </div>
           )}
 
           {successMessage && (
-            <div className="mb-4 p-3 bg-green-50 text-green-700 text-sm rounded-md">
+            <div className="mb-6 p-4 bg-green-50 text-green-700 text-sm rounded-md">
               {successMessage}
             </div>
           )}
 
-          <form className="space-y-6" onSubmit={handleEmailSignUp}>
+          <form className="space-y-8" onSubmit={handleEmailSignUp}>
             <div>
               <label
                 htmlFor="name"
@@ -194,7 +194,7 @@ export default function SignUp() {
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
+                className="mt-1 block w-full rounded-md border border-gray-300 px-4 py-3 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
               />
             </div>
 
@@ -213,7 +213,7 @@ export default function SignUp() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
+                className="mt-1 block w-full rounded-md border border-gray-300 px-4 py-3 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
               />
             </div>
 
@@ -232,7 +232,7 @@ export default function SignUp() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
+                className="mt-1 block w-full rounded-md border border-gray-300 px-4 py-3 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
               />
             </div>
 
@@ -240,14 +240,14 @@ export default function SignUp() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? 'Creating account...' : 'Create account'}
               </button>
             </div>
           </form>
 
-          <div className="mt-6">
+          <div className="mt-8">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-gray-300" />
@@ -259,10 +259,10 @@ export default function SignUp() {
               </div>
             </div>
 
-            <div className="mt-6 grid grid-cols-2 gap-3">
+            <div className="mt-8 grid grid-cols-2 gap-4">
               <button
                 onClick={handleGoogleSignUp}
-                className="w-full inline-flex justify-center items-center gap-2 py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                className="w-full inline-flex justify-center items-center gap-2 py-3 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
               >
                 <svg className="h-5 w-5" viewBox="0 0 24 24">
                   <path
@@ -286,7 +286,7 @@ export default function SignUp() {
               </button>
               <button
                 onClick={handleLinkedInSignUp}
-                className="w-full inline-flex justify-center items-center gap-2 py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                className="w-full inline-flex justify-center items-center gap-2 py-3 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
               >
                 <Linkedin className="h-5 w-5 text-[#0A66C2]" />
                 LinkedIn
@@ -294,7 +294,7 @@ export default function SignUp() {
             </div>
           </div>
 
-          <div className="mt-6 text-center text-sm">
+          <div className="mt-8 text-center text-sm">
             <span className="text-gray-600">Already have an account?</span>{' '}
             <Link
               href="/auth/sign-in"

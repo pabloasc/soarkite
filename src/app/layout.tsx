@@ -6,7 +6,7 @@ import Footer from "@/components/footer";
 import Loading from "./loading";
 import { GoogleAnalytics } from '@next/third-parties/google'
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
   title: {
@@ -85,7 +85,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={inter.className}>
+    <html lang="en" className={`${inter.variable} font-serif`}>
       <head>
         <link rel="canonical" href="https://soarkite.com" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -94,7 +94,7 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
         <link rel="manifest" href="/manifest.json" />
       </head>
-      <body className="flex flex-col min-h-screen">
+      <body className="flex flex-col min-h-screen bg-gray-50 text-black">
         <div className="flex-grow">
           <Suspense fallback={<Loading />}>
             {children}
