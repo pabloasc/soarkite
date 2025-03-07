@@ -9,22 +9,19 @@ import { formatInTimeZone } from 'date-fns-tz';
 import DevProfileForm from './dev-profile-form';
 
 interface DevProfileViewProps {
-  profile: any; // Type this based on your DevProfile model
-  reviews: any[]; // Type this based on your DevReview model
-  isOwnProfile?: boolean;
-  user?: {
-    id: string;
-    name?: string | null;
-    email: string;
-    image_url?: string | null;
-    country?: string | null;
-    timezone?: string | null;
-  };
+  developer: any; // Type this based on your User model with includes
+  isAdmin?: boolean;
+  isLoggedIn?: boolean;
 }
 
-export default function DevProfileView({ profile, reviews, isOwnProfile = true, user }: DevProfileViewProps) {
+export default function DevProfileView({ developer, isAdmin = false, isLoggedIn = false }: DevProfileViewProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [userTimezone, setUserTimezone] = useState('');
+
+  const profile = developer.dev_profile;
+  const reviews = developer.reviews_received;
+  const user = developer;
+  const isOwnProfile = isLoggedIn && isAdmin;
 
   useEffect(() => {
     setUserTimezone(Intl.DateTimeFormat().resolvedOptions().timeZone);
@@ -34,7 +31,7 @@ export default function DevProfileView({ profile, reviews, isOwnProfile = true, 
     try {
       const availability = profile?.availability;
       const devTimezone = user?.timezone;
-      
+
       if (!availability?.start_time || !availability?.end_time || !devTimezone) {
         return 'Schedule not set';
       }
@@ -86,6 +83,20 @@ export default function DevProfileView({ profile, reviews, isOwnProfile = true, 
       {/* Main Profile Information */}
       <div className="lg:col-span-2 space-y-8">
         <div className="bg-white rounded-lg shadow-sm p-6">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+            <h1 className="text-3xl font-medium">{profile.title || 'Software Developer'}</h1>
+            
+            {isLoggedIn && isOwnProfile && (
+              <button
+                onClick={() => setIsEditing(true)}
+                className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md text-sm hover:bg-gray-50"
+              >
+                <Edit size={16} />
+                Edit Profile
+              </button>
+            )}
+          </div>
+
           <div className="flex items-start gap-6 mb-6">
             <div className="relative w-24 h-24 flex-shrink-0">
               <div className="relative w-24 h-24 rounded-full overflow-hidden bg-gray-100">
@@ -115,14 +126,6 @@ export default function DevProfileView({ profile, reviews, isOwnProfile = true, 
                     {user?.email}
                   </p>
                 </div>
-                {isOwnProfile && (
-                  <button
-                    onClick={() => setIsEditing(true)}
-                    className="text-gray-600 hover:text-black transition-colors"
-                  >
-                    <Edit className="h-5 w-5" />
-                  </button>
-                )}
               </div>
             </div>
           </div>

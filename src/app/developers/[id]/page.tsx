@@ -1,9 +1,8 @@
-import { redirect, notFound } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import { PrismaClient } from '@prisma/client';
 import DevProfileView from '@/components/dashboard/profile/dev-profile-view';
 import { getUserInfo } from '@/lib/auth/server/supabase';
 export const dynamic = "force-dynamic"
-
 
 const prisma = new PrismaClient();
 
@@ -14,7 +13,7 @@ type Props = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
-export default async function DeveloperProfile({ params, searchParams }: Props) {
+export default async function PublicDeveloperProfile({ params, searchParams }: Props) {
   const { id } = await params;
   const searchParamsData = await searchParams;
   const user = await getUserInfo();
@@ -45,10 +44,18 @@ export default async function DeveloperProfile({ params, searchParams }: Props) 
   }
 
   return (
-    <DevProfileView 
-      developer={developer} 
-      isAdmin={user?.role === 'admin'} 
-      isLoggedIn={!!user}
-    />
+    <div className="min-h-screen bg-gray-50">
+      <main className="container mx-auto px-6 py-8 max-w-6xl">
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-3xl font-normal">Developer Profile</h1>
+        </div>
+
+        <DevProfileView 
+          developer={developer} 
+          isAdmin={user?.role === 'admin'} 
+          isLoggedIn={!!user}
+        />
+      </main>
+    </div>
   );
 }

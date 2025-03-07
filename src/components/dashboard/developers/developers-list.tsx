@@ -223,7 +223,7 @@ export default function DevelopersList({ developers }: DevelopersListProps) {
           )}
 
           <Link
-            href={`/dashboard/developers/${developer.id}`}
+            href={`/developers/${developer.id}`}
             className="block w-full text-center px-4 py-2 border border-black rounded-md text-sm font-medium text-black hover:bg-black hover:text-white transition-colors"
           >
             View Profile
