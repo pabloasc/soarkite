@@ -8,39 +8,41 @@ import { createClient } from '@/lib/auth/client/client';
 import { UserRole } from '@prisma/client';
 
 interface InboxContentProps {
-    user : {
-      id: string,
-      name: string,
-      email: string,
-      role: UserRole,
-      image_url?: string
-    }
+  user: {
+    id: string,
+    name: string,
+    email: string,
+    role: UserRole,
+    image_url?: string
   }
+}
 
 export default function InboxContent({ user }: InboxContentProps) {
   const [messages, setMessages] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
   const supabase = createClient();
 
   useEffect(() => {
     const fetchMessages = async () => {
-      const { data: messages, error } = await supabase
-        .from('messages')
-        .select(`
-          *,
-          sender:sender_id(id, name, email),
-          request:request_id(id, title)
-        `)
-        .eq('receiver_id', user.id)
-        .order('created_at', { ascending: false });
+      try {
+        const { data, error } = await supabase
+          .from('messages')
+          .select(`
+            *,
+            sender:sender_id(id, name, email),
+            request:request_id(id, title)
+          `)
+          .eq('receiver_id', user.id)
+          .order('created_at', { ascending: false });
 
-      if (error) {
-        console.error('Error fetching messages:', error);
-        return;
+        if (error) {
+          console.error('Error fetching messages:', error);
+          return;
+        }
+
+        setMessages(data || []);
+      } catch (error) {
+        console.error('Error in fetchMessages:', error);
       }
-
-      setMessages(messages || []);
-      setLoading(false);
     };
 
     fetchMessages();
@@ -57,7 +59,7 @@ export default function InboxContent({ user }: InboxContentProps) {
       return;
     }
 
-    setMessages(messages.map(msg => 
+    setMessages(messages.map(msg =>
       msg.id === messageId ? { ...msg, read: true } : msg
     ));
   };
@@ -71,14 +73,11 @@ export default function InboxContent({ user }: InboxContentProps) {
         </div>
       </div>
 
-      {loading ? (
-        <div className="bg-white rounded-lg shadow-sm p-6 text-center">
-          <p className="text-gray-500">Loading messages...</p>
-        </div>
-      ) : messages.length === 0 ? (
+      {messages.length === 0 ? (
         <div className="bg-white rounded-lg shadow-sm p-6 text-center">
           <MessageSquare className="mx-auto h-12 w-12 text-gray-400" />
           <p className="mt-2 text-gray-500">No messages yet</p>
+          <p className="text-gray-400 mt-1">When you receive messages, they will appear here</p>
         </div>
       ) : (
         <div className="space-y-4">
@@ -137,4 +136,4 @@ export default function InboxContent({ user }: InboxContentProps) {
       )}
     </main>
   );
-} 
+}

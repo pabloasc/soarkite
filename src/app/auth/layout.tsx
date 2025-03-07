@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import Header from "@/components/shared/header";
 
 export default function AuthLayout({
@@ -9,7 +8,7 @@ export default function AuthLayout({
   return (
     <>
       <Header />
-      <Suspense>{children}</Suspense>
+      {children}
     </>
   );
 }

@@ -14,8 +14,8 @@ export default function Terms() {
         <div className="container mx-auto flex justify-between items-center px-6 py-4">
           <Link href="/" className="h-8 w-32 relative">
             <Image
-              src="/images/soarkite_logo.png"
-              alt="Soarkite"
+              src="/images/logo.png"
+              alt="vibecoders"
               fill
               className="object-contain"
               priority

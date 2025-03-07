@@ -1,7 +1,7 @@
 {
-  "name": "Soarkite",
-  "short_name": "Soarkite",
-  "description": "Get expert guidance for your AI journey",
+  "name": "vibecoders",
+  "short_name": "videcoders",
+  "description": "The largest community of vibecoders",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

@@ -77,8 +77,8 @@ export default function Header({ user }: HeaderProps) {
           <Link href={user ? '/dashboard' : '/'} className="flex-shrink-0">
             <div className="h-8 w-40 relative">
               <Image
-                src="/images/soarkite_logo.png"
-                alt="Soarkite Logo"
+                src="/images/logo.png"
+                alt="vibecoders"
                 fill
                 className="object-contain"
                 priority

@@ -1,16 +1,14 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/footer";
-import Loading from "./loading";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
   title: {
-    default: "Soarkite - Expert Help with AI Coding Tools",
-    template: "%s | Soarkite"
+    default: "vibecoders.co",
+    template: "%s | Vibecoders"
   },
   description: "Get real-time expert guidance from experienced developers while using AI coding tools like GitHub Copilot, Cursor IDE, V0, and bolt.new. Connect with senior developers for personalized AI coding assistance.",
   keywords: [
@@ -30,9 +28,9 @@ export const metadata: Metadata = {
     "coding mentorship",
     "developer consultation"
   ],
-  authors: [{ name: "Soarkite" }],
-  creator: "Soarkite",
-  publisher: "Soarkite",
+  authors: [{ name: "vibecoders" }],
+  creator: "vibecoders",
+  publisher: "vibecoders",
   robots: {
     index: true,
     follow: true,
@@ -58,23 +56,23 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://soarkite.com",
-    siteName: "Soarkite",
-    title: "Soarkite - Expert Help with AI Coding Tools",
+    siteName: "vibecoders",
+    title: "vibecoders - Expert Help with AI Coding Tools",
     description: "Get real-time expert guidance from experienced developers while using AI coding tools like GitHub Copilot, Cursor IDE, V0, and bolt.new",
     images: [
       {
         url: "/images/soarkite-main.jpg",
         width: 1200,
         height: 630,
-        alt: "Soarkite - AI Coding Assistance Platform"
+        alt: "vibecoders"
       }
     ]
   },
   twitter: {
     card: "summary_large_image",
-    title: "Soarkite - Expert Help with AI Coding Tools",
+    title: "vibecoders",
     description: "Get real-time expert guidance from experienced developers while using AI coding tools",
-    images: ["/images/soarkite-main.jpg"]
+    images: ["/images/vibecoders-main.jpg"]
   }
 };
 
@@ -95,9 +93,7 @@ export default function RootLayout({
       </head>
       <body className="flex flex-col min-h-screen bg-gray-50 text-black">
         <div className="flex-grow">
-          <Suspense fallback={<Loading />}>
-            {children}
-          </Suspense>
+          {children}
         </div>
         <Footer />
       </body>

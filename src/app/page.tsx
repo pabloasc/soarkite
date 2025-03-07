@@ -12,7 +12,7 @@ export const dynamic = "force-dynamic";
 const prisma = new PrismaClient();
 
 export const metadata = {
-  title: 'Soarkite - Get Expert Help with AI Tools',
+  title: 'vibecoders',
   description: 'Connect with experienced prefessionals for real-time assistance with GitHub Copilot, Cursor IDE, V0, and bolt.new. Get professional guidance for your AI-powered development projects.',
   alternates: {
     canonical: 'https://soarkite.com'
@@ -54,63 +54,12 @@ export default async function Home() {
     <div className="min-h-screen bg-white font-serif text-black">
       <Header user={user} />
       <main>
-        <section className="pt-32 pb-20 px-6 lg:px-8">
-          <div className="container mx-auto max-w-5xl">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-              <div>
-                <h1 className="text-6xl font-bold mb-8 leading-tight">
-                  Expert guidance for your AI journey
-                </h1>
-                <p className="text-2xl text-gray-800 mb-10">
-                  Receive instant support from professionals to elevate your projects to new heights.
-                </p>
-                <div className="flex gap-6">
-                  {user ? (
-                    <Link 
-                      href="/dashboard" 
-                      className="inline-flex px-8 py-4 bg-black text-white rounded-full hover:bg-gray-800 transition-colors"
-                    >
-                      Go to Dashboard
-                    </Link>
-                  ) : (
-                    <>
-                      <Link 
-                        href="/auth/sign-up?role=user" 
-                        className="inline-flex px-8 py-4 bg-black text-white rounded-full hover:bg-gray-800 transition-colors"
-                      >
-                        I need help with AI tools
-                      </Link>
-                      <Link 
-                        href="/auth/sign-up?role=senior_dev" 
-                        className="inline-flex px-8 py-4 border border-black rounded-full hover:bg-gray-50 transition-colors"
-                      >
-                        I can provide help with AI tools
-                      </Link>
-                    </>
-                  )}
-                </div>
-              </div>
-              <div className="relative">
-                <div className="relative w-full aspect-square">
-                  <Image
-                    src="/images/mascot.png"
-                    alt="AI assistance visualization"
-                    fill
-                    className="object-cover rounded-lg shadow-lg"
-                    priority
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
         {/* Featured Developers Section */}
         <section className="py-24 bg-gray-50">
           <div className="container mx-auto max-w-6xl px-6 lg:px-8">
             <div className="flex items-center gap-4 mb-12">
               <Users size={28} className="text-purple-500" />
-              <h2 className="text-5xl">Meet Our Expert Developers</h2>
+              <h2 className="text-5xl">Meet Expert Vibe Coders</h2>
             </div>
             <p className="text-xl text-gray-700 mb-12 max-w-3xl">
               Browse through our community of experienced developers ready to help with your AI-powered projects.
