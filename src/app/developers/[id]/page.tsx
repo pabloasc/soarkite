@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import { PrismaClient } from '@prisma/client';
 import DevProfileView from '@/components/dashboard/profile/dev-profile-view';
 import { getUserInfo } from '@/lib/auth/server/supabase';
+import Header from '@/components/shared/header';
 export const dynamic = "force-dynamic"
 
 const prisma = new PrismaClient();
@@ -45,6 +46,7 @@ export default async function PublicDeveloperProfile({ params, searchParams }: P
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <Header user={user} />
       <main className="container mx-auto px-6 py-8 max-w-6xl">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-normal">Developer Profile</h1>

@@ -4,8 +4,6 @@ import { useState, useEffect } from 'react';
 import { Star, MapPin, Clock, DollarSign, Github, Linkedin, Globe, Edit } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { formatDistanceToNow } from 'date-fns';
-import { formatInTimeZone } from 'date-fns-tz';
 import DevProfileForm from './dev-profile-form';
 
 interface DevProfileViewProps {
@@ -16,57 +14,11 @@ interface DevProfileViewProps {
 
 export default function DevProfileView({ developer, isAdmin = false, isLoggedIn = false }: DevProfileViewProps) {
   const [isEditing, setIsEditing] = useState(false);
-  const [userTimezone, setUserTimezone] = useState('');
 
   const profile = developer.dev_profile;
-  const reviews = developer.reviews_received;
   const user = developer;
   const isOwnProfile = isLoggedIn && isAdmin;
 
-  useEffect(() => {
-    setUserTimezone(Intl.DateTimeFormat().resolvedOptions().timeZone);
-  }, []);
-
-  const getAvailabilityTime = () => {
-    try {
-      const availability = profile?.availability;
-      const devTimezone = user?.timezone;
-
-      if (!availability?.start_time || !availability?.end_time || !devTimezone) {
-        return 'Schedule not set';
-      }
-
-      // If developer timezone is different from user timezone, show both
-      if (devTimezone !== userTimezone) {
-        const now = new Date();
-        const [startHour] = availability.start_time.split(':');
-        const [endHour] = availability.end_time.split(':');
-
-        // Set the hours to create full date objects
-        const startDate = new Date(now);
-        startDate.setHours(parseInt(startHour), 0, 0, 0);
-        const endDate = new Date(now);
-        endDate.setHours(parseInt(endHour), 0, 0, 0);
-
-        // Format times in user's timezone
-        const userStartTime = formatInTimeZone(startDate, userTimezone, 'HH:mm');
-        const userEndTime = formatInTimeZone(endDate, userTimezone, 'HH:mm');
-
-        return (
-          <>
-            <div>{availability.start_time}-{availability.end_time} ({devTimezone})</div>
-            <div className="text-sm text-gray-500">
-              {userStartTime}-{userEndTime} (your time)
-            </div>
-          </>
-        );
-      }
-
-      return `${availability.start_time}-${availability.end_time} (${devTimezone})`;
-    } catch (error) {
-      return 'Schedule not set';
-    }
-  };
 
   if (isEditing && isOwnProfile) {
     return (
@@ -84,7 +36,7 @@ export default function DevProfileView({ developer, isAdmin = false, isLoggedIn 
       <div className="lg:col-span-2 space-y-8">
         <div className="bg-white rounded-lg shadow-sm p-6">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
-            <h1 className="text-3xl font-medium">{profile.title || 'Software Developer'}</h1>
+            <h1 className="text-3xl font-medium">{user.name || 'Software Developer'}</h1>
             
             {isLoggedIn && isOwnProfile && (
               <button
@@ -141,12 +93,6 @@ export default function DevProfileView({ developer, isAdmin = false, isLoggedIn 
               <div className="flex items-center gap-1">
                 <DollarSign className="h-4 w-4" />
                 <span>${profile.hourly_rate}/hour</span>
-              </div>
-            )}
-            {user?.timezone && (
-              <div className="flex items-center gap-1">
-                <Clock className="h-4 w-4" />
-                <div>{getAvailabilityTime()}</div>
               </div>
             )}
           </div>

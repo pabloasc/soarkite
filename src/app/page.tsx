@@ -59,11 +59,11 @@ export default async function Home() {
           <div className="container mx-auto max-w-6xl px-6 lg:px-8">
             <div className="flex items-center gap-4 mb-12">
               <Users size={28} className="text-purple-500" />
-              <h2 className="text-5xl">Meet Expert Vibe Coders</h2>
+              <h2 className="text-5xl">Meet expert vibecoders</h2>
             </div>
             <p className="text-xl text-gray-700 mb-12 max-w-3xl">
               Browse through our community of experienced developers ready to help with your AI-powered projects.
-              Click on any profile to learn more about their expertise and experience.
+              Click on any profile to learn more about their experience.
             </p>
             
             <DevelopersList developers={developers} />
@@ -73,7 +73,7 @@ export default async function Home() {
                 href="/developers" 
                 className="inline-flex px-8 py-4 bg-black text-white rounded-full hover:bg-gray-800 transition-colors"
               >
-                View All Developers
+                View all vibecoders
               </Link>
             </div>
           </div>
