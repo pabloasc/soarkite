@@ -74,7 +74,7 @@ export default function Header({ user }: HeaderProps) {
       <div className="container mx-auto px-4 lg:px-6 max-w-7xl">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href={user ? '/dashboard' : '/'} className="flex-shrink-0">
+          <Link href={'/'} className="flex-shrink-0">
             <div className="h-8 w-40 relative">
               <Image
                 src="/images/logo.png"
@@ -112,12 +112,6 @@ export default function Header({ user }: HeaderProps) {
                     Requests
                   </Link>
                 )}
-                <Link 
-                  href="/dashboard/developers" 
-                  className={`text-sm transition-colors ${isActive('/dashboard/developers') ? 'text-black' : 'text-gray-600 hover:text-black'}`}
-                >
-                  Developers
-                </Link>
                 {user.role === 'SENIOR_DEV' && (
                   <Link 
                     href="/dashboard/profile" 
@@ -200,13 +194,6 @@ export default function Header({ user }: HeaderProps) {
                       Requests
                     </Link>
                   )}
-                  <Link 
-                    href="/dashboard/developers" 
-                    className={`block text-sm transition-colors py-2 ${isActive('/dashboard/developers') ? 'text-black' : 'text-gray-600'}`}
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Developers
-                  </Link>
                   {user.role === 'SENIOR_DEV' && (
                     <Link 
                       href="/dashboard/profile" 
