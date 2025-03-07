@@ -269,40 +269,6 @@ export default function DevProfileView({ developer, isAdmin = false, isLoggedIn 
             )}
           </div>
         </div>
-
-        {/* Recent Reviews */}
-        {reviews?.length > 0 && (
-          <div className="bg-white rounded-lg shadow-sm p-6">
-            <h3 className="text-lg font-medium mb-4">Recent Reviews</h3>
-            <div className="space-y-4">
-              {reviews.map((review) => (
-                <div key={review.id} className="border-b border-gray-100 last:border-0 pb-4 last:pb-0">
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center gap-1">
-                      {[...Array(5)].map((_, i) => (
-                        <Star
-                          key={i}
-                          className={`h-4 w-4 ${
-                            i < review.rating
-                              ? 'text-yellow-400 fill-current'
-                              : 'text-gray-300'
-                          }`}
-                        />
-                      ))}
-                    </div>
-                    <span className="text-sm text-gray-500">
-                      {formatDistanceToNow(new Date(review.created_at))} ago
-                    </span>
-                  </div>
-                  <p className="text-sm text-gray-600">{review.comment}</p>
-                  <p className="text-sm text-gray-500 mt-1">
-                    {review.reviewer.name || review.reviewer.email}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );

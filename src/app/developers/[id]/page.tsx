@@ -52,7 +52,6 @@ export default async function PublicDeveloperProfile({ params, searchParams }: P
 
         <DevProfileView 
           developer={developer} 
-          isAdmin={user?.role === 'admin'} 
           isLoggedIn={!!user}
         />
       </main>

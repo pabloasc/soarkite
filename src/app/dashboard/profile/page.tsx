@@ -41,7 +41,7 @@ export default async function Profile() {
 
         {userDB?.role === 'SENIOR_DEV' ? (
           userDB.dev_profile ? (
-            <DevProfileView profile={userDB.dev_profile} user={userDB} reviews={userDB.reviews_received} />
+            <DevProfileView developer={userDB.dev_profile}/>
           ) : (
             <DevProfileForm userId={userDB.id} />
           )

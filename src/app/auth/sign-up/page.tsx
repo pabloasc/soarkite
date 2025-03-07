@@ -1,13 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Linkedin, DollarSign, Code } from 'lucide-react';
 import Image from 'next/image';
 import { createClient } from '@/lib/auth/client/client'
 
-export default function SignUp() {
+function SignUpForm() {
   const searchParams = useSearchParams();
   const initialRole = searchParams.get('role') || 'user';
   const supabase = createClient();
@@ -306,5 +306,13 @@ export default function SignUp() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function SignUp() {
+  return (
+    <Suspense fallback={<div className="min-h-[calc(100vh-64px)] flex items-center justify-center bg-gray-50">Loading...</div>}>
+      <SignUpForm />
+    </Suspense>
   );
 }
