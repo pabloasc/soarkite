@@ -31,7 +31,6 @@ export async function GET(request: Request) {
           select: {
             id: true,
             developer_id: true,
-            status: true,
             created_at: true
           }
         }

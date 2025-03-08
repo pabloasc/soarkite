@@ -32,7 +32,6 @@ export default async function Requests() {
         select: {
           id: true,
           developer_id: true,
-          status: true,
           created_at: true
         }
       }

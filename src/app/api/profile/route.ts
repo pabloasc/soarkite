@@ -31,7 +31,6 @@ export async function POST(request: Request) {
         ai_tools_experience: body.aiToolsExperience,
         specializations: body.specializations,
         languages: body.languages,
-        availability: body.availability,
         certifications: body.certifications,
         company: body.company
       }
@@ -72,7 +71,6 @@ export async function PUT(request: Request) {
         ai_tools_experience: body.aiToolsExperience,
         specializations: body.specializations,
         languages: body.languages,
-        availability: body.availability,
         certifications: body.certifications,
         company: body.company
       }

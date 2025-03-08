@@ -91,7 +91,6 @@ export default function NewRequest() {
           expected_outcome: formData.expectedOutcome,
           urgency: formData.urgency,
           screenshots: uploadedFiles.map(file => file.url),
-          status: 'PENDING',
           created_at: now,
           updated_at: now
         });

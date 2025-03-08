@@ -50,7 +50,6 @@ export default function ApplicationForm({ requestId, onClose, onSubmit }: Applic
           developer_id: user.id,
           message: formData.message,
           rate: formData.rate ? parseFloat(formData.rate) : null,
-          status: 'PENDING',
           created_at: now,
           updated_at: now
         });

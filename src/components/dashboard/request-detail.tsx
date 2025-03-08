@@ -23,25 +23,8 @@ export default function RequestDetail({ request, currentUser }: RequestDetailPro
   const [sending, setSending] = useState(false);
   const supabase = createClient();
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'PENDING':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'ASSIGNED':
-        return 'bg-blue-100 text-blue-800';
-      case 'IN_PROGRESS':
-        return 'bg-purple-100 text-purple-800';
-      case 'COMPLETED':
-        return 'bg-green-100 text-green-800';
-      case 'CANCELLED':
-        return 'bg-gray-100 text-gray-800';
-      default:
-        return 'bg-gray-100 text-gray-800';
-    }
-  };
-
   const hasApplied = request.applications?.some(
-    (app: any) => app.developer.id === currentUser.id && app.status === 'PENDING'
+    (app: any) => app.developer.id === currentUser.id
   );
 
   const isAssigned = request.status !== 'PENDING';
@@ -88,9 +71,6 @@ export default function RequestDetail({ request, currentUser }: RequestDetailPro
             <div>
               <h1 className="text-2xl font-medium">{request.title}</h1>
               <div className="flex items-center gap-4 mt-2">
-                <span className={`px-3 py-1 rounded-full text-sm ${getStatusColor(request.status)}`}>
-                  {request.status.charAt(0) + request.status.slice(1).toLowerCase()}
-                </span>
                 <span className="text-sm text-gray-500">
                   Created {formatDistanceToNow(new Date(request.created_at))} ago
                 </span>

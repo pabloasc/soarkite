@@ -25,22 +25,6 @@ export default function RecentActivity({
   reviews,
   userRole
 }: RecentActivityProps) {
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'PENDING':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'ASSIGNED':
-        return 'bg-blue-100 text-blue-800';
-      case 'IN_PROGRESS':
-        return 'bg-purple-100 text-purple-800';
-      case 'COMPLETED':
-        return 'bg-green-100 text-green-800';
-      case 'CANCELLED':
-        return 'bg-gray-100 text-gray-800';
-      default:
-        return 'bg-gray-100 text-gray-800';
-    }
-  };
 
   const hasActivity = helpRequests.length > 0 || 
     assignedRequests.length > 0 || 
@@ -76,9 +60,6 @@ export default function RecentActivity({
                 </Link>
               </h3>
             </div>
-            <span className={`px-3 py-1 rounded-full text-sm ${getStatusColor(request.status)}`}>
-              {request.status.charAt(0) + request.status.slice(1).toLowerCase()}
-            </span>
           </div>
           <p className="mt-1 text-sm text-gray-500">
             {formatDistanceToNow(new Date(request.created_at))} ago
@@ -97,9 +78,6 @@ export default function RecentActivity({
                 </Link>
               </h3>
             </div>
-            <span className={`px-3 py-1 rounded-full text-sm ${getStatusColor(request.status)}`}>
-              {request.status.charAt(0) + request.status.slice(1).toLowerCase()}
-            </span>
           </div>
           <p className="mt-1 text-sm text-gray-500">
             {formatDistanceToNow(new Date(request.created_at))} ago
@@ -118,15 +96,6 @@ export default function RecentActivity({
                 </Link>
               </h3>
             </div>
-            <span className={`px-3 py-1 rounded-full text-sm ${
-              application.status === 'PENDING'
-                ? 'bg-yellow-100 text-yellow-800'
-                : application.status === 'ACCEPTED'
-                ? 'bg-green-100 text-green-800'
-                : 'bg-red-100 text-red-800'
-            }`}>
-              {application.status.charAt(0) + application.status.slice(1).toLowerCase()}
-            </span>
           </div>
           <p className="mt-1 text-sm text-gray-500">
             {formatDistanceToNow(new Date(application.created_at))} ago
