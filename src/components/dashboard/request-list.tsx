@@ -14,7 +14,7 @@ interface RequestListProps {
   userRole: UserRole;
   initialRequests: (HelpRequest & {
     user: User;
-    senior_dev: User | null;
+    vibecoder: User | null;
     applications: Pick<RequestApplication, 'id' | 'developer_id' | 'status' | 'created_at'>[];
   })[];
 }
@@ -114,7 +114,7 @@ export default function RequestList({ userId, userRole, initialRequests }: Reque
                     <ChevronRight className="h-5 w-5 text-gray-400 group-hover:text-gray-600 transition-colors" />
                   </Link>
                 </div>
-                {userRole === 'SENIOR_DEV' && request.user_id !== userId && (
+                {userRole === 'VIBECODER' && request.user_id !== userId && (
                   <div>
                     {!isAssigned && !hasApplied && (
                       <button

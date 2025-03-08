@@ -39,7 +39,7 @@ export default async function Profile() {
           <h1 className="text-3xl font-normal">Developer Profile</h1>
         </div>
 
-        {userDB?.role === 'SENIOR_DEV' ? (
+        {userDB?.role === 'VIBECODER' ? (
           userDB.dev_profile ? (
             <DevProfileView developer={userDB} isAdmin={true} isLoggedIn={!!user}/>
           ) : (

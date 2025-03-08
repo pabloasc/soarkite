@@ -27,7 +27,7 @@ export default async function Requests() {
       : undefined,
     include: {
       user: true,
-      senior_dev: true,
+      vibecoder: true,
       applications: {
         select: {
           id: true,

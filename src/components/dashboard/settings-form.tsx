@@ -292,7 +292,7 @@ export default function SettingsForm({ user, profile }: SettingsFormProps) {
           className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
         >
           <option value="USER">Creator</option>
-          <option value="SENIOR_DEV">Software Developer</option>
+          <option value="VIBECODER">Software Developer</option>
         </select>
       </div>
 

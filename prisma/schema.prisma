@@ -10,15 +10,7 @@ datasource db {
 
 enum UserRole {
   USER
-  SENIOR_DEV
-}
-
-enum RequestStatus {
-  PENDING
-  ASSIGNED
-  IN_PROGRESS
-  COMPLETED
-  CANCELLED
+  VIBECODER
 }
 
 enum RequestUrgency {
@@ -33,104 +25,95 @@ enum ExperienceLevel {
   SENIOR
   LEAD
   ARCHITECT
-  DISTINGUISHED
-}
-
-enum ApplicationStatus {
-  PENDING
-  ACCEPTED
-  REJECTED
+  DIRECTOR
 }
 
 model User {
-  id                  String         @id
-  email               String         @unique
+  id                  String               @id
+  email               String               @unique
   name                String?
-  role                UserRole       @default(USER)
-  image_url           String?        @map("image_url")
-  theme               String?        @default("light")
-  language            String?        @default("en")
+  role                UserRole             @default(USER)
+  image_url           String?              @map("image_url")
+  theme               String?              @default("light")
+  language            String?              @default("en")
   country             String?
   timezone            String?
-  email_notifications Boolean        @default(true)
-  created_at          DateTime       @default(now()) @map("created_at")
-  updated_at          DateTime       @updatedAt @map("updated_at")
-  help_requests       HelpRequest[]  @relation("CreatedBy")
-  assigned_requests   HelpRequest[]  @relation("AssignedTo")
-  reviews_given       DevReview[]    @relation("ReviewedBy")
-  reviews_received    DevReview[]    @relation("ReviewFor")
+  email_notifications Boolean              @default(true)
+  created_at          DateTime             @default(now()) @map("created_at")
+  updated_at          DateTime             @updatedAt @map("updated_at")
+  help_requests       HelpRequest[]        @relation("CreatedBy")
+  assigned_requests   HelpRequest[]        @relation("AssignedTo")
+  reviews_given       DevReview[]          @relation("ReviewedBy")
+  reviews_received    DevReview[]          @relation("ReviewFor")
   dev_profile         DevProfile?
   sent_applications   RequestApplication[] @relation("SentBy")
-  received_messages   Message[]      @relation("ReceivedBy")
-  sent_messages       Message[]      @relation("SentBy")
+  received_messages   Message[]            @relation("ReceivedBy")
+  sent_messages       Message[]            @relation("SentBy")
 
   @@map("users")
 }
 
 model DevProfile {
-  id                    String         @id @default(uuid())
-  user_id              String         @unique
-  user                 User           @relation(fields: [user_id], references: [id])
-  title                String         // e.g., "Senior Full Stack Developer"
-  experience_level     ExperienceLevel
-  years_of_experience  Int
-  bio                  String         @db.Text
+  id                  String          @id @default(uuid())
+  user_id             String          @unique
+  user                User            @relation(fields: [user_id], references: [id])
+  title               String // e.g., "Senior Full Stack Developer"
+  experience_level    ExperienceLevel
+  years_of_experience Int
+  bio                 String          @db.Text
   timezone            String?
-  hourly_rate         Decimal?       @db.Decimal(10, 2)
+  hourly_rate         Decimal?        @db.Decimal(10, 2)
   github_url          String?
   linkedin_url        String?
   portfolio_url       String?
-  skills              String[]       // Programming languages, frameworks, tools
-  ai_tools_experience Json[]         // Array of { tool: string, years: number, expertise_level: string }
-  specializations     String[]       // e.g., ["Web Development", "Mobile Apps", "DevOps"]
-  languages           String[]       // Speaking languages
-  availability        Json           // { hours_per_week: number, available_days: string[], start_time: string, end_time: string }
-  certifications      Json[]         // Array of { name: string, issuer: string, year: number }
+  skills              String[] // Programming languages, frameworks, tools
+  ai_tools_experience Json[] // Array of { tool: string, years: number, expertise_level: string }
+  specializations     String[] // e.g., ["Web Development", "Mobile Apps", "DevOps"]
+  languages           String[] // Speaking languages
+  certifications      Json[] // Array of { name: string, issuer: string, year: number }
   company             String?
-  average_rating      Float          @default(0)
-  total_reviews       Int            @default(0)
-  total_sessions      Int            @default(0)
-  created_at          DateTime       @default(now())
-  updated_at          DateTime       @updatedAt
+  average_rating      Float           @default(0)
+  total_reviews       Int             @default(0)
+  total_sessions      Int             @default(0)
+  created_at          DateTime        @default(now())
+  updated_at          DateTime        @updatedAt
 
   @@map("dev_profiles")
 }
 
 model DevReview {
-  id           String   @id @default(uuid())
-  reviewer_id  String
-  developer_id String
-  request_id   String
-  rating       Int      @db.SmallInt // 1-5 rating
-  comment      String?  @db.Text
-  expertise    Int      @db.SmallInt // 1-5 rating
-  communication Int     @db.SmallInt // 1-5 rating
-  helpfulness  Int      @db.SmallInt // 1-5 rating
-  created_at   DateTime @default(now())
-  updated_at   DateTime @updatedAt
-  reviewer     User     @relation("ReviewedBy", fields: [reviewer_id], references: [id])
-  developer    User     @relation("ReviewFor", fields: [developer_id], references: [id])
-  request      HelpRequest @relation(fields: [request_id], references: [id])
+  id            String      @id @default(uuid())
+  reviewer_id   String
+  developer_id  String
+  request_id    String
+  rating        Int         @db.SmallInt // 1-5 rating
+  comment       String?     @db.Text
+  expertise     Int         @db.SmallInt // 1-5 rating
+  communication Int         @db.SmallInt // 1-5 rating
+  helpfulness   Int         @db.SmallInt // 1-5 rating
+  created_at    DateTime    @default(now())
+  updated_at    DateTime    @updatedAt
+  reviewer      User        @relation("ReviewedBy", fields: [reviewer_id], references: [id])
+  developer     User        @relation("ReviewFor", fields: [developer_id], references: [id])
+  request       HelpRequest @relation(fields: [request_id], references: [id])
 
   @@unique([reviewer_id, request_id])
   @@map("dev_reviews")
 }
 
 model HelpRequest {
-  id               String         @id @default(uuid())
+  id               String               @id @default(uuid())
   user_id          String
-  senior_dev_id    String?
+  vibecoder_id     String?
   title            String
   tool             String
   description      String
   expected_outcome String
-  urgency          RequestUrgency @default(NORMAL)
   screenshots      String[]
-  status           RequestStatus  @default(PENDING)
-  created_at       DateTime       @default(now())
-  updated_at       DateTime       @updatedAt
-  user             User           @relation("CreatedBy", fields: [user_id], references: [id])
-  senior_dev       User?          @relation("AssignedTo", fields: [senior_dev_id], references: [id])
+  created_at       DateTime             @default(now())
+  updated_at       DateTime             @updatedAt
+  user             User                 @relation("CreatedBy", fields: [user_id], references: [id])
+  vibecoder        User?                @relation("AssignedTo", fields: [vibecoder_id], references: [id])
   review           DevReview[]
   applications     RequestApplication[]
   messages         Message[]
@@ -139,32 +122,31 @@ model HelpRequest {
 }
 
 model RequestApplication {
-  id           String           @id @default(uuid())
+  id           String            @id @default(uuid())
   request_id   String
   developer_id String
-  message      String          @db.Text
-  rate         Decimal?        @db.Decimal(10, 2)
-  status       ApplicationStatus @default(PENDING)
-  created_at   DateTime        @default(now())
-  updated_at   DateTime        @updatedAt
-  request      HelpRequest     @relation(fields: [request_id], references: [id])
-  developer    User            @relation("SentBy", fields: [developer_id], references: [id])
+  message      String            @db.Text
+  rate         Decimal?          @db.Decimal(10, 2)
+  created_at   DateTime          @default(now())
+  updated_at   DateTime          @updatedAt
+  request      HelpRequest       @relation(fields: [request_id], references: [id])
+  developer    User              @relation("SentBy", fields: [developer_id], references: [id])
 
   @@unique([request_id, developer_id])
   @@map("request_applications")
 }
 
 model Message {
-  id           String     @id @default(uuid())
-  request_id   String
-  sender_id    String
-  receiver_id  String
-  content      String     @db.Text
-  read         Boolean    @default(false)
-  created_at   DateTime   @default(now())
-  request      HelpRequest @relation(fields: [request_id], references: [id])
-  sender       User       @relation("SentBy", fields: [sender_id], references: [id])
-  receiver     User       @relation("ReceivedBy", fields: [receiver_id], references: [id])
+  id          String      @id @default(uuid())
+  request_id  String
+  sender_id   String
+  receiver_id String
+  content     String      @db.Text
+  read        Boolean     @default(false)
+  created_at  DateTime    @default(now())
+  request     HelpRequest @relation(fields: [request_id], references: [id])
+  sender      User        @relation("SentBy", fields: [sender_id], references: [id])
+  receiver    User        @relation("ReceivedBy", fields: [receiver_id], references: [id])
 
   @@map("messages")
 }

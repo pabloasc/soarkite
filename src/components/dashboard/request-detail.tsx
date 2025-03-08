@@ -46,7 +46,7 @@ export default function RequestDetail({ request, currentUser }: RequestDetailPro
 
   const isAssigned = request.status !== 'PENDING';
   const isRequester = request.user.id === currentUser.id;
-  const canApply = currentUser.role === 'SENIOR_DEV' && !isRequester && !isAssigned && !hasApplied;
+  const canApply = currentUser.role === 'VIBECODER' && !isRequester && !isAssigned && !hasApplied;
 
   const handleSendMessage = async () => {
     if (!message.trim()) return;
@@ -164,7 +164,7 @@ export default function RequestDetail({ request, currentUser }: RequestDetailPro
             )}
           </div>
 
-          {currentUser.role === 'SENIOR_DEV' && !isRequester && (
+          {currentUser.role === 'VIBECODER' && !isRequester && (
             <div className="mt-6 flex gap-4">
               <input
                 type="text"
@@ -228,7 +228,7 @@ export default function RequestDetail({ request, currentUser }: RequestDetailPro
         )}
 
         {/* Applications */}
-        {(isRequester || currentUser.role === 'SENIOR_DEV') && request.applications.length > 0 && (
+        {(isRequester || currentUser.role === 'VIBECODER') && request.applications.length > 0 && (
           <div className="bg-white rounded-lg shadow-sm p-6">
             <h2 className="text-lg font-medium mb-4">Applications</h2>
             <div className="space-y-4">

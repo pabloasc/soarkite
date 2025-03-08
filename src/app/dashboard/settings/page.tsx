@@ -52,7 +52,7 @@ export default async function Settings() {
       where: { user_id: user.id }
     }),
     prisma.helpRequest.count({
-      where: { senior_dev_id: user.id }
+      where: { vibecoder_id: user.id }
     }),
     prisma.devReview.aggregate({
       where: { developer_id: user.id },

@@ -112,7 +112,7 @@ export default function Header({ user }: HeaderProps) {
                     Requests
                   </Link>
                 )}
-                {user.role === 'SENIOR_DEV' && (
+                {user.role === 'VIBECODER' && (
                   <Link 
                     href="/dashboard/profile" 
                     className={`text-sm transition-colors ${isActive('/dashboard/profile') ? 'text-black' : 'text-gray-600 hover:text-black'}`}
@@ -194,7 +194,7 @@ export default function Header({ user }: HeaderProps) {
                       Requests
                     </Link>
                   )}
-                  {user.role === 'SENIOR_DEV' && (
+                  {user.role === 'VIBECODER' && (
                     <Link 
                       href="/dashboard/profile" 
                       className={`block text-sm transition-colors py-2 ${isActive('/dashboard/profile') ? 'text-black' : 'text-gray-600'}`}

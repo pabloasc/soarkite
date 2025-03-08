@@ -41,7 +41,7 @@ export default async function RequestPage({ params, searchParams }: Props) {
           image_url: true
         }
       },
-      senior_dev: {
+      vibecoder: {
         select: {
           id: true,
           name: true,

@@ -23,7 +23,7 @@ export default async function PublicDeveloperProfile({ params, searchParams }: P
   const developer = await prisma.user.findUnique({
     where: {
       id,
-      role: 'SENIOR_DEV'
+      role: 'VIBECODER'
     },
     include: {
       dev_profile: true,

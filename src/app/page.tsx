@@ -25,7 +25,7 @@ export default async function Home() {
   // Get featured developers with their profiles and reviews
   const developers = await prisma.user.findMany({
     where: {
-      role: 'SENIOR_DEV',
+      role: 'VIBECODER',
       dev_profile: {
         isNot: null
       }

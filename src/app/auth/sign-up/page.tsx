@@ -41,7 +41,7 @@ function SignUpForm() {
           emailRedirectTo: `${window.location.origin}/auth/callback`,
           data: {
             name,
-            role: role === 'senior_dev' ? 'SENIOR_DEV' : 'USER'
+            role: role === 'vibecoder' ? 'VIBECODER' : 'USER'
           }
         }
       });
@@ -59,7 +59,7 @@ function SignUpForm() {
           id: user.id,
           email: user.email,
           name,
-          role: role === 'senior_dev' ? 'SENIOR_DEV' : 'USER',
+          role: role === 'vibecoder' ? 'VIBECODER' : 'USER',
           timezone
         }),
       });
@@ -89,7 +89,7 @@ function SignUpForm() {
         queryParams: {
           access_type: 'offline',
           prompt: 'consent',
-          role: role === 'senior_dev' ? 'SENIOR_DEV' : 'USER',
+          role: role === 'vibecoder' ? 'VIBECODER' : 'USER',
           timezone // Pass timezone as query parameter
         },
       },
@@ -107,7 +107,7 @@ function SignUpForm() {
       options: {
         redirectTo: `${window.location.origin}/auth/callback`,
         queryParams: {
-          role: role === 'senior_dev' ? 'SENIOR_DEV' : 'USER',
+          role: role === 'vibecoder' ? 'VIBECODER' : 'USER',
           timezone // Pass timezone as query parameter
         },
       },
@@ -147,9 +147,9 @@ function SignUpForm() {
               </p>
             </button>
             <button
-              onClick={() => setRole('senior_dev')}
+              onClick={() => setRole('vibecoder')}
               className={`flex-1 p-8 rounded-lg border-2 transition-all ${
-                role === 'senior_dev'
+                role === 'vibecoder'
                   ? 'border-black bg-black text-white'
                   : 'border-gray-200 hover:border-gray-300'
               }`}

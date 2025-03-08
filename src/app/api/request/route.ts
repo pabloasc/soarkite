@@ -26,7 +26,7 @@ export async function GET(request: Request) {
         : undefined,
       include: {
         user: true,
-        senior_dev: true,
+        vibecoder: true,
         applications: {
           select: {
             id: true,

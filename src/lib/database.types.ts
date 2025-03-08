@@ -14,7 +14,7 @@ export interface Database {
           id: string
           email: string
           name: string | null
-          role: 'USER' | 'SENIOR_DEV'
+          role: 'USER' | 'VIBECODER'
           image_url: string | null
           created_at: string
           updated_at: string
@@ -23,7 +23,7 @@ export interface Database {
           id?: string
           email: string
           name?: string | null
-          role?: 'USER' | 'SENIOR_DEV'
+          role?: 'USER' | 'VIBECODER'
           image_url?: string | null
           created_at?: string
           updated_at?: string
@@ -32,7 +32,7 @@ export interface Database {
           id?: string
           email?: string
           name?: string | null
-          role?: 'USER' | 'SENIOR_DEV'
+          role?: 'USER' | 'VIBECODER'
           image_url?: string | null
           created_at?: string
           updated_at?: string
