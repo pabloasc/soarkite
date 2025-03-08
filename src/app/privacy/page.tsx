@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
-  description: 'Learn about how Soarkite collects, uses, and protects your personal information.',
+  description: 'Learn about how Vibecoders collects, uses, and protects your personal information.',
 };
 
 export default function Privacy() {
@@ -37,7 +37,7 @@ export default function Privacy() {
             <section className="mb-8">
               <h2 className="text-2xl font-medium mb-4">Introduction</h2>
               <p className="text-gray-600 mb-4">
-                At Soarkite, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our platform.
+                At Vibecoders, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our platform.
               </p>
             </section>
 

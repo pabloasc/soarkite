@@ -23,16 +23,16 @@ export default function Footer() {
               Get expert guidance for your AI-powered development journey. Connect with experienced developers for real-time assistance with modern AI coding tools.
             </p>
             <div className="flex space-x-4">
-              <a href="https://github.com/soarkite" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-black">
+              <a href="https://github.com/vibecoders" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-black">
                 <Github className="h-5 w-5" />
               </a>
-              <a href="https://twitter.com/soarkite" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-black">
+              <a href="https://twitter.com/vibecoders" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-black">
                 <Twitter className="h-5 w-5" />
               </a>
-              <a href="https://linkedin.com/company/soarkite" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-black">
+              <a href="https://linkedin.com/company/vibecoders" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-black">
                 <Linkedin className="h-5 w-5" />
               </a>
-              <a href="mailto:team@soarkite.com" className="text-gray-600 hover:text-black">
+              <a href="mailto:team@vibecoders.co" className="text-gray-600 hover:text-black">
                 <Mail className="h-5 w-5" />
               </a>
             </div>
@@ -85,7 +85,7 @@ export default function Footer() {
 
         <div className="border-t border-gray-200 mt-8 pt-8 text-center">
           <p className="text-gray-600 text-sm">
-            © {currentYear} Soarkite. All rights reserved.
+            © {currentYear} Vibecoders. All rights reserved.
           </p>
         </div>
       </div>

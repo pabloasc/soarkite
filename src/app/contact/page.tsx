@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic"
 
 export const metadata: Metadata = {
   title: 'Contact Us',
-  description: 'Get in touch with Soarkite for any questions about our AI coding assistance platform.',
+  description: 'Get in touch with Vibecoders for any questions about our AI coding assistance platform.',
 };
 
 export default function Contact() {

@@ -55,18 +55,10 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://soarkite.com",
+    url: "https://vibecoders.co",
     siteName: "vibecoders",
     title: "vibecoders - Expert Help with AI Coding Tools",
     description: "Get real-time expert guidance from experienced developers while using AI coding tools like GitHub Copilot, Cursor IDE, V0, and bolt.new",
-    images: [
-      {
-        url: "/images/soarkite-main.jpg",
-        width: 1200,
-        height: 630,
-        alt: "vibecoders"
-      }
-    ]
   },
   twitter: {
     card: "summary_large_image",
@@ -84,7 +76,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} font-serif`}>
       <head>
-        <link rel="canonical" href="https://soarkite.com" />
+        <link rel="canonical" href="https://vibecoders.co" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#000000" />
         <link rel="icon" href="/icons/favicon.ico" />

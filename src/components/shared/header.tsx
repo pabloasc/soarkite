@@ -161,8 +161,8 @@ export default function Header({ user }: HeaderProps) {
             <div className="p-4 border-b border-gray-200 flex justify-between items-center">
               <div className="h-8 w-40 relative">
                 <Image
-                  src="/images/soarkite_logo.png"
-                  alt="Soarkite Logo"
+                  src="/images/logo.png"
+                  alt="Vibecoders Logo"
                   fill
                   className="object-contain"
                   priority

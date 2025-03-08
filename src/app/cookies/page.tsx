@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 export const metadata: Metadata = {
   title: 'Cookie Policy',
-  description: 'Learn about how Soarkite uses cookies and similar technologies to improve your experience.',
+  description: 'Learn about how Vibecoders uses cookies and similar technologies to improve your experience.',
 };
 
 export default function CookiePolicy() {

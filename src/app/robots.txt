@@ -10,4 +10,4 @@ Disallow: /api/
 Crawl-delay: 10
 
 # Sitemaps
-Sitemap: https://soarkite.com/sitemap.xml
+Sitemap: https://vibecoders.co/sitemap.xml

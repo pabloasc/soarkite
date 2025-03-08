@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 export const metadata: Metadata = {
   title: 'Terms & Conditions',
-  description: 'Terms and conditions for using the Soarkite AI coding assistance platform.',
+  description: 'Terms and conditions for using the Vibecoders AI coding assistance platform.',
 };
 
 export default function Terms() {
@@ -37,14 +37,14 @@ export default function Terms() {
             <section className="mb-8">
               <h2 className="text-2xl font-medium mb-4">1. Introduction</h2>
               <p className="text-gray-600 mb-4">
-                Welcome to Soarkite. By using our platform, you agree to these terms and conditions. Please read them carefully.
+                Welcome to Vibecoders. By using our platform, you agree to these terms and conditions. Please read them carefully.
               </p>
             </section>
 
             <section className="mb-8">
               <h2 className="text-2xl font-medium mb-4">2. Services</h2>
               <p className="text-gray-600 mb-4">
-                Soarkite provides a platform connecting users seeking assistance with AI coding tools to experienced software developers.
+                Vibecoders provides a platform connecting users seeking assistance with AI coding tools to experienced software developers.
               </p>
             </section>
 
@@ -85,7 +85,7 @@ export default function Terms() {
             <section className="mb-8">
               <h2 className="text-2xl font-medium mb-4">7. Limitation of Liability</h2>
               <p className="text-gray-600 mb-4">
-                Soarkite is not responsible for code quality or project outcomes. Users are advised to review and test all code implementations.
+                Vibecoders is not responsible for code quality or project outcomes. Users are advised to review and test all code implementations.
               </p>
             </section>
 

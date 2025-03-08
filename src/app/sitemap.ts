@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://soarkite.com';
+  const baseUrl = 'https://vibecoders.co';
   const lastModified = new Date();
 
   const routes = [
