@@ -7,17 +7,8 @@ import Link from 'next/link';
 import { createClient } from '@/lib/auth/client/client';
 import { UserRole } from '@prisma/client';
 
-interface InboxContentProps {
-  user: {
-    id: string,
-    name: string,
-    email: string,
-    role: UserRole,
-    image_url?: string
-  }
-}
 
-export default function InboxContent({ user }: InboxContentProps) {
+export default function InboxContent({ user }: any) {
   const [messages, setMessages] = useState<any[]>([]);
   const supabase = createClient();
 

@@ -2,25 +2,12 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { UserRole } from '@prisma/client';
 import { Menu, Bell, Settings, LogOut } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { createClient } from '@/lib/auth/client/client';
 
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  role: UserRole;
-  image_url?: string;
-}
-
-interface HeaderProps {
-  user?: User | null;
-}
-
-export default function Header({ user }: HeaderProps) {
+export default function Header({ user }: any) {
   const router = useRouter();
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
