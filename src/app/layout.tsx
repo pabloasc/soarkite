@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/footer";
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -74,7 +75,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} font-serif`}>
+    <html lang="en" className={inter.variable}>
       <head>
         <link rel="canonical" href="https://vibecoders.co" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -83,11 +84,12 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
         <link rel="manifest" href="/manifest.json" />
       </head>
-      <body className="flex flex-col min-h-screen bg-gray-50 text-black">
-        <div className="flex-grow">
+      <body className={inter.className}>
+        <div className="flex flex-col min-h-screen bg-gray-50 text-black">
           {children}
         </div>
         <Footer />
+        <GoogleAnalytics gaId="G-HDK4GTGP5G" />
       </body>
     </html>
   );
