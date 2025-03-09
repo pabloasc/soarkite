@@ -1,5 +1,5 @@
 import { NextResponse, NextRequest } from 'next/server';
-import { createServerSupabaseClient as createClient } from '@/lib/auth/server/server';
+import { createClient } from '@/lib/auth/server/server';
 import { PrismaClient } from '@prisma/client';
 export const dynamic = "force-dynamic"
 

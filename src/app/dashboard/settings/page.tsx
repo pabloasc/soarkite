@@ -3,16 +3,15 @@ import { PrismaClient } from '@prisma/client';
 import SettingsForm from '@/components/dashboard/settings-form';
 import DashboardMetrics from '@/components/dashboard/metrics';
 import RecentActivity from '@/components/dashboard/recent-activity';
-import { getSession, getUserInfo } from '@/lib/auth/server/supabase';
+import { getUserInfo } from '@/lib/auth/server/supabase';
 export const dynamic = "force-dynamic"
 
 const prisma = new PrismaClient();
 
 export default async function Settings() {
-  const user = await getSession();
-  const userInfo = await getUserInfo();
+  const user = await getUserInfo();
 
-  if (!user || !userInfo) {
+  if (!user) {
     redirect('/auth/sign-in');
   }
 

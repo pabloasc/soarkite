@@ -98,12 +98,6 @@ export default function Header({ user }: HeaderProps) {
           <nav className="hidden lg:flex items-center space-x-6">
             {user ? (
               <>
-                <Link 
-                  href="/dashboard" 
-                  className={`text-sm transition-colors ${isActive('/dashboard') ? 'text-black' : 'text-gray-600 hover:text-black'}`}
-                >
-                  Overview
-                </Link>
                 {user.role === 'USER' && (
                   <Link 
                     href="/dashboard/requests" 
