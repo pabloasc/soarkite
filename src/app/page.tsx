@@ -62,12 +62,11 @@ export default async function Home() {
               <h2 className="text-5xl">Meet expert vibecoders</h2>
             </div>
             <p className="text-xl text-gray-700 mb-12 max-w-3xl">
-              Browse through our community of experienced developers ready to help with your AI-powered projects.
-              Click on any profile to learn more about their experience.
+              Calling all vibecoders! Showcase your skills, connect with innovators, and join the future of AI-assisted development. Create your profile today!
             </p>
-            
+            {/* Add again when we have more profiles
             <DevelopersList developers={developers} />
-            
+            */}
             <div className="mt-12 text-center flex justify-center gap-4">
               {/* 
               <Link 

@@ -1,5 +1,5 @@
 import { type ReactNode } from 'react';
-interface Assistant {
+export interface Assistant {
     id: string;
     name: string;
     icon: ReactNode;
@@ -18,7 +18,7 @@ export const assistants: Assistant[] = [
   {
     id: 'cursor',
     name: 'Cursor',
-    icon: 'logo-cursor-ai.webp',
+    icon: 'cursor.png',
     description: 'Free VS Code-based editor with GPT-4 and Claude-3.5 Sonnet integrations, offering powerful code editing and generation capabilities.',
     link: 'https://cursor.sh'
   },
@@ -90,7 +90,7 @@ export const assistants: Assistant[] = [
   {
     id: 'claude-code',
     name: 'Claude Code',
-    icon: 'claude-code.png',
+    icon: 'claude.png',
     description: 'Claude Code is an agentic coding tool that lives in your terminal, understands your codebase, and helps you code faster through natural language commands.',
     link: 'https://docs.anthropic.com/en/docs/agents-and-tools/claude-code/overview'
   },

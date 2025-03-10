@@ -20,16 +20,10 @@ export default function Footer() {
               />
             </div>
             <p className="text-gray-600 mb-4">
-              Get expert guidance for your AI-powered development journey. Connect with experienced developers for real-time assistance with modern AI coding tools.
+              <strong>vibecoders.co</strong> unlock new possibilities, build smarter, and bring bold visions to life. Join our platform, showcase your skills, and connect with fellow innovators shaping the future of software development.
             </p>
             <div className="flex space-x-4">
-              <a href="https://github.com/vibecoders" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-black">
-                <Github className="h-5 w-5" />
-              </a>
-              <a href="https://twitter.com/vibecoders" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-black">
-                <Twitter className="h-5 w-5" />
-              </a>
-              <a href="https://linkedin.com/company/vibecoders" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-black">
+              <a href="https://www.linkedin.com/company/vibecoders-co/" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-black">
                 <Linkedin className="h-5 w-5" />
               </a>
               <a href="mailto:team@vibecoders.co" className="text-gray-600 hover:text-black">
@@ -44,7 +38,7 @@ export default function Footer() {
             <ul className="space-y-3">
               <li>
                 <Link href="/developers" className="text-gray-600 hover:text-black">
-                  Find Developers
+                  Find Vibecoders
                 </Link>
               </li>
               <li>

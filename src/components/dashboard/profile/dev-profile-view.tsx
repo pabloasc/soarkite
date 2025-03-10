@@ -5,11 +5,19 @@ import { MapPin, DollarSign, Github, Linkedin, Globe, Edit } from 'lucide-react'
 import Link from 'next/link';
 import Image from 'next/image';
 import DevProfileForm from './dev-profile-form';
+import { type Assistant, assistants } from '@/lib/assistants/assistants';
 
 interface DevProfileViewProps {
   developer: any; // Type this based on your User model with includes
   isAdmin?: boolean;
   isLoggedIn?: boolean;
+}
+
+// Define the AIToolExperience interface
+interface AIToolExperience {
+  tool: string;
+  level_of_use?: number;
+  expertise_level?: string;
 }
 
 export default function DevProfileView({ developer, isAdmin = false, isLoggedIn = false }: DevProfileViewProps) {
@@ -29,6 +37,42 @@ export default function DevProfileView({ developer, isAdmin = false, isLoggedIn 
       />
     );
   }
+
+  // Get AI tools with their details from assistants
+  const getAiToolDetails = (toolName: string) => {
+    console.log(toolName);
+    return assistants.find(assistant => assistant.name === toolName) || {
+      id: toolName.toLowerCase().replace(/\s+/g, '-'),
+      name: toolName,
+      icon: '',
+      description: '',
+      link: ''
+    };
+  };
+
+  // Sort AI tools by level of use (descending)
+  // First, deduplicate tools by name
+  const toolsMap = new Map<string, AIToolExperience>();
+  (profile.ai_tools_experience || []).forEach((tool: AIToolExperience) => {
+    toolsMap.set(tool.tool, tool);
+  });
+  
+  // Convert to array and sort
+  const sortedAiTools = Array.from(toolsMap.values()).sort((a, b) => {
+    // Handle both old and new formats
+    const levelA = a.level_of_use !== undefined ? a.level_of_use : 
+      (a.expertise_level === 'Advanced' ? 5 : a.expertise_level === 'Medium' ? 3 : 1);
+    const levelB = b.level_of_use !== undefined ? b.level_of_use : 
+      (b.expertise_level === 'Advanced' ? 5 : b.expertise_level === 'Medium' ? 3 : 1);
+    return levelB - levelA;
+  });
+
+  // Get level label
+  const getLevelLabel = (level: number) => {
+    if (level === 0) return 'Never use';
+    if (level <= 2) return 'Occasional';
+    return 'Power user';
+  };
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -99,18 +143,76 @@ export default function DevProfileView({ developer, isAdmin = false, isLoggedIn 
             <p className="text-gray-600 whitespace-pre-line">{profile.bio}</p>
           </div>
 
-          {profile.ai_tools_experience?.length > 0 && (
-            <div className="mt-6">
-              <h3 className="text-lg font-medium mb-3">AI Tools Experience</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {profile.ai_tools_experience.map((tool: any, index: number) => (
-                  <div key={index} className="bg-gray-50 p-4 rounded-lg">
-                    <h4 className="font-medium">{tool.tool}</h4>
-                    <p className="text-sm text-gray-600">
-                      {tool.expertise_level} expertise
-                    </p>
-                  </div>
-                ))}
+          {/* AI Tools Experience - Enhanced View */}
+          {sortedAiTools.length > 0 && (
+            <div className="mt-8">
+              <h3 className="text-lg font-medium mb-4">Favourite Tools</h3>
+              
+              {/* One tool per line display */}
+              <div className="space-y-3">
+                {sortedAiTools.map((tool, index) => {
+                  const toolDetails = getAiToolDetails(tool.tool);
+                  const level = tool.level_of_use !== undefined ? tool.level_of_use : 
+                    (tool.expertise_level === 'Advanced' ? 5 : tool.expertise_level === 'Medium' ? 3 : 1);
+                  
+                  return (
+                    <div key={index} className="flex items-center p-3 bg-white border border-gray-200 rounded-lg shadow-sm">
+                      {/* Logo */}
+                      <div className="relative w-10 h-10 flex-shrink-0 overflow-hidden mr-3">
+                        {toolDetails.icon ? (
+                          <Image
+                            src={`/images/ai-tools/${toolDetails.icon}`}
+                            alt={toolDetails.name}
+                            width={40}
+                            height={40}
+                            className="object-contain"
+                            unoptimized
+                            onError={(e) => {
+                              // If image fails to load, replace with fallback
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = 'none';
+                              target.parentElement!.innerHTML = `<div class="w-full h-full flex items-center justify-center bg-gray-100 rounded-full"><span class="text-sm font-medium text-gray-500">${toolDetails.name.charAt(0)}</span></div>`;
+                            }}
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center bg-gray-100 rounded-full">
+                            <span className="text-sm font-medium text-gray-500">
+                              {toolDetails.name.charAt(0)}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                      
+                      {/* Tool Name */}
+                      <div className="font-medium w-32 flex-shrink-0">{tool.tool}</div>
+                      
+                      {/* Horizontal Slider with Labels */}
+                      <div className="flex-1 ml-4">
+                        <div className="relative h-2 bg-gray-200 rounded-full overflow-hidden">
+                          <div 
+                            className={`absolute top-0 left-0 h-full rounded-full ${
+                              level >= 4 ? 'bg-green-500' : level >= 2 ? 'bg-blue-500' : 'bg-gray-400'
+                            }`}
+                            style={{ width: `${(level / 5) * 100}%` }}
+                          ></div>
+                          {/* Slider Thumb (Non-interactive) */}
+                          <div 
+                            className="absolute top-0 w-3 h-3 bg-white border-2 border-gray-400 rounded-full shadow-sm pointer-events-none" 
+                            style={{ 
+                              left: `calc(${(level / 5) * 100}% - 6px)`,
+                              top: '-0.5px'
+                            }}
+                          ></div>
+                        </div>
+                        <div className="flex justify-between text-xs text-gray-500 mt-1">
+                          <span>Never use</span>
+                          <span>Occasional</span>
+                          <span>Power user</span>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           )}
