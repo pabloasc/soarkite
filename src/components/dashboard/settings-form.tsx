@@ -27,7 +27,7 @@ export default function SettingsForm({ user, profile }: SettingsFormProps) {
   const [uploadingImage, setUploadingImage] = useState(false);
   const [formData, setFormData] = useState({
     name: profile?.name || '',
-    role: profile?.role || 'USER',
+    role: profile?.role || 'VIBECODER',
     country: profile?.country || '',
     timezone: '',
     email_notifications: profile?.email_notifications ?? true,
@@ -285,15 +285,6 @@ export default function SettingsForm({ user, profile }: SettingsFormProps) {
         <label htmlFor="role" className="block text-sm font-medium text-gray-700 mb-1">
           Role
         </label>
-        <select
-          id="role"
-          value={formData.role}
-          onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-          className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
-        >
-          <option value="USER">Creator</option>
-          <option value="VIBECODER">Software Developer</option>
-        </select>
       </div>
 
       <div>
@@ -325,7 +316,6 @@ export default function SettingsForm({ user, profile }: SettingsFormProps) {
         >
           <option value="light">Light</option>
           <option value="dark">Dark</option>
-          <option value="system">System</option>
         </select>
       </div>
 

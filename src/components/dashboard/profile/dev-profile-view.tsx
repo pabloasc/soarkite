@@ -74,9 +74,6 @@ export default function DevProfileView({ developer, isAdmin = false, isLoggedIn 
                   <p className="text-gray-600 mt-1">
                     {profile.experience_level.charAt(0) + profile.experience_level.slice(1).toLowerCase()} Developer
                   </p>
-                  <p className="text-sm text-gray-500 mt-1">
-                    {user?.email}
-                  </p>
                 </div>
               </div>
             </div>

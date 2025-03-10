@@ -16,7 +16,6 @@ type Props = {
 
 export default async function PublicDeveloperProfile({ params, searchParams }: Props) {
   const { id } = await params;
-  const searchParamsData = await searchParams;
   const user = await getUserInfo();
 
   // Get developer with profile and reviews
@@ -29,8 +28,7 @@ export default async function PublicDeveloperProfile({ params, searchParams }: P
       dev_profile: true,
       reviews_received: {
         include: {
-          reviewer: true,
-          request: true
+          reviewer: true
         },
         orderBy: {
           created_at: 'desc'

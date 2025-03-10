@@ -2,51 +2,18 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { Menu, Bell, Settings, LogOut } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { Menu, Settings, LogOut } from 'lucide-react';
+import { useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { createClient } from '@/lib/auth/client/client';
 
 export default function Header({ user }: any) {
+
+  console.log(user);
   const router = useRouter();
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [unreadCount, setUnreadCount] = useState(0);
   const supabase = createClient();
-
-  useEffect(() => {
-    if (!user) return;
-
-    const fetchUnreadCount = async () => {
-      const { count, error } = await supabase
-        .from('messages')
-        .select('*', { count: 'exact', head: true })
-        .eq('receiver_id', user.id)
-        .eq('read', false);
-
-      if (!error && count !== null) {
-        setUnreadCount(count);
-      }
-    };
-
-    fetchUnreadCount();
-
-    const channel = supabase
-      .channel('messages')
-      .on('postgres_changes', {
-        event: '*',
-        schema: 'public',
-        table: 'messages',
-        filter: `receiver_id=eq.${user.id}`,
-      }, () => {
-        fetchUnreadCount();
-      })
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, [supabase, user]);
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
@@ -85,32 +52,11 @@ export default function Header({ user }: any) {
           <nav className="hidden lg:flex items-center space-x-6">
             {user ? (
               <>
-                {user.role === 'USER' && (
-                  <Link 
-                    href="/dashboard/requests" 
-                    className={`text-sm transition-colors ${isActive('/dashboard/requests') ? 'text-black' : 'text-gray-600 hover:text-black'}`}
-                  >
-                    Requests
-                  </Link>
-                )}
-                {user.role === 'VIBECODER' && (
-                  <Link 
-                    href="/dashboard/profile" 
-                    className={`text-sm transition-colors ${isActive('/dashboard/profile') ? 'text-black' : 'text-gray-600 hover:text-black'}`}
-                  >
-                    Profile
-                  </Link>
-                )}
                 <Link 
-                  href="/dashboard/inbox" 
-                  className={`text-sm transition-colors relative ${isActive('/dashboard/inbox') ? 'text-black' : 'text-gray-600 hover:text-black'}`}
+                  href="/dashboard/profile" 
+                  className={`text-sm transition-colors ${isActive('/dashboard/profile') ? 'text-black' : 'text-gray-600 hover:text-black'}`}
                 >
-                  <Bell className="h-4 w-4" />
-                  {unreadCount > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-black text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
-                      {unreadCount}
-                    </span>
-                  )}
+                  Profile
                 </Link>
                 <Link 
                   href="/dashboard/settings" 
@@ -166,38 +112,12 @@ export default function Header({ user }: any) {
                   >
                     Overview
                   </Link>
-                  {user.role === 'USER' && (
-                    <Link 
-                      href="/dashboard/requests" 
-                      className={`block text-sm transition-colors py-2 ${isActive('/dashboard/requests') ? 'text-black' : 'text-gray-600'}`}
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      Requests
-                    </Link>
-                  )}
-                  {user.role === 'VIBECODER' && (
-                    <Link 
-                      href="/dashboard/profile" 
-                      className={`block text-sm transition-colors py-2 ${isActive('/dashboard/profile') ? 'text-black' : 'text-gray-600'}`}
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      Profile
-                    </Link>
-                  )}
                   <Link 
-                    href="/dashboard/inbox" 
-                    className={`block text-sm transition-colors py-2 relative ${isActive('/dashboard/inbox') ? 'text-black' : 'text-gray-600'}`}
+                    href="/dashboard/profile" 
+                    className={`block text-sm transition-colors py-2 ${isActive('/dashboard/profile') ? 'text-black' : 'text-gray-600'}`}
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    <span className="flex items-center">
-                      <Bell className="h-4 w-4 mr-2" />
-                      Messages
-                      {unreadCount > 0 && (
-                        <span className="ml-2 bg-black text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
-                          {unreadCount}
-                        </span>
-                      )}
-                    </span>
+                    Profile
                   </Link>
                   <Link 
                     href="/dashboard/settings" 

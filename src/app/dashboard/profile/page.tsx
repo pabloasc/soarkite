@@ -21,8 +21,7 @@ export default async function Profile() {
       dev_profile: true,
       reviews_received: {
         include: {
-          reviewer: true,
-          request: true
+          reviewer: true
         },
         orderBy: {
           created_at: 'desc'

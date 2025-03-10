@@ -23,8 +23,6 @@ export async function GET(request: NextRequest) {
         });
 
         if (!existingUser) {
-          // Get role from user metadata
-          const role = user.user_metadata?.role || 'USER';
 
           // Create new user in database with timezone
           await prisma.user.create({
@@ -32,7 +30,7 @@ export async function GET(request: NextRequest) {
               id: user.id,
               email: user.email!,
               name: user.user_metadata.name || null,
-              role: role,
+              role: 'VIBECODER',
               timezone: timezone
             },
           });

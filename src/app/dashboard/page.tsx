@@ -11,29 +11,6 @@ export default async function Dashboard() {
   if (!userInfo) {
     redirect('/auth/sign-in');
   }
-
-  // Get requests based on user role
-  const requests = await prisma.helpRequest.findMany({
-    where: userInfo.role === 'USER' 
-      ? { user_id: userInfo.id }
-      : undefined,
-    include: {
-      user: true,
-      vibecoder: true,
-      applications: {
-        select: {
-          id: true,
-          developer_id: true,
-          created_at: true
-        }
-      }
-    },
-    orderBy: {
-      created_at: 'desc'
-    },
-    take: 5
-  });
-
   return (
     <div className="min-h-screen bg-gray-50">
       <main className="container mx-auto px-6 py-8 max-w-6xl">

@@ -42,15 +42,7 @@ export default async function PublicDevelopers() {
       <Header user={user} />
       <main className="container mx-auto px-6 py-8 max-w-6xl">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-normal">Software Developers</h1>
-          {user && (
-            <Link 
-              href="/dashboard" 
-              className="px-4 py-2 bg-black text-white rounded-md hover:bg-gray-800 transition-colors"
-            >
-              Go to Dashboard
-            </Link>
-          )}
+          <h1 className="text-3xl font-normal">All vibecoders</h1>
         </div>
 
         <DevelopersList developers={developers} />

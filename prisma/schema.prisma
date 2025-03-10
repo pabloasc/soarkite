@@ -41,14 +41,9 @@ model User {
   email_notifications Boolean              @default(true)
   created_at          DateTime             @default(now()) @map("created_at")
   updated_at          DateTime             @updatedAt @map("updated_at")
-  help_requests       HelpRequest[]        @relation("CreatedBy")
-  assigned_requests   HelpRequest[]        @relation("AssignedTo")
   reviews_given       DevReview[]          @relation("ReviewedBy")
   reviews_received    DevReview[]          @relation("ReviewFor")
   dev_profile         DevProfile?
-  sent_applications   RequestApplication[] @relation("SentBy")
-  received_messages   Message[]            @relation("ReceivedBy")
-  sent_messages       Message[]            @relation("SentBy")
 
   @@map("users")
 }
@@ -95,58 +90,7 @@ model DevReview {
   updated_at    DateTime    @updatedAt
   reviewer      User        @relation("ReviewedBy", fields: [reviewer_id], references: [id])
   developer     User        @relation("ReviewFor", fields: [developer_id], references: [id])
-  request       HelpRequest @relation(fields: [request_id], references: [id])
 
   @@unique([reviewer_id, request_id])
   @@map("dev_reviews")
-}
-
-model HelpRequest {
-  id               String               @id @default(uuid())
-  user_id          String
-  vibecoder_id     String?
-  title            String
-  tool             String
-  description      String
-  expected_outcome String
-  screenshots      String[]
-  created_at       DateTime             @default(now())
-  updated_at       DateTime             @updatedAt
-  user             User                 @relation("CreatedBy", fields: [user_id], references: [id])
-  vibecoder        User?                @relation("AssignedTo", fields: [vibecoder_id], references: [id])
-  review           DevReview[]
-  applications     RequestApplication[]
-  messages         Message[]
-
-  @@map("help_requests")
-}
-
-model RequestApplication {
-  id           String            @id @default(uuid())
-  request_id   String
-  developer_id String
-  message      String            @db.Text
-  rate         Decimal?          @db.Decimal(10, 2)
-  created_at   DateTime          @default(now())
-  updated_at   DateTime          @updatedAt
-  request      HelpRequest       @relation(fields: [request_id], references: [id])
-  developer    User              @relation("SentBy", fields: [developer_id], references: [id])
-
-  @@unique([request_id, developer_id])
-  @@map("request_applications")
-}
-
-model Message {
-  id          String      @id @default(uuid())
-  request_id  String
-  sender_id   String
-  receiver_id String
-  content     String      @db.Text
-  read        Boolean     @default(false)
-  created_at  DateTime    @default(now())
-  request     HelpRequest @relation(fields: [request_id], references: [id])
-  sender      User        @relation("SentBy", fields: [sender_id], references: [id])
-  receiver    User        @relation("ReceivedBy", fields: [receiver_id], references: [id])
-
-  @@map("messages")
 }

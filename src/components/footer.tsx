@@ -43,13 +43,8 @@ export default function Footer() {
             <h3 className="text-sm font-semibold text-gray-900 mb-4">Quick Links</h3>
             <ul className="space-y-3">
               <li>
-                <Link href="/dashboard/developers" className="text-gray-600 hover:text-black">
+                <Link href="/developers" className="text-gray-600 hover:text-black">
                   Find Developers
-                </Link>
-              </li>
-              <li>
-                <Link href="/dashboard/requests/new" className="text-gray-600 hover:text-black">
-                  Create Request
                 </Link>
               </li>
               <li>
