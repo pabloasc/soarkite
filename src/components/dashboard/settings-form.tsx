@@ -87,12 +87,21 @@ export default function SettingsForm({ user, profile }: SettingsFormProps) {
         .from('soarkite')
         .getPublicUrl(fileName);
 
-      const { error: updateError } = await supabase
-        .from('users')
-        .update({ image_url: publicUrl })
-        .eq('id', user.id);
-
-      if (updateError) throw updateError;
+      const response = await fetch('/api/user-image', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: user.id,
+          image_url: publicUrl,
+        }),
+      });
+  
+      if (!response.ok) {
+        setMessage({ type: 'error', text: 'Failed to update user image. Please try again.' });
+        throw new Error('Update image failed');
+      }
 
       setImageUrl(publicUrl);
       setMessage({ type: 'success', text: 'Profile picture updated successfully' });
@@ -120,13 +129,21 @@ export default function SettingsForm({ user, profile }: SettingsFormProps) {
 
       if (deleteError) throw deleteError;
 
-      const { error: updateError } = await supabase
-        .from('users')
-        .update({ image_url: null })
-        .eq('id', user.id);
-
-      if (updateError) throw updateError;
-
+      const response = await fetch('/api/user-image', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: user.id,
+          image_url: null,
+        }),
+      });
+  
+      if (!response.ok) {
+        setMessage({ type: 'error', text: 'Failed to update user image. Please try again.' });
+        throw new Error('Update image failed');
+      }
       setImageUrl(null);
       setMessage({ type: 'success', text: 'Profile picture removed successfully' });
     } catch (error: any) {
@@ -142,29 +159,23 @@ export default function SettingsForm({ user, profile }: SettingsFormProps) {
     setLoading(true);
     setMessage(null);
 
-    try {
-      const { error } = await supabase
-        .from('users')
-        .update({
-          name: formData.name,
-          role: formData.role,
-          country: formData.country,
-          timezone: formData.timezone,
-          email_notifications: formData.email_notifications,
-          theme: formData.theme,
-          language: formData.language,
-        })
-        .eq('id', user.id);
+    const response = await fetch('/api/users', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: user.id,
+        ...formData,
+      }),
+    });
 
-      if (error) throw error;
-      
-      setMessage({ type: 'success', text: 'Settings updated successfully' });
-    } catch (error) {
-      console.error('Settings update failed:', error);
+    if (!response.ok) {
       setMessage({ type: 'error', text: 'Failed to update settings. Please try again.' });
-    } finally {
-      setLoading(false);
+      throw new Error('Settings update failed');
     }
+    setMessage({ type: 'success', text: 'Settings updated successfully' });
+    setLoading(false);
   };
 
   return (
@@ -298,9 +309,6 @@ export default function SettingsForm({ user, profile }: SettingsFormProps) {
           className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
         >
           <option value="en">English</option>
-          <option value="es">Spanish</option>
-          <option value="fr">French</option>
-          <option value="de">German</option>
         </select>
       </div>
 

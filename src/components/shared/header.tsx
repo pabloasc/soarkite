@@ -8,8 +8,6 @@ import { useRouter, usePathname } from 'next/navigation';
 import { createClient } from '@/lib/auth/client/client';
 
 export default function Header({ user }: any) {
-
-  console.log(user);
   const router = useRouter();
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
