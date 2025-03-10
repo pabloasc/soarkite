@@ -44,14 +44,6 @@ export default function DevelopersList({ developers }: DevelopersListProps) {
                   <h3 className="text-lg font-medium text-gray-700">
                     {developer.name || 'Anonymous Developer'}
                   </h3>
-                  {developer.dev_profile?.average_rating !== undefined && (
-                    <div className="flex items-center gap-1">
-                      <Star className="h-4 w-4 text-gray-700" />
-                      <span className="font-medium text-sm text-gray-700">
-                        {developer.dev_profile.average_rating.toFixed(1)}
-                      </span>
-                    </div>
-                  )}
                 </div>
                 
                 <p className="text-sm text-gray-700 mb-1">

@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { Star, MapPin, Clock, DollarSign, Github, Linkedin, Globe, Edit } from 'lucide-react';
+import { useState } from 'react';
+import { MapPin, DollarSign, Github, Linkedin, Globe, Edit } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import DevProfileForm from './dev-profile-form';
@@ -155,21 +155,7 @@ export default function DevProfileView({ developer, isAdmin = false, isLoggedIn 
       <div className="space-y-8">
         {/* Stats Card */}
         <div className="bg-white rounded-lg shadow-sm p-6">
-          <div className="text-center mb-4">
-            <div className="flex items-center justify-center gap-1 text-2xl font-medium">
-              <Star className="h-6 w-6 text-yellow-400 fill-current" />
-              {profile.average_rating.toFixed(1)}
-            </div>
-            <p className="text-sm text-gray-600 mt-1">
-              {profile.total_reviews} reviews
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 gap-4 text-center">
-            <div className="p-3 bg-gray-50 rounded-lg">
-              <div className="text-xl font-medium">{profile.total_sessions}</div>
-              <div className="text-sm text-gray-600">Sessions</div>
-            </div>
+          <div className="grid gap-4 text-center">
             <div className="p-3 bg-gray-50 rounded-lg">
               <div className="text-xl font-medium">{profile.years_of_experience}</div>
               <div className="text-sm text-gray-600">Years Exp.</div>
