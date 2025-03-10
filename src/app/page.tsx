@@ -69,12 +69,14 @@ export default async function Home() {
             <DevelopersList developers={developers} />
             
             <div className="mt-12 text-center flex justify-center gap-4">
+              {/* 
               <Link 
                 href="/developers" 
                 className="inline-flex px-8 py-4 bg-black text-white rounded-full hover:bg-gray-800 transition-colors"
               >
                 View all vibecoders
               </Link>
+              */}
               <Link 
                 href={"/dashboard/profile"} 
                 className="inline-flex px-8 py-4 bg-purple-600 text-white rounded-full hover:bg-purple-700 transition-colors"
